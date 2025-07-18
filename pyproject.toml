@@ -1,0 +1,90 @@
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "aioplus"
+version = "0.0.0"
+description = "Because asyncio.gather() is not enough!"
+license = "MIT"
+authors = ["Sergei Y. Bogdanov <syubogdanov@outlook.com>"]
+maintainers = ["Sergei Y. Bogdanov <syubogdanov@outlook.com>"]
+readme = "README.md"
+homepage = "https://github.com/syubogdanov/aioplus"
+repository = "https://github.com/syubogdanov/aioplus"
+documentation = "https://aioplus.readthedocs.io"
+keywords = [
+    "asyncio",
+    "python",
+]
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+
+[tool.poetry.dependencies]
+python = ">=3.10, <3.14"
+
+[tool.poetry.group.lint]
+optional = true
+
+[tool.poetry.group.lint.dependencies]
+black = "~25.1"
+mypy = "~1.16"
+ruff = "~0.12"
+
+[tool.poetry.group.test]
+optional = true
+
+[tool.poetry.group.test.dependencies]
+pytest = "~8.4"
+
+[tool.black]
+line-length = 100
+target-version = ["py310"]
+
+[tool.mypy]
+disallow_any_unimported = true
+disallow_incomplete_defs = true
+disallow_untyped_calls = true
+disallow_untyped_decorators = true
+disallow_untyped_defs = true
+explicit_package_bases = true
+no_implicit_optional = true
+python_version = "3.10"
+strict_equality = true
+warn_unused_ignores = true
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+ignore = [
+    "A005",     # Module {name} shadows a Python standard-library module
+    "ANN401",   # Dynamically typed expressions (typing.Any) are disallowed in {name}
+    "D100",     # Missing docstring in public module
+    "D104",     # Missing docstring in public package
+    "FBT001",   # Checks for the use of boolean positional arguments in function definitions, as determined by the presence of a bool type hint.
+    "FBT002",   # Checks for the use of boolean positional arguments in function definitions, as determined by the presence of a boolean default value.
+    "PLR0913",  # Checks for function definitions that include too many arguments.
+]
+select = ["ALL"]
+
+[tool.ruff.lint.isort]
+lines-after-imports = 2
+lines-between-types = 1
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
+
+[tool.ruff.lint.pylint]
+max-args = 8
