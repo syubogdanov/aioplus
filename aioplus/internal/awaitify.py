@@ -17,6 +17,13 @@ def awaitify(
     executor: Executor | None = None,
 ) -> Callable[ParamsT, Awaitable[ReturnT]]:
     """Make function asynchronous."""
+    if not callable(func):
+        detail = "'func' must be callable"
+        raise TypeError(detail)
+
+    if executor is not None and not isinstance(executor, Executor):
+        detail = "'executor' must be 'concurrent.futures.Executor' or 'None'"
+        raise TypeError(detail)
 
     @wraps(func)
     async def afunc(*args: ParamsT.args, **kwargs: ParamsT.kwargs) -> ReturnT:
