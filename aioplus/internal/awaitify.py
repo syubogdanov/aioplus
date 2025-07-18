@@ -6,8 +6,6 @@ from functools import partial, wraps
 from typing import ParamSpec, TypeVar
 
 
-T = TypeVar("T")
-
 ReturnT = TypeVar("ReturnT")
 ParamsT = ParamSpec("ParamsT")
 
