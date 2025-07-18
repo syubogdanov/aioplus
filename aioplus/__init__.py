@@ -1,4 +1,4 @@
-from aioplus.internal.shorthands import awaitify
+from aioplus.internal.awaitify import awaitify
 
 
 __author__ = "Sergei Y. Bogdanov <syubogdanov@outlook.com>"
