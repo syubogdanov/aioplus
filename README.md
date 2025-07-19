@@ -22,6 +22,42 @@ pip install aioplus
 
 For more, see the [documentation][docs/aioplus].
 
+#### *aall*
+
+```python
+import asyncio
+
+from aioplus import aall, arange
+
+async def main() -> None:
+    """Run the program."""
+    only_odd = await aall(
+        num % 2 != 0
+        async for num in arange(2304)
+    )
+
+if __name__ == "__main__":
+    asyncio.run(main())
+```
+
+#### *aany*
+
+```python
+import asyncio
+
+from aioplus import aany, arange
+
+async def main() -> None:
+    """Run the program."""
+    has_odd = await aany(
+        num % 2 != 0
+        async for num in arange(2304)
+    )
+
+if __name__ == "__main__":
+    asyncio.run(main())
+```
+
 #### *abatched*
 
 ```python
