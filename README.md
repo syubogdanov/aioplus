@@ -22,6 +22,26 @@ pip install aioplus
 
 For more, see the [documentation][docs/aioplus].
 
+#### *ayield*
+
+...
+
+#### *arange*
+
+```python
+import asyncio
+
+from aioplus import arange
+
+async def main() -> None:
+    """Run the program."""
+    async for num in arange(2304):
+        print(num)
+
+if __name__ == "__main__":
+    asyncio.run(main())
+```
+
 #### *awaitify*
 
 ```python
