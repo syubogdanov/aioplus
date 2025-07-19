@@ -46,6 +46,23 @@ if __name__ == "__main__":
     asyncio.run(main())
 ```
 
+#### *alen*
+
+```python
+import asyncio
+
+from aioplus import alen, arange
+
+async def main() -> None:
+    """Run the program."""
+    aiterable = arange(2304)
+    count = await alen(aiterable)
+    print(f"len(aiterable) == {count}")
+
+if __name__ == "__main__":
+    asyncio.run(main())
+```
+
 #### *arange*
 
 ```python
