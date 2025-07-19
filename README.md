@@ -22,10 +22,6 @@ pip install aioplus
 
 For more, see the [documentation][docs/aioplus].
 
-#### *ayield*
-
-...
-
 #### *arange*
 
 ```python
@@ -57,6 +53,28 @@ async def main() -> None:
     """Run the program."""
     afunc = awaitify(func)
     await afunc(num=2304)
+
+if __name__ == "__main__":
+    asyncio.run(main())
+```
+
+#### *ayield*
+
+```python
+import asyncio
+
+from aioplus import ayield
+
+async def worker(name: str) -> None:
+    """Print the numbers."""
+    for num in range(2304):
+        print(f"{name}: {num}")
+        await ayield()
+
+async def main() -> None:
+    """Run the program."""
+    workers = [worker("A"), worker("B")]
+    await asyncio.gather(*workers)
 
 if __name__ == "__main__":
     asyncio.run(main())
