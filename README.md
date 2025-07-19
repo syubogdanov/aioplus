@@ -22,6 +22,38 @@ pip install aioplus
 
 For more, see the [documentation][docs/aioplus].
 
+#### *abatched*
+
+```python
+import asyncio
+
+from aioplus import abatched, arange
+
+async def main() -> None:
+    """Run the program."""
+    async for batch in abatched(arange(23), n=4):
+        print(batch)
+
+if __name__ == "__main__":
+    asyncio.run(main())
+```
+
+#### *aislice*
+
+```python
+import asyncio
+
+from aioplus import aislice, arange
+
+async def main() -> None:
+    """Run the program."""
+    async for num in aislice(arange(23), 4):
+        print(num)
+
+if __name__ == "__main__":
+    asyncio.run(main())
+```
+
 #### *alen*
 
 ```python
@@ -32,8 +64,8 @@ from aioplus import alen, arange
 async def main() -> None:
     """Run the program."""
     aiterable = arange(2304)
-    count = await alen(aiterable)
-    print(f"len(aiterable) == {count}")
+    length = await alen(aiterable)
+    print(f"len(aiterable) == {length}")
 
 if __name__ == "__main__":
     asyncio.run(main())
@@ -64,7 +96,7 @@ from aioplus import arange, areversed
 
 async def main() -> None:
     """Run the program."""
-    async for areversed(arange(2304)):
+    async for num in areversed(arange(2304)):
         print(num)
 
 if __name__ == "__main__":
