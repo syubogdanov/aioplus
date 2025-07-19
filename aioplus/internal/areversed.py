@@ -10,6 +10,10 @@ T = TypeVar("T")
 
 def areversed(iterable: AsyncIterable[T]) -> AsyncIterable[T]:
     """Return a reverse iterator."""
+    if not isinstance(iterable, AsyncIterable):
+        detail = "'iterable' must be 'AsyncIterable'"
+        raise TypeError(detail)
+
     return AreversedIterable(iterable)
 
 
