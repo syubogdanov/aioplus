@@ -30,7 +30,7 @@ import asyncio
 from aioplus import afirst
 
 async def main() -> None:
-    """Run the program and get result of the first completed task."""
+    """Run the program."""
     coroutines = [
         asyncio.sleep(delay=3.0, result="third"),
         asyncio.sleep(delay=1.0, result="first"),
