@@ -18,11 +18,37 @@ The library is available as [`aioplus`][pypi/homepage] on PyPI:
 pip install aioplus
 ```
 
+### Usage
+
+For more, see the [documentation][docs/aioplus].
+
+#### *awaitify*
+
+```python
+import asyncio
+
+from aioplus import awaitify
+
+def func(num: int) -> None:
+    """Print the number."""
+    print(f"Num: {num}")
+
+async def main() -> None:
+    """Run the program."""
+    afunc = awaitify(func)
+    await afunc(num=2304)
+
+if __name__ == "__main__":
+    asyncio.run(main())
+```
+
 ## License
 
 MIT License, Copyright (c) 2025 Sergei Y. Bogdanov. See [LICENSE][github/license] file.
 
 <!-- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- -->
+
+[docs/aioplus]: https://aioplus.readthedocs.io/
 
 [github/license]: https://github.com/syubogdanov/aioplus/tree/main/LICENSE
 
