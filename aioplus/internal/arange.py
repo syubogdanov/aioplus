@@ -58,11 +58,11 @@ def arange(
         raise ValueError(detail)
 
     iterable = range(start, stop, step)
-    return AsyncRangeIterable(iterable)
+    return ArangeIterable(iterable)
 
 
 @dataclass
-class AsyncRangeIterable(AsyncIterable[int]):
+class ArangeIterable(AsyncIterable[int]):
     """An asynchronous range iterable."""
 
     iterable: Iterable[int]
@@ -70,11 +70,11 @@ class AsyncRangeIterable(AsyncIterable[int]):
     def __aiter__(self) -> AsyncIterator[int]:
         """Return an asynchronous iterator."""
         iterator = iter(self.iterable)
-        return AsyncRangeIterator(iterator)
+        return ArangeIterator(iterator)
 
 
 @dataclass
-class AsyncRangeIterator(AsyncIterator[int]):
+class ArangeIterator(AsyncIterator[int]):
     """An asynchronous range iterator."""
 
     iterator: Iterator[int]

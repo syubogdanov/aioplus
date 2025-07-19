@@ -32,11 +32,11 @@ def abatched(
         detail = "'strict' must be 'bool'"
         raise TypeError(detail)
 
-    return BatchedIterable(iterable, n, strict)
+    return AbatchedIterable(iterable, n, strict)
 
 
 @dataclass
-class BatchedIterable(AsyncIterable[tuple[T, ...]]):
+class AbatchedIterable(AsyncIterable[tuple[T, ...]]):
     """An iterable that batches data."""
 
     iterable: AsyncIterable[T]
@@ -46,11 +46,11 @@ class BatchedIterable(AsyncIterable[tuple[T, ...]]):
     def __aiter__(self) -> AsyncIterator[tuple[T, ...]]:
         """Return an asynchronous iterator."""
         iterator = aiter(self.iterable)
-        return BatchedIterator(iterator, self.n, self.strict)
+        return AbatchedIterator(iterator, self.n, self.strict)
 
 
 @dataclass
-class BatchedIterator(AsyncIterator[tuple[T, ...]]):
+class AbatchedIterator(AsyncIterator[tuple[T, ...]]):
     """An iterator that batches data."""
 
     iterator: AsyncIterator[T]
