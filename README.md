@@ -22,30 +22,6 @@ pip install aioplus
 
 For more, see the [documentation][docs/aioplus].
 
-#### *afirst*
-
-```python
-import asyncio
-
-from aioplus import afirst
-
-async def main() -> None:
-    """Run the program."""
-    coroutines = [
-        asyncio.sleep(delay=3.0, result="third"),
-        asyncio.sleep(delay=1.0, result="first"),
-        asyncio.sleep(delay=2.0, result="second"),
-    ]
-
-    tasks = [asyncio.create_task(coroutine) for coroutine in coroutines]
-    first, pending = await afirst(tasks)
-
-    ...
-
-if __name__ == "__main__":
-    asyncio.run(main())
-```
-
 #### *alen*
 
 ```python
