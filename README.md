@@ -31,8 +31,8 @@ from aioplus import aall, arange
 
 async def main() -> None:
     """Run the program."""
-    only_odd = await aall(
-        num % 2 != 0
+    flg = await aall(
+        num > 0
         async for num in arange(2304)
     )
 
@@ -49,8 +49,8 @@ from aioplus import aany, arange
 
 async def main() -> None:
     """Run the program."""
-    has_odd = await aany(
-        num % 2 != 0
+    flg = await aany(
+        num % 2 == 0
         async for num in arange(2304)
     )
 
