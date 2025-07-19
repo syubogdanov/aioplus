@@ -1,16 +1,8 @@
-import sys
-
 from collections.abc import AsyncIterable, AsyncIterator, Iterable, Iterator
 from dataclasses import dataclass
-from typing import SupportsIndex, overload
+from typing import Self, SupportsIndex, overload
 
 from aioplus.internal.ayield import ayield
-
-
-if sys.version_info >= (3, 11):
-    from typing import Self
-else:
-    from typing_extensions import Self
 
 
 @overload
@@ -37,18 +29,6 @@ def arange(
     /,
 ) -> AsyncIterable[SupportsIndex]:
     """An asynchronous range."""  # noqa: D401
-    if not isinstance(start, SupportsIndex):
-        detail = f"'{type(start).__name__}' object cannot be interpreted as an integer"
-        raise TypeError(detail)
-
-    if stop is not None and not isinstance(stop, SupportsIndex):
-        detail = f"'{type(stop).__name__}' object cannot be interpreted as an integer"
-        raise TypeError(detail)
-
-    if step is not None and not isinstance(step, SupportsIndex):
-        detail = f"'{type(step).__name__}' object cannot be interpreted as an integer"
-        raise TypeError(detail)
-
     if stop is None:
         stop = start
         start = 0
@@ -56,14 +36,6 @@ def arange(
 
     if step is None:
         step = 1
-
-    if step == 0:
-        detail = "arange() arg 3 must not be zero"
-        raise ValueError(detail)
-
-    start = start.__index__()
-    stop = stop.__index__()
-    step = step.__index__()
 
     iterable = range(start, stop, step)
     return AsyncRangeIterable(iterable)
