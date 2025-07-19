@@ -79,6 +79,22 @@ if __name__ == "__main__":
     asyncio.run(main())
 ```
 
+#### *areversed*
+
+```python
+import asyncio
+
+from aioplus import arange, areversed
+
+async def main() -> None:
+    """Run the program."""
+    async for areversed(arange(2304)):
+        print(num)
+
+if __name__ == "__main__":
+    asyncio.run(main())
+```
+
 #### *awaitify*
 
 ```python
