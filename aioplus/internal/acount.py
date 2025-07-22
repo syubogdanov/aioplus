@@ -43,7 +43,7 @@ class AcountIterator(AsyncIterator[int]):
 
     def __post_init__(self) -> None:
         """Initialize the object."""
-        self._previous = self.start - self.start
+        self._previous = self.start - self.step
 
     def __aiter__(self) -> Self:
         """Return an asynchronous iterator."""

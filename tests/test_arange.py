@@ -8,54 +8,33 @@ class TestArange:
 
     async def test__arange__one_parameter(self) -> None:
         """Case: one parameter."""
-        stop = 23
+        nums = [num async for num in arange(10)]
 
-        async_nums = [num async for num in arange(stop)]
-        sync_nums = list(range(stop))
-
-        assert async_nums == sync_nums
+        assert nums == [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 
     async def test__arange__two_parameters(self) -> None:
         """Case: two parameters."""
-        start = 4
-        stop = 23
+        nums = [num async for num in arange(4, 10)]
 
-        async_nums = [num async for num in arange(start, stop)]
-        sync_nums = list(range(start, stop))
-
-        assert async_nums == sync_nums
+        assert nums == [4, 5, 6, 7, 8, 9]
 
     async def test__arange__three_parameters(self) -> None:
         """Case: three parameters."""
-        start = 4
-        stop = 23
-        step = 3
+        nums = [num async for num in arange(4, 23, 3)]
 
-        async_nums = [num async for num in arange(start, stop, step)]
-        sync_nums = list(range(start, stop, step))
-
-        assert async_nums == sync_nums
+        assert nums == [4, 7, 10, 13, 16, 19, 22]
 
     async def test__arange__negative_step(self) -> None:
         """Case: negative step."""
-        start = 23
-        stop = 4
-        step = -3
+        nums = [num async for num in arange(23, 4, -3)]
 
-        async_nums = [num async for num in arange(start, stop, step)]
-        sync_nums = list(range(start, stop, step))
-
-        assert async_nums == sync_nums
+        assert nums == [23, 20, 17, 14, 11, 8, 5]
 
     async def test__arange__empty(self) -> None:
         """Case: empty range."""
-        start = 4
-        stop = start
+        nums = [num async for num in arange(23, 4)]
 
-        async_nums = [num async for num in arange(start, stop)]
-        sync_nums = list(range(start, stop))
-
-        assert async_nums == sync_nums
+        assert not nums
 
     async def test__arange__zero_step(self) -> None:
         """Case: zero step."""

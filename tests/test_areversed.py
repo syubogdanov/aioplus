@@ -4,21 +4,14 @@ from aioplus import arange, areversed
 class TestAreversed:
     """Tests for `aioplus.areversed`."""
 
-    async def test_areversed(self):
+    async def test_areversed(self) -> None:
         """Test the areversed function."""
-        start = 1
-        stop = 10
+        nums = [num async for num in areversed(arange(5))]
 
-        async_nums = [num async for num in areversed(arange(start, stop))]
-        sync_nums = list(reversed(range(start, stop)))
+        assert nums == [4, 3, 2, 1, 0]
 
-        assert async_nums == sync_nums
-
-    async def test_areversed_empty(self):
+    async def test_areversed_empty(self) -> None:
         """Test areversed with an empty range."""
-        start = 0
-        stop = start
+        nums = [num async for num in areversed(arange(0))]
 
-        async_nums = [num async for num in areversed(arange(start, stop))]
-
-        assert not async_nums
+        assert not nums
