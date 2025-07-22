@@ -5,8 +5,11 @@
 [![License][shields/pypi/license]][github/license]
 [![Python Version][shields/python/version]][pypi/homepage]
 
-> [!WARNING]
-> The library is in the pre-alpha stage. Bugs may exist!
+## Key Features
+
+* As easy as built-ins - but asynchronous;
+* The same API as the Python 3.13 standard blocking API;
+* Silent and safe teardown: no unawaited coroutine warnings.
 
 ## Getting Started
 
