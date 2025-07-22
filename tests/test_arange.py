@@ -44,4 +44,4 @@ class TestArange:
     async def test__arange__step_without_stop(self) -> None:
         """Case: step without stop."""
         with pytest.raises(ValueError, match="'step' is not specified but 'stop' is"):
-            [num async for num in arange(4, None, 2)]
+            [num async for num in arange(4, None, 2)]  # type: ignore[call-overload]

@@ -59,4 +59,4 @@ class TestAislice:
     async def test__aislice__step_without_stop(self) -> None:
         """Case: step without stop."""
         with pytest.raises(ValueError, match="'step' is not specified but 'stop' is"):
-            [num async for num in aislice(arange(10), 2, None, 2)]
+            [num async for num in aislice(arange(10), 2, None, 2)]  # type: ignore[call-overload]
