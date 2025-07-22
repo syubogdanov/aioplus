@@ -42,3 +42,16 @@ class TestAcount:
             nums.append(num)
 
         assert nums == [0, 2, 4, 6, 8]
+
+    async def test__acount__zero_step(self) -> None:
+        """Case: usage with zero step value."""
+        iterable = acount(0, 0)
+        iterator = aiter(iterable)
+
+        nums: list[int] = []
+
+        while len(nums) < 5:
+            num = await anext(iterator)
+            nums.append(num)
+
+        assert nums == [0, 0, 0, 0, 0]
