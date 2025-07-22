@@ -9,7 +9,7 @@
 
 * As easy as built-ins - but asynchronous;
 * The same API as the Python 3.13 standard blocking API;
-* Silent and safe teardown: no unawaited coroutine warnings.
+* Early returns never cause unawaited coroutine warnings.
 
 ## Getting Started
 
