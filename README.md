@@ -20,9 +20,9 @@ pip install aioplus
 
 ### Usage
 
-For more, see the [documentation][docs/aioplus].
-
 #### *aall*
+
+For more, see the [documentation][docs/aioplus/aall].
 
 ```python
 import asyncio
@@ -40,6 +40,8 @@ if __name__ == "__main__":
 
 #### *aany*
 
+For more, see the [documentation][docs/aioplus/aany].
+
 ```python
 import asyncio
 
@@ -55,6 +57,8 @@ if __name__ == "__main__":
 ```
 
 #### *abatched*
+
+For more, see the [documentation][docs/aioplus/abatched].
 
 ```python
 import asyncio
@@ -72,6 +76,8 @@ if __name__ == "__main__":
 
 #### *aislice*
 
+For more, see the [documentation][docs/aioplus/aislice].
+
 ```python
 import asyncio
 
@@ -87,6 +93,8 @@ if __name__ == "__main__":
 ```
 
 #### *alen*
+
+For more, see the [documentation][docs/aioplus/alen].
 
 ```python
 import asyncio
@@ -105,6 +113,8 @@ if __name__ == "__main__":
 
 #### *arange*
 
+For more, see the [documentation][docs/aioplus/arange].
+
 ```python
 import asyncio
 
@@ -121,6 +131,8 @@ if __name__ == "__main__":
 
 #### *areversed*
 
+For more, see the [documentation][docs/aioplus/areversed].
+
 ```python
 import asyncio
 
@@ -136,6 +148,8 @@ if __name__ == "__main__":
 ```
 
 #### *awaitify*
+
+For more, see the [documentation][docs/aioplus/awaitify].
 
 ```python
 import asyncio
@@ -161,7 +175,14 @@ MIT License, Copyright (c) 2025 Sergei Y. Bogdanov. See [LICENSE][github/license
 
 <!-- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- -->
 
-[docs/aioplus]: https://aioplus.readthedocs.io/
+[docs/aioplus/aall]: https://aioplus.readthedocs.io/
+[docs/aioplus/aany]: https://aioplus.readthedocs.io/
+[docs/aioplus/abatched]: https://aioplus.readthedocs.io/
+[docs/aioplus/aislice]: https://aioplus.readthedocs.io/
+[docs/aioplus/alen]: https://aioplus.readthedocs.io/
+[docs/aioplus/arange]: https://aioplus.readthedocs.io/
+[docs/aioplus/areversed]: https://aioplus.readthedocs.io/
+[docs/aioplus/awaitify]: https://aioplus.readthedocs.io/
 
 [github/license]: https://github.com/syubogdanov/aioplus/tree/main/LICENSE
 
