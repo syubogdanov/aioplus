@@ -40,3 +40,8 @@ class TestArange:
         """Case: zero step."""
         with pytest.raises(ValueError, match="'step' must not be zero"):
             [num async for num in arange(4, 23, 0)]
+
+    async def test__arange__step_without_stop(self) -> None:
+        """Case: step without stop."""
+        with pytest.raises(ValueError, match="'step' is not specified but 'stop' is"):
+            [num async for num in arange(4, None, 2)]

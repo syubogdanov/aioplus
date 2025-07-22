@@ -27,6 +27,10 @@ def arange(
     /,
 ) -> AsyncIterable[int]:
     """Iterate over a range of integers."""
+    if stop is None and step is not None:
+        detail = "'step' is not specified but 'stop' is"
+        raise ValueError(detail)
+
     if stop is None:
         stop = start
         start = 0
@@ -39,12 +43,12 @@ def arange(
         detail = "'start' must be 'SupportsIndex'"
         raise TypeError(detail)
 
-    if not isinstance(step, SupportsIndex):
-        detail = "'step' must be 'SupportsIndex'"
-        raise TypeError(detail)
-
     if not isinstance(stop, SupportsIndex):
         detail = "'stop' must be 'SupportsIndex'"
+        raise TypeError(detail)
+
+    if not isinstance(step, SupportsIndex):
+        detail = "'step' must be 'SupportsIndex'"
         raise TypeError(detail)
 
     start = start.__index__()

@@ -29,7 +29,7 @@ def aislice(
 ) -> AsyncIterable[T]: ...
 
 
-def aislice(
+def aislice(  # noqa: C901
     iterable: AsyncIterable[T],
     start: SupportsIndex,
     stop: SupportsIndex | None = None,
@@ -40,6 +40,10 @@ def aislice(
     if not isinstance(iterable, AsyncIterable):
         detail = "'iterable' must be 'AsyncIterable'"
         raise TypeError(detail)
+
+    if stop is None and step is not None:
+        detail = "'step' is not specified but 'stop' is"
+        raise ValueError(detail)
 
     if stop is None:
         stop = start
@@ -70,7 +74,7 @@ def aislice(
         raise ValueError(detail)
 
     if stop < 0:
-        detail = "'start' must be non-negative"
+        detail = "'stop' must be non-negative"
         raise ValueError(detail)
 
     if step <= 0:
