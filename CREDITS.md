@@ -10,6 +10,7 @@
 | [mypy][21]            | [@python][22]                        | [GitHub][23]               | [MIT][24]                        |
 | [ruff][25]            | [@astral-sh][26]                     | [GitHub][27]               | [MIT][28]                        |
 | [pytest][29]          | [@pytest-dev][30]                    | [GitHub][31]               | [MIT][32]                        |
+| [pytest-asyncio][33]  | [@pytest-dev][34]                    | [GitHub][35]               | [Apache-2.0][36]                 |
 
 [01]: https://www.contributor-covenant.org/version/2/1/code_of_conduct
 [02]: https://where.coraline.codes
@@ -50,3 +51,8 @@
 [30]: https://github.com/pytest-dev
 [31]: https://github.com
 [32]: https://github.com/pytest-dev/pytest/blob/main/LICENSE
+
+[33]: https://github.com/pytest-dev/pytest-asyncio
+[34]: https://github.com/pytest-dev
+[35]: https://github.com
+[36]: https://github.com/pytest-dev/pytest-asyncio/blob/main/LICENSE
