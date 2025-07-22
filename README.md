@@ -159,28 +159,6 @@ if __name__ == "__main__":
     asyncio.run(main())
 ```
 
-#### *ayield*
-
-```python
-import asyncio
-
-from aioplus import ayield
-
-async def worker(name: str) -> None:
-    """Print the numbers."""
-    for num in range(2304):
-        print(f"{name}: {num}")
-        await ayield()
-
-async def main() -> None:
-    """Run the program."""
-    workers = [worker("A"), worker("B")]
-    await asyncio.gather(*workers)
-
-if __name__ == "__main__":
-    asyncio.run(main())
-```
-
 ## License
 
 MIT License, Copyright (c) 2025 Sergei Y. Bogdanov. See [LICENSE][github/license] file.

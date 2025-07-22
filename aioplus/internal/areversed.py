@@ -1,8 +1,8 @@
+import asyncio
+
 from collections.abc import AsyncIterable, AsyncIterator
 from dataclasses import dataclass
 from typing import Self, TypeVar
-
-from aioplus.internal.ayield import ayield
 
 
 T = TypeVar("T")
@@ -54,5 +54,5 @@ class AreversedIterator(AsyncIterator[T]):
         if not self._stack:
             raise StopAsyncIteration
 
-        await ayield()
+        await asyncio.sleep(0)
         return self._stack.pop()

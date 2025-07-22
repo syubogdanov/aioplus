@@ -1,8 +1,8 @@
+import asyncio
+
 from collections.abc import AsyncIterable, AsyncIterator, Iterable, Iterator
 from dataclasses import dataclass
 from typing import Self, SupportsIndex, overload
-
-from aioplus.internal.ayield import ayield
 
 
 @overload
@@ -91,5 +91,5 @@ class ArangeIterator(AsyncIterator[int]):
         except StopIteration:
             raise StopAsyncIteration from None
 
-        await ayield()
+        await asyncio.sleep(0)
         return value
