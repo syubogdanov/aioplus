@@ -74,6 +74,24 @@ if __name__ == "__main__":
     asyncio.run(main())
 ```
 
+#### *acount*
+
+For more, see the [documentation][docs/aioplus/acount].
+
+```python
+import asyncio
+
+from aioplus import acount
+
+async def main() -> None:
+    """Run the program."""
+    async for num in acount(start=23, step=4):
+        print(num)
+
+if __name__ == "__main__":
+    asyncio.run(main())
+```
+
 #### *aislice*
 
 For more, see the [documentation][docs/aioplus/aislice].
@@ -178,6 +196,7 @@ MIT License, Copyright (c) 2025 Sergei Y. Bogdanov. See [LICENSE][github/license
 [docs/aioplus/aall]: https://aioplus.readthedocs.io/
 [docs/aioplus/aany]: https://aioplus.readthedocs.io/
 [docs/aioplus/abatched]: https://aioplus.readthedocs.io/
+[docs/aioplus/acount]: https://aioplus.readthedocs.io/
 [docs/aioplus/aislice]: https://aioplus.readthedocs.io/
 [docs/aioplus/alen]: https://aioplus.readthedocs.io/
 [docs/aioplus/arange]: https://aioplus.readthedocs.io/
