@@ -1,6 +1,6 @@
-from aioplus import arange
-
 import pytest
+
+from aioplus import arange
 
 
 class TestArange:
@@ -38,5 +38,5 @@ class TestArange:
 
     async def test__arange__zero_step(self) -> None:
         """Case: zero step."""
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError, match="'step' must not be zero"):
             [num async for num in arange(4, 23, 0)]

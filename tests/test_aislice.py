@@ -1,6 +1,6 @@
-from aioplus import aislice, arange
-
 import pytest
+
+from aioplus import aislice, arange
 
 
 class TestAislice:
@@ -38,15 +38,20 @@ class TestAislice:
 
     async def test__aislice__negative_start(self) -> None:
         """Case: negative start index."""
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError, match="'start' must be non-negative"):
             [num async for num in aislice(arange(10), -3, 8)]
 
     async def test__aislice__negative_stop(self) -> None:
         """Case: negative stop index."""
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError, match="'stop' must be non-negative"):
             [num async for num in aislice(arange(10), 2, -2)]
 
     async def test__aislice__negative_step(self) -> None:
         """Case: negative step."""
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError, match="'step' must be positive"):
             [num async for num in aislice(arange(10), 2, 8, -1)]
+
+    async def test__aislice__zero_step(self) -> None:
+        """Case: zero step."""
+        with pytest.raises(ValueError, match="'step' must be positive"):
+            [num async for num in aislice(arange(10), 2, 8, 0)]
