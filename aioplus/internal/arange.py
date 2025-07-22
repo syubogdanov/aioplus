@@ -27,7 +27,7 @@ def arange(
     stop: SupportsIndex | None = None,
     step: SupportsIndex | None = None,
     /,
-) -> AsyncIterable[SupportsIndex]:
+) -> AsyncIterable[int]:
     """Iterate over a range of integers."""
     if stop is None:
         stop = start
