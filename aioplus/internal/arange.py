@@ -57,27 +57,33 @@ def arange(
         detail = "'step' must not be zero"
         raise ValueError(detail)
 
-    iterable = range(start, stop, step)
-    return ArangeIterable(iterable)
+    return ArangeIterable(start, stop, step)
 
 
 @dataclass
 class ArangeIterable(AsyncIterable[int]):
     """An asynchronous range iterable."""
 
-    iterable: Iterable[int]
+    start: int
+    stop: int
+    step: int
 
     def __aiter__(self) -> AsyncIterator[int]:
         """Return an asynchronous iterator."""
-        iterator = iter(self.iterable)
-        return ArangeIterator(iterator)
+        return ArangeIterator(self.start, self.stop, self.step)
 
 
 @dataclass
 class ArangeIterator(AsyncIterator[int]):
     """An asynchronous range iterator."""
 
-    iterator: Iterator[int]
+    start: int
+    stop: int
+    step: int
+
+    def __post_init__(self) -> None:
+        """Initialize the object."""
+        self._previous = self.start - self.step
 
     def __aiter__(self) -> Self:
         """Return an asynchronous iterator."""
@@ -85,11 +91,12 @@ class ArangeIterator(AsyncIterator[int]):
 
     async def __anext__(self) -> int:
         """Return the next value."""
-        try:
-            value = next(self.iterator)
+        self._previous += self.step
 
-        except StopIteration:
-            raise StopAsyncIteration from None
+        if self.step > 0 and self._previous >= self.stop:
+            raise StopAsyncIteration
 
-        await asyncio.sleep(0)
-        return value
+        if self.step < 0 and self._previous <= self.stop:
+            raise StopAsyncIteration
+
+        return self._previous
