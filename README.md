@@ -31,10 +31,8 @@ from aioplus import aall, arange
 
 async def main() -> None:
     """Run the program."""
-    flg = await aall(
-        num > 0
-        async for num in arange(2304)
-    )
+    iterable = (num > 0 async for num in arange(2304))
+    flg = await aall(iterable)
 
 if __name__ == "__main__":
     asyncio.run(main())
@@ -49,10 +47,8 @@ from aioplus import aany, arange
 
 async def main() -> None:
     """Run the program."""
-    flg = await aany(
-        num % 2 == 0
-        async for num in arange(2304)
-    )
+    iterable = (num % 2 == 0 async for num in arange(2304))
+    flg = await aany(iterable)
 
 if __name__ == "__main__":
     asyncio.run(main())
