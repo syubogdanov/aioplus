@@ -8,7 +8,7 @@ from typing import Self, TypeVar
 T = TypeVar("T")
 
 
-def areversed(iterable: AsyncIterable[T]) -> AsyncIterable[T]:
+def areversed(iterable: AsyncIterable[T], /) -> AsyncIterable[T]:
     """Return a reverse iterator."""
     if not isinstance(iterable, AsyncIterable):
         detail = "'iterable' must be 'AsyncIterable'"
