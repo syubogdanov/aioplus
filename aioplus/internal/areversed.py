@@ -54,5 +54,5 @@ class AreversedIterator(AsyncIterator[T]):
         if not self._stack:
             raise StopAsyncIteration
 
-        await asyncio.sleep(0)
+        await asyncio.sleep(0.0)
         return self._stack.pop()
