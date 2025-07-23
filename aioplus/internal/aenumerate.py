@@ -26,7 +26,7 @@ def aenumerate(
 
 
 @dataclass
-class AenumerateIterable(AsyncIterable[T]):
+class AenumerateIterable(AsyncIterable[tuple[int, T]]):
     """An enumerated asynchronous iterable."""
 
     iterable: AsyncIterable[T]
@@ -54,7 +54,7 @@ class AenumerateIterator(AsyncIterator[tuple[int, T]]):
         """Return an asynchronous iterator."""
         return self
 
-    async def __anext__(self) -> T:
+    async def __anext__(self) -> tuple[int, T]:
         """Return the next value."""
         if self._finished_flg:
             raise StopAsyncIteration
@@ -66,7 +66,7 @@ class AenumerateIterator(AsyncIterator[tuple[int, T]]):
             self._finished_flg = True
             raise
 
-        pair = (self._next_count, value)
+        count = self._next_count
         self._next_count += 1
 
-        return pair
+        return (count, value)
