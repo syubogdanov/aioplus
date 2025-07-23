@@ -1,3 +1,5 @@
+import asyncio
+
 from collections.abc import AsyncIterable, AsyncIterator
 from dataclasses import dataclass
 from typing import Self, SupportsIndex
@@ -52,4 +54,5 @@ class AcountIterator(AsyncIterator[int]):
     async def __anext__(self) -> int:
         """Return the next value."""
         self._previous += self.step
+        await asyncio.sleep(0)
         return self._previous
