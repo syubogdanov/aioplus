@@ -110,8 +110,8 @@ class IsliceIterator(AsyncIterator[T]):
 
     def __post_init__(self) -> None:
         """Initialize the object."""
-        self._index: int = 0
-        self._next_index = self.start
+        self._next_index: int = 0
+        self._yield_index = self.start
         self._finished_flg: bool = False
 
     def __aiter__(self) -> Self:
@@ -123,26 +123,27 @@ class IsliceIterator(AsyncIterator[T]):
         if self._finished_flg:
             raise StopAsyncIteration
 
-        if self._next_index >= self.stop:
+        if self._yield_index >= self.stop:
             self._finished_flg = True
             raise StopAsyncIteration
 
-        for _ in range(self._next_index - self._index):
+        for _ in range(self._yield_index - self._next_index):
             try:
                 await anext(self.iterator)
-                self._index += 1
+                self._next_index += 1
+
             except StopAsyncIteration:
                 self._finished_flg = True
                 raise
 
         try:
             value = await anext(self.iterator)
-            self._index += 1
+            self._next_index += 1
 
         except StopAsyncIteration:
             self._finished_flg = True
             raise
 
-        self._next_index += self.step
+        self._yield_index += self.step
 
         return value
