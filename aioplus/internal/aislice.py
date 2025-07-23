@@ -111,6 +111,8 @@ class IsliceIterator(AsyncIterator[T]):
     def __post_init__(self) -> None:
         """Initialize the object."""
         self._index: int = 0
+        self._started_flg: bool = False
+        self._finished_flg: bool = False
 
     def __aiter__(self) -> Self:
         """Return an asynchronous iterator."""
@@ -118,18 +120,41 @@ class IsliceIterator(AsyncIterator[T]):
 
     async def __anext__(self) -> T:
         """Return the next value."""
-        while self._index < self.start:
-            await anext(self.iterator)
-            self._index += 1
+        if not self._started_flg:
+            self._started_flg = True
+            skipped = await self._skip(self.start)
+            self._finished_flg = skipped < self.start
 
-        if self._index >= self.stop:
+        if self._finished_flg:
             raise StopAsyncIteration
 
-        value = await anext(self.iterator)
-        self._index += 1
+        if self._index >= self.stop:
+            self._finished_flg = True
+            raise StopAsyncIteration
 
-        for _ in range(self.step - 1):
-            await anext(self.iterator)
+        try:
+            value = await anext(self.iterator)
             self._index += 1
 
+        except StopAsyncIteration:
+            self._finished_flg = True
+            raise
+
+        skipped = await self._skip(self.step - 1)
+        if skipped < self.step - 1:
+            self._finished_flg = True
+
         return value
+
+    async def _skip(self, n: int) -> int:
+        """Skip the next `n` values."""
+        start_index = self._index
+
+        for _ in range(n):
+            try:
+                await anext(self.iterator)
+                self._index += 1
+            except StopAsyncIteration:
+                break
+
+        return self._index - start_index

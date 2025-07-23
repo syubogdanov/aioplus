@@ -57,18 +57,27 @@ class AbatchedIterator(AsyncIterator[tuple[T, ...]]):
     n: int
     strict: bool
 
+    def __post_init__(self) -> None:
+        """Initialize the object."""
+        self._finished_flg: bool = False
+
     def __aiter__(self) -> Self:
         """Return an asynchronous iterator."""
         return self
 
     async def __anext__(self) -> tuple[T, ...]:
         """Return the next value."""
+        if self._finished_flg:
+            raise StopAsyncIteration
+
         batch = [value async for value in aislice(self.iterator, self.n)]
 
         if not batch:
+            self._finished_flg = True
             raise StopAsyncIteration
 
         if len(batch) < self.n and self.strict:
+            self._finished_flg = True
             detail = "abatched(): incomplete batch"
             raise ValueError(detail)
 

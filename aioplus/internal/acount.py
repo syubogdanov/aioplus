@@ -53,6 +53,10 @@ class AcountIterator(AsyncIterator[int]):
 
     async def __anext__(self) -> int:
         """Return the next value."""
-        self._previous += self.step
+        next_value = self._previous + self.step
+
+        # Move to the next coroutine!
         await asyncio.sleep(0.0)
-        return self._previous
+
+        self._previous = next_value
+        return next_value

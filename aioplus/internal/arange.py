@@ -95,13 +95,16 @@ class ArangeIterator(AsyncIterator[int]):
 
     async def __anext__(self) -> int:
         """Return the next value."""
-        self._previous += self.step
+        next_value = self._previous + self.step
 
-        if self.step > 0 and self._previous >= self.stop:
+        if self.step > 0 and next_value >= self.stop:
             raise StopAsyncIteration
 
-        if self.step < 0 and self._previous <= self.stop:
+        if self.step < 0 and next_value <= self.stop:
             raise StopAsyncIteration
 
+        # Move to the next coroutine!
         await asyncio.sleep(0.0)
-        return self._previous
+
+        self._previous = next_value
+        return next_value
