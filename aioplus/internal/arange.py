@@ -1,3 +1,5 @@
+import asyncio
+
 from collections.abc import AsyncIterable, AsyncIterator
 from dataclasses import dataclass
 from typing import Self, SupportsIndex, overload
@@ -101,4 +103,5 @@ class ArangeIterator(AsyncIterator[int]):
         if self.step < 0 and self._previous <= self.stop:
             raise StopAsyncIteration
 
+        await asyncio.sleep(0.0)
         return self._previous
