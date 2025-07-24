@@ -6,6 +6,7 @@ from aioplus.internal.aenumerate import aenumerate
 from aioplus.internal.aislice import aislice
 from aioplus.internal.alen import alen
 from aioplus.internal.arange import arange
+from aioplus.internal.arepeat import arepeat
 from aioplus.internal.areversed import areversed
 from aioplus.internal.awaitify import awaitify
 
@@ -22,6 +23,7 @@ __all__: list[str] = [
     "aislice",
     "alen",
     "arange",
+    "arepeat",
     "areversed",
     "awaitify",
 ]
@@ -35,5 +37,6 @@ aenumerate.__module__ = "aioplus"
 aislice.__module__ = "aioplus"
 alen.__module__ = "aioplus"
 arange.__module__ = "aioplus"
+arepeat.__module__ = "aioplus"
 areversed.__module__ = "aioplus"
 awaitify.__module__ = "aioplus"

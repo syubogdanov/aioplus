@@ -168,6 +168,24 @@ if __name__ == "__main__":
     asyncio.run(main())
 ```
 
+#### *arepeat*
+
+For more, see the [documentation][docs/aioplus/arepeat].
+
+```python
+import asyncio
+
+from aioplus import arepeat
+
+async def main() -> None:
+    """Run the program."""
+    async for num in arepeat(23, times=4):
+        print(num)
+
+if __name__ == "__main__":
+    asyncio.run(main())
+```
+
 #### *areversed*
 
 For more, see the [documentation][docs/aioplus/areversed].
