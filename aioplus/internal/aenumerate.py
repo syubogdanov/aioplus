@@ -62,7 +62,7 @@ class AenumerateIterator(AsyncIterator[tuple[int, T]]):
         try:
             value = await anext(self.aiterator)
 
-        except StopAsyncIteration:
+        except Exception:
             self._finished_flg = True
             raise
 

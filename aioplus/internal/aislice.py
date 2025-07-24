@@ -132,7 +132,7 @@ class IsliceIterator(AsyncIterator[T]):
                 await anext(self.aiterator)
                 self._next_index += 1
 
-            except StopAsyncIteration:
+            except Exception:
                 self._finished_flg = True
                 raise
 
@@ -140,7 +140,7 @@ class IsliceIterator(AsyncIterator[T]):
             value = await anext(self.aiterator)
             self._next_index += 1
 
-        except StopAsyncIteration:
+        except Exception:
             self._finished_flg = True
             raise
 
