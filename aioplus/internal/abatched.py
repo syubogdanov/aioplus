@@ -70,7 +70,12 @@ class AbatchedIterator(AsyncIterator[tuple[T, ...]]):
         if self._finished_flg:
             raise StopAsyncIteration
 
-        batch = [value async for value in aislice(self.aiterator, self.n)]
+        try:
+            batch = [value async for value in aislice(self.aiterator, self.n)]
+
+        except Exception:
+            self._finished_flg = True
+            raise
 
         if not batch:
             self._finished_flg = True
