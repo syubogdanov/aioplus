@@ -8,32 +8,32 @@ from typing import Self, TypeVar
 T = TypeVar("T")
 
 
-def areversed(iterable: AsyncIterable[T], /) -> AsyncIterable[T]:
+def areversed(aiterable: AsyncIterable[T], /) -> AsyncIterable[T]:
     """Return a reverse iterator."""
-    if not isinstance(iterable, AsyncIterable):
-        detail = "'iterable' must be 'AsyncIterable'"
+    if not isinstance(aiterable, AsyncIterable):
+        detail = "'aiterable' must be 'AsyncIterable'"
         raise TypeError(detail)
 
-    return AreversedIterable(iterable)
+    return AreversedIterable(aiterable)
 
 
 @dataclass
 class AreversedIterable(AsyncIterable[T]):
     """A reversed asynchronous iterable."""
 
-    iterable: AsyncIterable[T]
+    aiterable: AsyncIterable[T]
 
     def __aiter__(self) -> AsyncIterator[T]:
         """Return an asynchronous iterator."""
-        iterator = aiter(self.iterable)
-        return AreversedIterator(iterator)
+        aiterator = aiter(self.aiterable)
+        return AreversedIterator(aiterator)
 
 
 @dataclass
 class AreversedIterator(AsyncIterator[T]):
     """A reversed asynchronous iterator."""
 
-    iterator: AsyncIterator[T]
+    aiterator: AsyncIterator[T]
 
     def __post_init__(self) -> None:
         """Initialize the object."""
@@ -48,7 +48,7 @@ class AreversedIterator(AsyncIterator[T]):
         """Return the next value."""
         if not self._started_flg:
             self._started_flg = True
-            async for value in self.iterator:
+            async for value in self.aiterator:
                 self._stack.append(value)
 
         if not self._stack:

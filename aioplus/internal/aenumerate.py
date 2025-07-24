@@ -7,13 +7,13 @@ T = TypeVar("T")
 
 
 def aenumerate(
-    iterable: AsyncIterable[T],
+    aiterable: AsyncIterable[T],
     /,
     start: SupportsIndex = 0,
 ) -> AsyncIterable[tuple[int, T]]:
     """Return an enumerated iterator."""
-    if not isinstance(iterable, AsyncIterable):
-        detail = "'iterable' must be 'AsyncIterable'"
+    if not isinstance(aiterable, AsyncIterable):
+        detail = "'aiterable' must be 'AsyncIterable'"
         raise TypeError(detail)
 
     if not isinstance(start, SupportsIndex):
@@ -22,27 +22,27 @@ def aenumerate(
 
     start = start.__index__()
 
-    return AenumerateIterable(iterable, start)
+    return AenumerateIterable(aiterable, start)
 
 
 @dataclass
 class AenumerateIterable(AsyncIterable[tuple[int, T]]):
     """An enumerated asynchronous iterable."""
 
-    iterable: AsyncIterable[T]
+    aiterable: AsyncIterable[T]
     start: int
 
     def __aiter__(self) -> AsyncIterator[tuple[int, T]]:
         """Return an asynchronous iterator."""
-        iterator = aiter(self.iterable)
-        return AenumerateIterator(iterator, self.start)
+        aiterator = aiter(self.aiterable)
+        return AenumerateIterator(aiterator, self.start)
 
 
 @dataclass
 class AenumerateIterator(AsyncIterator[tuple[int, T]]):
     """An enumerated asynchronous iterator."""
 
-    iterator: AsyncIterator[T]
+    aiterator: AsyncIterator[T]
     start: int
 
     def __post_init__(self) -> None:
@@ -60,7 +60,7 @@ class AenumerateIterator(AsyncIterator[tuple[int, T]]):
             raise StopAsyncIteration
 
         try:
-            value = await anext(self.iterator)
+            value = await anext(self.aiterator)
 
         except StopAsyncIteration:
             self._finished_flg = True

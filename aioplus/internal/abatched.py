@@ -9,15 +9,15 @@ T = TypeVar("T")
 
 
 def abatched(
-    iterable: AsyncIterable[T],
+    aiterable: AsyncIterable[T],
     /,
     *,
     n: int,
     strict: bool = False,
 ) -> AsyncIterable[tuple[T, ...]]:
-    """Batch data from the `iterable` into tuples of length `n`."""
-    if not isinstance(iterable, AsyncIterable):
-        detail = "'iterable' must be 'AsyncIterable'"
+    """Batch data from the `aiterable` into tuples of length `n`."""
+    if not isinstance(aiterable, AsyncIterable):
+        detail = "'aiterable' must be 'AsyncIterable'"
         raise TypeError(detail)
 
     if not isinstance(n, int):
@@ -32,28 +32,28 @@ def abatched(
         detail = "'strict' must be 'bool'"
         raise TypeError(detail)
 
-    return AbatchedIterable(iterable, n, strict)
+    return AbatchedIterable(aiterable, n, strict)
 
 
 @dataclass
 class AbatchedIterable(AsyncIterable[tuple[T, ...]]):
-    """An iterable that batches data."""
+    """An asynchronous iterable that batches data."""
 
-    iterable: AsyncIterable[T]
+    aiterable: AsyncIterable[T]
     n: int
     strict: bool
 
     def __aiter__(self) -> AsyncIterator[tuple[T, ...]]:
         """Return an asynchronous iterator."""
-        iterator = aiter(self.iterable)
-        return AbatchedIterator(iterator, self.n, self.strict)
+        aiterator = aiter(self.aiterable)
+        return AbatchedIterator(aiterator, self.n, self.strict)
 
 
 @dataclass
 class AbatchedIterator(AsyncIterator[tuple[T, ...]]):
-    """An iterator that batches data."""
+    """An asynchronous iterator that batches data."""
 
-    iterator: AsyncIterator[T]
+    aiterator: AsyncIterator[T]
     n: int
     strict: bool
 
@@ -70,7 +70,7 @@ class AbatchedIterator(AsyncIterator[tuple[T, ...]]):
         if self._finished_flg:
             raise StopAsyncIteration
 
-        batch = [value async for value in aislice(self.iterator, self.n)]
+        batch = [value async for value in aislice(self.aiterator, self.n)]
 
         if not batch:
             self._finished_flg = True

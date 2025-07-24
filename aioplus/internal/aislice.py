@@ -7,12 +7,12 @@ T = TypeVar("T")
 
 
 @overload
-def aislice(iterable: AsyncIterable[T], stop: SupportsIndex, /) -> AsyncIterable[T]: ...
+def aislice(aiterable: AsyncIterable[T], stop: SupportsIndex, /) -> AsyncIterable[T]: ...
 
 
 @overload
 def aislice(
-    iterable: AsyncIterable[T],
+    aiterable: AsyncIterable[T],
     start: SupportsIndex,
     stop: SupportsIndex,
     /,
@@ -21,7 +21,7 @@ def aislice(
 
 @overload
 def aislice(
-    iterable: AsyncIterable[T],
+    aiterable: AsyncIterable[T],
     start: SupportsIndex,
     stop: SupportsIndex,
     step: SupportsIndex,
@@ -30,15 +30,15 @@ def aislice(
 
 
 def aislice(  # noqa: C901
-    iterable: AsyncIterable[T],
+    aiterable: AsyncIterable[T],
     start: SupportsIndex,
     stop: SupportsIndex | None = None,
     step: SupportsIndex | None = None,
     /,
 ) -> AsyncIterable[T]:
     """Return selected elements from the iterable."""
-    if not isinstance(iterable, AsyncIterable):
-        detail = "'iterable' must be 'AsyncIterable'"
+    if not isinstance(aiterable, AsyncIterable):
+        detail = "'aiterable' must be 'AsyncIterable'"
         raise TypeError(detail)
 
     if stop is None and step is not None:
@@ -81,29 +81,29 @@ def aislice(  # noqa: C901
         detail = "'step' must be positive"
         raise ValueError(detail)
 
-    return IsliceIterable(iterable, start, stop, step)
+    return IsliceIterable(aiterable, start, stop, step)
 
 
 @dataclass
 class IsliceIterable(AsyncIterable[T]):
     """An asynchronous slice iterable."""
 
-    iterable: AsyncIterable[T]
+    aiterable: AsyncIterable[T]
     start: int
     stop: int
     step: int
 
     def __aiter__(self) -> AsyncIterator[T]:
         """Return an asynchronous iterator."""
-        iterator = aiter(self.iterable)
-        return IsliceIterator(iterator, self.start, self.stop, self.step)
+        aiterator = aiter(self.aiterable)
+        return IsliceIterator(aiterator, self.start, self.stop, self.step)
 
 
 @dataclass
 class IsliceIterator(AsyncIterator[T]):
     """An asynchronous slice iterator."""
 
-    iterator: AsyncIterator[T]
+    aiterator: AsyncIterator[T]
     start: int
     stop: int
     step: int
@@ -129,7 +129,7 @@ class IsliceIterator(AsyncIterator[T]):
 
         for _ in range(self._yield_index - self._next_index):
             try:
-                await anext(self.iterator)
+                await anext(self.aiterator)
                 self._next_index += 1
 
             except StopAsyncIteration:
@@ -137,7 +137,7 @@ class IsliceIterator(AsyncIterator[T]):
                 raise
 
         try:
-            value = await anext(self.iterator)
+            value = await anext(self.aiterator)
             self._next_index += 1
 
         except StopAsyncIteration:

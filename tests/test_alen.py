@@ -9,16 +9,16 @@ class TestAlen:
 
     async def test__alen(self) -> None:
         """Case: default behavior."""
-        iterator = arange(POSITIVE_INTEGER)
+        aiterator = arange(POSITIVE_INTEGER)
 
-        length = await alen(iterator)
+        length = await alen(aiterator)
 
         assert length == POSITIVE_INTEGER
 
     async def test__alen__empty(self) -> None:
         """Case: return `0` if empty."""
-        iterator = arange(0)
+        aiterator = arange(0)
 
-        length = await alen(iterator)
+        length = await alen(aiterator)
 
         assert length == 0
