@@ -1,3 +1,9 @@
+import os
+import sys
+
+# "Read the Docs" may not find the package
+sys.path.insert(0, os.path.abspath(".."))
+
 author = "Sergei Y. Bogdanov <syubogdanov@outlook.com>"
 copyright = "2025, Sergei Y. Bogdanov"
 project = "aioplus"
