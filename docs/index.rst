@@ -29,7 +29,7 @@ Usage
 aall
 ----
 
-For more, see the :doc:`aall <aall>`.
+For more, see the :doc:`documentation <aall>`.
 
 .. code-block:: python
 
@@ -48,7 +48,7 @@ For more, see the :doc:`aall <aall>`.
 aany
 ----
 
-For more, see the :doc:`aany <aany>`.
+For more, see the :doc:`documentation <aany>`.
 
 .. code-block:: python
 
@@ -67,7 +67,7 @@ For more, see the :doc:`aany <aany>`.
 abatched
 --------
 
-For more, see the :doc:`abatched <abatched>`.
+For more, see the :doc:`documentation <abatched>`.
 
 .. code-block:: python
 
@@ -86,7 +86,7 @@ For more, see the :doc:`abatched <abatched>`.
 acount
 ------
 
-For more, see the :doc:`acount <acount>`.
+For more, see the :doc:`documentation <acount>`.
 
 .. code-block:: python
 
@@ -105,7 +105,7 @@ For more, see the :doc:`acount <acount>`.
 aenumerate
 ----------
 
-For more, see the :doc:`aenumerate <aenumerate>`.
+For more, see the :doc:`documentation <aenumerate>`.
 
 .. code-block:: python
 
@@ -124,7 +124,7 @@ For more, see the :doc:`aenumerate <aenumerate>`.
 aislice
 -------
 
-For more, see the :doc:`aislice <aislice>`.
+For more, see the :doc:`documentation <aislice>`.
 
 .. code-block:: python
 
@@ -143,7 +143,7 @@ For more, see the :doc:`aislice <aislice>`.
 alen
 ----
 
-For more, see the :doc:`alen <alen>`.
+For more, see the :doc:`documentation <alen>`.
 
 .. code-block:: python
 
@@ -163,7 +163,7 @@ For more, see the :doc:`alen <alen>`.
 arange
 ------
 
-For more, see the :doc:`arange <arange>`.
+For more, see the :doc:`documentation <arange>`.
 
 .. code-block:: python
 
@@ -182,7 +182,7 @@ For more, see the :doc:`arange <arange>`.
 arepeat
 -------
 
-For more, see the :doc:`arepeat <arepeat>`.
+For more, see the :doc:`documentation <arepeat>`.
 
 .. code-block:: python
 
@@ -201,7 +201,7 @@ For more, see the :doc:`arepeat <arepeat>`.
 areversed
 ---------
 
-For more, see the :doc:`areversed <areversed>`.
+For more, see the :doc:`documentation <areversed>`.
 
 .. code-block:: python
 
@@ -220,7 +220,7 @@ For more, see the :doc:`areversed <areversed>`.
 awaitify
 --------
 
-For more, see the :doc:`awaitify <awaitify>`.
+For more, see the :doc:`documentation <awaitify>`.
 
 .. code-block:: python
 
