@@ -10,8 +10,7 @@ async def aany(aiterable: AsyncIterable[SupportsBool], /) -> bool:
     Parameters
     ----------
     aiterable : AsyncIterable of SupportsBool
-        An asynchronous iterable where each item must support boolean evaluation,
-        i.e., implement the :meth:`object.__bool__` method.
+        An asynchronous iterable of objects supporting :meth:`object.__bool__`.
 
     Returns
     -------
@@ -21,12 +20,11 @@ async def aany(aiterable: AsyncIterable[SupportsBool], /) -> bool:
 
     Notes
     -----
-    - Evaluation stops at the first item that evaluates to :obj:`True`.
-    - If ``aiterable`` is empty, :obj:`False` is returned by definition (vacuous falsity).
+    - Short-circuits on the first item that evaluates to :obj:`True`.
 
     See Also
     --------
-    :func:`any`
+    - :func:`any`
     """
     async for value in aiterable:
         if bool(value):
