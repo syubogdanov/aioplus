@@ -4,6 +4,7 @@
 [![PyPI Downloads][shields/pypi/downloads]][pypi/homepage]
 [![License][shields/pypi/license]][github/license]
 [![Python Version][shields/python/version]][pypi/homepage]
+[![Documentation][shields/readthedocs]][docs/aioplus]
 
 ## Key Features
 
@@ -232,6 +233,7 @@ MIT License, Copyright (c) 2025 Sergei Y. Bogdanov. See [LICENSE][github/license
 
 <!-- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- -->
 
+[docs/aioplus]: https://aioplus.readthedocs.io/
 [docs/aioplus/aall]: https://aioplus.readthedocs.io/en/latest/aall.html
 [docs/aioplus/aany]: https://aioplus.readthedocs.io/en/latest/aany.html
 [docs/aioplus/abatched]: https://aioplus.readthedocs.io/en/latest/abatched.html
@@ -251,3 +253,4 @@ MIT License, Copyright (c) 2025 Sergei Y. Bogdanov. See [LICENSE][github/license
 [shields/pypi/license]: https://img.shields.io/pypi/l/aioplus.svg?color=green
 [shields/pypi/version]: https://img.shields.io/pypi/v/aioplus.svg?color=green
 [shields/python/version]: https://img.shields.io/pypi/pyversions/aioplus.svg?color=green
+[shields/readthedocs]: https://img.shields.io/readthedocs/aioplus?style=flat&color=green
