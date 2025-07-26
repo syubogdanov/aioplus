@@ -9,7 +9,40 @@ T = TypeVar("T")
 
 
 def areversed(aiterable: AsyncIterable[T], /) -> AsyncIterable[T]:
-    """Return a reverse iterator."""
+    """Return a reverse iterator.
+
+    Parameters
+    ----------
+    aiterable : AsyncIterable of T
+        An asynchronous iterable to be reversed.
+
+    Returns
+    -------
+    AsyncIterable of T
+        An asynchronous iterable yielding the objects in reverse order.
+
+    Examples
+    --------
+    >>> import asyncio
+    >>>
+    >>> from aioplus import arange, areversed
+    >>>
+    >>> async def main() -> None:
+    >>>     '''Run the program.'''
+    >>>     async for num in areversed(arange(2304)):
+    >>>         print(num)
+    >>>
+    >>> if __name__ == '__main__':
+    >>>     asyncio.run(main())
+
+    Notes
+    -----
+    - Entire iterable is buffered in memory before yielding results.
+
+    See Also
+    --------
+    :func:`reversed`
+    """
     if not isinstance(aiterable, AsyncIterable):
         detail = "'aiterable' must be 'AsyncIterable'"
         raise TypeError(detail)

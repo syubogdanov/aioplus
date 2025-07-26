@@ -36,17 +36,17 @@ def abatched(
 
     Examples
     --------
-    >> import asyncio
-    >>
-    >> from aioplus import abatched, arange
-    >>
-    >> async def main() -> None:
-    >>     '''Run the program.'''
-    >>     async for batch in abatched(arange(23), n=4):
-    >>         print(batch)
-    >>
-    >> if __name__ == '__main__':
-    >>     asyncio.run(main())
+    >>> import asyncio
+    >>>
+    >>> from aioplus import abatched, arange
+    >>>
+    >>> async def main() -> None:
+    >>>     '''Run the program.'''
+    >>>     async for batch in abatched(arange(23), n=4):
+    >>>         print(batch)
+    >>>
+    >>> if __name__ == '__main__':
+    >>>     asyncio.run(main())
 
     Notes
     -----
