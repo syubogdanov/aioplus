@@ -36,7 +36,48 @@ def aislice(  # noqa: C901
     step: SupportsIndex | None = None,
     /,
 ) -> AsyncIterable[T]:
-    """Return selected elements from the iterable."""
+    """Return selected elements from the iterable.
+
+    Parameters
+    ----------
+    aiterable : AsyncIterable of T
+        An asynchronous iterable of objects to slice.
+
+    start : int
+        The index of the first object to include. If ``stop`` is :obj:`None`, treated as the end
+        index, and slicing starts from ``0``.
+
+    stop : int, optional
+        The index at which to stop (exclusive). If not provided, ``start`` is interpreted
+        as ``stop``, and slicing starts from ``0``.
+
+    step : int, optional
+        The stride between selected objects. Defaults to ``1``. May be negative, but the input
+        is still consumed in order.
+
+    Returns
+    -------
+    AsyncIterable of T
+        An asynchronous iterable yielding selected objects according to the slice parameters.
+
+    Examples
+    --------
+    >>> import asyncio
+    >>>
+    >>> from aioplus import aislice, arange
+    >>>
+    >>> async def main() -> None:
+    >>>     '''Run the program.'''
+    >>>     async for num in aislice(arange(23), 4):
+    >>>         print(num)
+    >>>
+    >>> if __name__ == '__main__':
+    >>>     asyncio.run(main())
+
+    See Also
+    --------
+    :func:`itertools.islice`
+    """
     if not isinstance(aiterable, AsyncIterable):
         detail = "'aiterable' must be 'AsyncIterable'"
         raise TypeError(detail)
