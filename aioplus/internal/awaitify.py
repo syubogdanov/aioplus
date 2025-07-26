@@ -16,7 +16,26 @@ def awaitify(
     *,
     executor: Executor | None = None,
 ) -> Callable[ParamsT, Awaitable[ReturnT]]:
-    """Make function asynchronous."""
+    """Make a function asynchronous.
+
+    Parameters
+    ----------
+    func : Callable
+        A callable to be wrapped for asynchronous execution.
+
+    executor : Executor, optional
+        An optional :class:`concurrent.futures.Executor` to run the function in. If :obj:`None`, the
+        default executor is used (usually a thread pool).
+
+    Returns
+    -------
+    Callable
+        An asynchronous callable that, when awaited, runs the original function in the executor.
+
+    See Also
+    --------
+    :func:`asyncio.AbstractEventLoop.run_in_executor`
+    """
     if not callable(func):
         detail = "'func' must be callable"
         raise TypeError(detail)
