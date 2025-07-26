@@ -10,7 +10,7 @@ async def aany(aiterable: AsyncIterable[SupportsBool], /) -> bool:
     Parameters
     ----------
     aiterable : AsyncIterable of SupportsBool
-        An asynchronous iterable of objects supporting :meth:`object.__bool__`.
+        An asynchronous iterable of objects supporting :func:`object.__bool__`.
 
     Returns
     -------
