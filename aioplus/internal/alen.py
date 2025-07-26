@@ -15,6 +15,20 @@ async def alen(aiterable: AsyncIterable[Any], /) -> int:
     :class:`int`
         Length of the iterable.
 
+    Examples
+    --------
+    >>> import asyncio
+    >>>
+    >>> from aioplus import alen, arange
+    >>>
+    >>> async def main() -> None:
+    >>>     aiterable = arange(2304)
+    >>>     length = await alen(aiterable)
+    >>>     print(f"len(aiterable) == {length}")
+    >>>
+    >>> if __name__ == '__main__':
+    >>>     asyncio.run(main())
+
     See Also
     --------
     :func:`len`

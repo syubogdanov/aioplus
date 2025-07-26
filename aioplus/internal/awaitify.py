@@ -32,6 +32,24 @@ def awaitify(
     Callable
         An asynchronous callable that, when awaited, runs the original function in the executor.
 
+    Examples
+    --------
+    >>> import asyncio
+    >>>
+    >>> from aioplus import awaitify
+    >>>
+    >>> def func(num: int) -> None:
+    >>>     '''Print the number.'''
+    >>>     print(f'Num: {num}')
+    >>>
+    >>> async def main() -> None:
+    >>>     '''Run the program.'''
+    >>>     afunc = awaitify(func)
+    >>>     await afunc(num=2304)
+    >>>
+    >>> if __name__ == '__main__':
+    >>>     asyncio.run(main())
+
     See Also
     --------
     :meth:`asyncio.AbstractEventLoop.run_in_executor`

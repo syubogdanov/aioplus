@@ -18,6 +18,20 @@ async def aall(aiterable: AsyncIterable[SupportsBool], /) -> bool:
         :obj:`True` if all elements evaluate to :obj:`True`, or if the iterable is empty.
         :obj:`False` if any element evaluates to :obj:`False`.
 
+    Examples
+    --------
+    >>> import asyncio
+    >>>
+    >>> from aioplus import aall, arange
+    >>>
+    >>> async def main() -> None:
+    >>>     '''Run the program.'''
+    >>>     aiterable = (num > 0 async for num in arange(2304))
+    >>>     flg = await aall(aiterable)
+    >>>
+    >>> if __name__ == '__main__':
+    >>>     asyncio.run(main())
+
     Notes
     -----
     - Short-circuits on the first object that evaluates to :obj:`False`.
