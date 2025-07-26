@@ -40,6 +40,10 @@ def acount(
     >>> if __name__ == '__main__':
     >>>     asyncio.run(main())
 
+    Notes
+    -----
+    - Yields control to the event loop before producing each value via :func:`asyncio.sleep(0.0)`.
+
     See Also
     --------
     :func:`itertools.count`
