@@ -42,7 +42,7 @@ def acount(
 
     Notes
     -----
-    - Yields control to the event loop before producing each value via :func:`asyncio.sleep(0.0)`.
+    - Yields control to the event loop before producing each value.
 
     See Also
     --------

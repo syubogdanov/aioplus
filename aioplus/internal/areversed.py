@@ -38,7 +38,7 @@ def areversed(aiterable: AsyncIterable[T], /) -> AsyncIterable[T]:
     Notes
     -----
     - Entire iterable is buffered in memory before yielding results;
-    - Yields control to the event loop before producing each value via :func:`asyncio.sleep(0.0)`.
+    - Yields control to the event loop before producing each value.
 
     See Also
     --------

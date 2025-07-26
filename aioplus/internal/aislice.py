@@ -52,8 +52,7 @@ def aislice(  # noqa: C901
         as ``stop``, and slicing starts from ``0``.
 
     step : int, optional
-        The stride between selected objects. Defaults to ``1``. May be negative, but the input
-        is still consumed in order.
+        The difference between consecutive values. Defaults to ``1``.
 
     Returns
     -------
