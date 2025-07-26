@@ -20,11 +20,11 @@ async def aall(aiterable: AsyncIterable[SupportsBool], /) -> bool:
 
     Notes
     -----
-    - Short-circuits on the first item that evaluates to :obj:`False`.
+    - Short-circuits on the first object that evaluates to :obj:`False`.
 
     See Also
     --------
-    - :func:`all`
+    :func:`all`
     """
     async for value in aiterable:
         if not bool(value):

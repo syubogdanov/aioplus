@@ -20,11 +20,11 @@ async def aany(aiterable: AsyncIterable[SupportsBool], /) -> bool:
 
     Notes
     -----
-    - Short-circuits on the first item that evaluates to :obj:`True`.
+    - Short-circuits on the first object that evaluates to :obj:`True`.
 
     See Also
     --------
-    - :func:`any`
+    :func:`any`
     """
     async for value in aiterable:
         if bool(value):
