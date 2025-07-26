@@ -52,7 +52,7 @@ def awaitify(
 
     See Also
     --------
-    :meth:`asyncio.AbstractEventLoop.run_in_executor`
+    :meth:`asyncio.loop.run_in_executor`
     """
     if not callable(func):
         detail = "'func' must be callable"
