@@ -29,6 +29,8 @@ The library is available as
 
    aall
    aany
+   alen
+   awaitify
 
 License
 -------
