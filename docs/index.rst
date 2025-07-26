@@ -29,7 +29,14 @@ The library is available as
 
    aall
    aany
+   abatched
+   acount
+   aenumerate
+   aislice
    alen
+   arange
+   arepeat
+   areversed
    awaitify
 
 License

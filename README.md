@@ -232,16 +232,16 @@ MIT License, Copyright (c) 2025 Sergei Y. Bogdanov. See [LICENSE][github/license
 
 <!-- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- -->
 
-[docs/aioplus/aall]: https://aioplus.readthedocs.io/
-[docs/aioplus/aany]: https://aioplus.readthedocs.io/
-[docs/aioplus/abatched]: https://aioplus.readthedocs.io/
-[docs/aioplus/acount]: https://aioplus.readthedocs.io/
-[docs/aioplus/aenumerate]: https://aioplus.readthedocs.io/
-[docs/aioplus/aislice]: https://aioplus.readthedocs.io/
-[docs/aioplus/alen]: https://aioplus.readthedocs.io/
-[docs/aioplus/arange]: https://aioplus.readthedocs.io/
-[docs/aioplus/areversed]: https://aioplus.readthedocs.io/
-[docs/aioplus/awaitify]: https://aioplus.readthedocs.io/
+[docs/aioplus/aall]: https://aioplus.readthedocs.io/en/latest/aall.html
+[docs/aioplus/aany]: https://aioplus.readthedocs.io/en/latest/aany.html
+[docs/aioplus/abatched]: https://aioplus.readthedocs.io/en/latest/abatched.html
+[docs/aioplus/acount]: https://aioplus.readthedocs.io/en/latest/acount.html
+[docs/aioplus/aenumerate]: https://aioplus.readthedocs.io/en/latest/aenumerate.html
+[docs/aioplus/aislice]: https://aioplus.readthedocs.io/en/latest/aislice.html
+[docs/aioplus/alen]: https://aioplus.readthedocs.io/en/latest/alen.html
+[docs/aioplus/arange]: https://aioplus.readthedocs.io/en/latest/arange.html
+[docs/aioplus/areversed]: https://aioplus.readthedocs.io/en/latest/areversed.html
+[docs/aioplus/awaitify]: https://aioplus.readthedocs.io/en/latest/awaitify.html
 
 [github/license]: https://github.com/syubogdanov/aioplus/tree/main/LICENSE
 
