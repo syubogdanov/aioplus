@@ -28,7 +28,45 @@ def arange(
     step: SupportsIndex | None = None,
     /,
 ) -> AsyncIterable[int]:
-    """Iterate over a range of integers."""
+    """Iterate over a range of integers.
+
+    Parameters
+    ----------
+    start : int
+        The starting value of the sequence (inclusive). If ``stop`` is :obj:`None`, this argument
+        is treated as the end value, and the sequence starts from ``0``.
+
+    stop : int, optional
+        The end value of the sequence (exclusive). If not provided, ``start`` is interpreted
+        as the end and the sequence begins from ``0``.
+
+    step : int, optional
+        The difference between consecutive values. Defaults to ``1`` if not specified. May be
+        negative to produce a decreasing sequence.
+
+    Returns
+    -------
+    AsyncIterable of int
+        An asynchronous iterable yielding values from ``start`` to ``stop``, separated by ``step``.
+
+    Examples
+    --------
+    >>> import asyncio
+    >>>
+    >>> from aioplus import arange
+    >>>
+    >>> async def main() -> None:
+    >>>     '''Run the program.'''
+    >>>     async for num in arange(2304):
+    >>>         print(num)
+    >>>
+    >>> if __name__ == '__main__':
+    >>>     asyncio.run(main())
+
+    See Also
+    --------
+    :func:`range`
+    """
     if stop is None and step is not None:
         detail = "'step' is not specified but 'stop' is"
         raise ValueError(detail)
