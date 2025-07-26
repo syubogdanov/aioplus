@@ -9,7 +9,41 @@ def acount(
     start: SupportsIndex = 0,
     step: SupportsIndex = 1,
 ) -> AsyncIterable[int]:
-    """Return evenly spaced values beginning with `start`."""
+    """Return evenly spaced values beginning with ``start``.
+
+    Parameters
+    ----------
+    start : int, default 0
+        The initial value. Must be an object supporting :meth:`object.__index__`.
+
+    step : int, default 1
+        The difference between consecutive values. Must be an object supporting
+        :meth:`object.__index__`.
+
+    Returns
+    -------
+    AsyncIterable of int
+        An infinite asynchronous iterable yielding integers, starting from ``start``
+        and incremented by ``step``.
+
+    Examples
+    --------
+    >>> import asyncio
+    >>>
+    >>> from aioplus import acount
+    >>>
+    >>> async def main() -> None:
+    >>>     '''Run the program.'''
+    >>>     async for num in acount(start=23, step=4):
+    >>>         print(num)
+    >>>
+    >>> if __name__ == '__main__':
+    >>>     asyncio.run(main())
+
+    See Also
+    --------
+    :func:`itertools.count`
+    """
     if not isinstance(start, SupportsIndex):
         detail = "'start' must be 'SupportsIndex'"
         raise TypeError(detail)
