@@ -11,7 +11,39 @@ def aenumerate(
     /,
     start: SupportsIndex = 0,
 ) -> AsyncIterable[tuple[int, T]]:
-    """Return an enumerated iterator."""
+    """Return an enumerated iterator.
+
+    Parameters
+    ----------
+    aiterable : AsyncIterable of T
+        An asynchronous iterable of objects to enumerate.
+
+    start : int, default 0
+        The starting index. Must be an object supporting :meth:`object.__index__`.
+
+    Returns
+    -------
+    AsyncIterable of tuple[int, T]
+        An asynchronous iterable yielding pairs of the form ``(index, object)``.
+
+    Examples
+    --------
+    >>> import asyncio
+    >>>
+    >>> from aioplus import aenumerate, arange
+    >>>
+    >>> async def main() -> None:
+    >>>     '''Run the program.'''
+    >>>     async for index, num in aenumerate(arange(2304)):
+    >>>         print(index, num)
+    >>>
+    >>> if __name__ == '__main__':
+    >>>     asyncio.run(main())
+
+    See Also
+    --------
+    :func:`enumerate`
+    """
     if not isinstance(aiterable, AsyncIterable):
         detail = "'aiterable' must be 'AsyncIterable'"
         raise TypeError(detail)
