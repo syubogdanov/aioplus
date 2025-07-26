@@ -3,7 +3,22 @@ from typing import Any
 
 
 async def alen(aiterable: AsyncIterable[Any], /) -> int:
-    """Return the length of an object."""
+    """Return length of the iterable.
+
+    Parameters
+    ----------
+    aiterable : AsyncIterable[Any]
+        An asynchronous iterable of objects.
+
+    Returns
+    -------
+    :class:`int`
+        Length of the iterable.
+
+    See Also
+    --------
+    :func:`len`
+    """
     if not isinstance(aiterable, AsyncIterable):
         detail = "'aiterable' must be 'AsyncIterable'"
         raise TypeError(detail)
