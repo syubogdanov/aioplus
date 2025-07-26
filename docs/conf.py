@@ -1,10 +1,8 @@
+author = "Sergei Y. Bogdanov <syubogdanov@outlook.com>"
+copyright = "2025, Sergei Y. Bogdanov"
 project = "aioplus"
 
-author = "Sergei Y. Bogdanov"
-copyright = "2025, Sergei Y. Bogdanov"
-
 html_theme = "alabaster"
-
 html_theme_options = {
     "description": "Because asyncio.gather() is not enough!",
     "github_user": "syubogdanov",
@@ -13,3 +11,16 @@ html_theme_options = {
     "github_button": True,
     "github_banner": True,
 }
+
+extensions = [
+    "sphinx.ext.autodoc",
+    "sphinx.ext.napoleon",
+    "sphinx.ext.viewcode",
+    "sphinx.ext.intersphinx",
+]
+
+intersphinx_mapping = {
+    "python": ("https://docs.python.org/3", None),
+}
+
+autodoc_typehints = "description"
