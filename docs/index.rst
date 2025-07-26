@@ -241,8 +241,9 @@ For more, see the :doc:`awaitify <awaitify>`.
         asyncio.run(main())
 
 .. toctree::
-   :maxdepth: 1
    :caption: API Reference
+   :hidden:
+   :maxdepth: 1
 
    aall
    aany
