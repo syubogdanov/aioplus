@@ -14,13 +14,17 @@ homepage = "https://github.com/syubogdanov/aioplus"
 repository = "https://github.com/syubogdanov/aioplus"
 documentation = "https://aioplus.readthedocs.io"
 keywords = [
+    "async",
     "asyncio",
     "builtins",
+    "concurrency",
     "itertools",
     "python",
+    "stdlib",
 ]
 classifiers = [
     "Development Status :: 2 - Pre-Alpha",
+    "Framework :: AsyncIO",
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
@@ -29,6 +33,9 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Utilities",
+    "Typing :: Typed",
 ]
 
 [tool.poetry.dependencies]
