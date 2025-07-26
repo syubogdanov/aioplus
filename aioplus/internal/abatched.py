@@ -15,7 +15,47 @@ def abatched(
     n: int,
     strict: bool = False,
 ) -> AsyncIterable[tuple[T, ...]]:
-    """Batch data from the `aiterable` into tuples of length `n`."""
+    """Batch data from the `aiterable` into tuples of length ``n``.
+
+    Parameters
+    ----------
+    aiterable : AsyncIterable of T
+        An asynchronous iterable of elements to be grouped into batches.
+
+    n : int
+        The batch size. Each tuple will contain up to ``n`` elements.
+
+    strict : bool, default False
+        If :obj:`True`, raises a :exc:`ValueError` if the total number of objects is not divisible
+        by ``n``. If :obj:`False`, the last batch may be shorter than ``n``.
+
+    Returns
+    -------
+    AsyncIterable of tuple[T, ...]
+        An asynchronous iterable yielding tuples of at most ``n`` elements.
+
+    Examples
+    --------
+    >> import asyncio
+    >>
+    >> from aioplus import abatched, arange
+    >>
+    >> async def main() -> None:
+    >>     '''Run the program.'''
+    >>     async for batch in abatched(arange(23), n=4):
+    >>         print(batch)
+    >>
+    >> if __name__ == '__main__':
+    >>     asyncio.run(main())
+
+    Notes
+    -----
+    - The final batch may be shorter than ``n``, unless ``strict`` is set to :obj:`True`.
+
+    See Also
+    --------
+    :func:`itertools.batched`
+    """
     if not isinstance(aiterable, AsyncIterable):
         detail = "'aiterable' must be 'AsyncIterable'"
         raise TypeError(detail)
