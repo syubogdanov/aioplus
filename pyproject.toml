@@ -86,9 +86,6 @@ ignore = [
     "BLE001",   # Checks for `except` clauses that catch all exceptions.
     "D100",     # Missing docstring in public module.
     "D104",     # Missing docstring in public package.
-    "FBT001",   # Checks for the use of boolean positional arguments in function definitions, as determined by the presence of a bool type hint.
-    "FBT002",   # Checks for the use of boolean positional arguments in function definitions, as determined by the presence of a boolean default value.
-    "PLR0913",  # Checks for function definitions that include too many arguments.
 ]
 select = ["ALL"]
 
