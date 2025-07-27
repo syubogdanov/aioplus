@@ -121,7 +121,7 @@ class AbatchedIterator(AsyncIterator[tuple[T, ...]]):
             self._finished_flg = True
             raise StopAsyncIteration
 
-        if len(batch) < self.n and self.strict:
+        if self.strict and len(batch) < self.n:
             self._finished_flg = True
             detail = "abatched(): incomplete batch"
             raise ValueError(detail)

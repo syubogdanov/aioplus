@@ -87,8 +87,7 @@ class AreversedIterator(AsyncIterator[T]):
         if not self._started_flg:
             self._started_flg = True
             try:
-                async for value in self.aiterator:
-                    self._stack.append(value)
+                self._stack = [value async for value in self.aiterator]
             except Exception:
                 self._finished_flg = True
                 raise
