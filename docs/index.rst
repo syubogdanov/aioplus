@@ -7,8 +7,8 @@ Key Features
 ------------
 
 -  As easy as built-ins - but asynchronous;
--  The same API as the Python 3.13 standard blocking API;
--  Early returns never cause unawaited coroutine warnings.
+-  Early returns never cause unawaited coroutine warnings;
+-  Nearly the same API as the Python 3.13 standard blocking API.
 
 Getting Started
 ---------------
