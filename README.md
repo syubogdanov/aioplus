@@ -242,6 +242,7 @@ MIT License, Copyright (c) 2025 Sergei Y. Bogdanov. See [LICENSE][github/license
 [docs/aioplus/aislice]: https://aioplus.readthedocs.io/en/latest/aislice.html
 [docs/aioplus/alen]: https://aioplus.readthedocs.io/en/latest/alen.html
 [docs/aioplus/arange]: https://aioplus.readthedocs.io/en/latest/arange.html
+[docs/aioplus/arepeat]: https://aioplus.readthedocs.io/en/latest/arepeat.html
 [docs/aioplus/areversed]: https://aioplus.readthedocs.io/en/latest/areversed.html
 [docs/aioplus/awaitify]: https://aioplus.readthedocs.io/en/latest/awaitify.html
 
