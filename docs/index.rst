@@ -102,6 +102,25 @@ For more, see the :doc:`documentation <acount>`.
     if __name__ == "__main__":
         asyncio.run(main())
 
+acycle
+------
+
+For more, see the :doc:`documentation <acycle>`.
+
+.. code-block:: python
+
+    import asyncio
+
+    from aioplus import acycle, arange
+
+    async def main() -> None:
+        """Run the program."""
+        async for num in acycle(arange(23)):
+            print(num)
+
+    if __name__ == "__main__":
+        asyncio.run(main())
+
 aenumerate
 ----------
 
@@ -156,6 +175,25 @@ For more, see the :doc:`documentation <alen>`.
         aiterable = arange(2304)
         length = await alen(aiterable)
         print(f"len(aiterable) == {length}")
+
+    if __name__ == "__main__":
+        asyncio.run(main())
+
+apairwise
+---------
+
+For more, see the :doc:`documentation <apairwise>`.
+
+.. code-block:: python
+
+    import asyncio
+
+    from aioplus import apairwise, arange
+
+    async def main() -> None:
+        """Run the program."""
+        async for before, after in apairwise(arange(23)):
+            print(f"{before} -> {after}")
 
     if __name__ == "__main__":
         asyncio.run(main())
@@ -249,9 +287,11 @@ For more, see the :doc:`documentation <awaitify>`.
    aany
    abatched
    acount
+   acycle
    aenumerate
    aislice
    alen
+   apairwise
    arange
    arepeat
    areversed

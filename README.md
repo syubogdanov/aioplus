@@ -96,6 +96,24 @@ if __name__ == "__main__":
     asyncio.run(main())
 ```
 
+#### *acycle*
+
+For more, see the [documentation][docs/aioplus/acycle].
+
+```python
+import asyncio
+
+from aioplus import acycle, arange
+
+async def main() -> None:
+    """Run the program."""
+    async for num in acycle(arange(23)):
+        print(num)
+
+if __name__ == "__main__":
+    asyncio.run(main())
+```
+
 #### *aenumerate*
 
 For more, see the [documentation][docs/aioplus/aenumerate].
@@ -256,6 +274,7 @@ MIT License, Copyright (c) 2025 Sergei Y. Bogdanov. See [LICENSE][github/license
 [docs/aioplus/aany]: https://aioplus.readthedocs.io/en/latest/aany.html
 [docs/aioplus/abatched]: https://aioplus.readthedocs.io/en/latest/abatched.html
 [docs/aioplus/acount]: https://aioplus.readthedocs.io/en/latest/acount.html
+[docs/aioplus/acycle]: https://aioplus.readthedocs.io/en/latest/acycle.html
 [docs/aioplus/aenumerate]: https://aioplus.readthedocs.io/en/latest/aenumerate.html
 [docs/aioplus/aislice]: https://aioplus.readthedocs.io/en/latest/aislice.html
 [docs/aioplus/alen]: https://aioplus.readthedocs.io/en/latest/alen.html
