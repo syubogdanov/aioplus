@@ -179,6 +179,26 @@ For more, see the :doc:`documentation <alen>`.
     if __name__ == "__main__":
         asyncio.run(main())
 
+anth
+----
+
+For more, see the :doc:`documentation <anth>`.
+
+.. code-block:: python
+
+    import asyncio
+
+    from aioplus import anth, arange
+
+    async def main() -> None:
+        """Run the program."""
+        aiterable = arange(23)
+        value = await anth(aiterable, n=4)
+        print(f'value = {value}')
+
+    if __name__ == "__main__":
+        asyncio.run(main())
+
 apairwise
 ---------
 
@@ -291,6 +311,7 @@ For more, see the :doc:`documentation <awaitify>`.
    aenumerate
    aislice
    alen
+   anth
    apairwise
    arange
    arepeat

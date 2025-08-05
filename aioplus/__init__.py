@@ -6,6 +6,7 @@ from aioplus.internal.acycle import acycle
 from aioplus.internal.aenumerate import aenumerate
 from aioplus.internal.aislice import aislice
 from aioplus.internal.alen import alen
+from aioplus.internal.anth import anth
 from aioplus.internal.apairwise import apairwise
 from aioplus.internal.arange import arange
 from aioplus.internal.arepeat import arepeat
@@ -25,6 +26,7 @@ __all__: list[str] = [
     "aenumerate",
     "aislice",
     "alen",
+    "anth",
     "apairwise",
     "arange",
     "arepeat",
@@ -41,6 +43,7 @@ acycle.__module__ = "aioplus"
 aenumerate.__module__ = "aioplus"
 aislice.__module__ = "aioplus"
 alen.__module__ = "aioplus"
+anth.__module__ = "aioplus"
 apairwise.__module__ = "aioplus"
 arange.__module__ = "aioplus"
 arepeat.__module__ = "aioplus"
