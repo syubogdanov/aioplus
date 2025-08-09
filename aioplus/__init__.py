@@ -11,6 +11,7 @@ from aioplus.internal.apairwise import apairwise
 from aioplus.internal.arange import arange
 from aioplus.internal.arepeat import arepeat
 from aioplus.internal.areversed import areversed
+from aioplus.internal.atail import atail
 from aioplus.internal.awaitify import awaitify
 
 
@@ -31,6 +32,7 @@ __all__: list[str] = [
     "arange",
     "arepeat",
     "areversed",
+    "atail",
     "awaitify",
 ]
 
@@ -48,4 +50,5 @@ apairwise.__module__ = "aioplus"
 arange.__module__ = "aioplus"
 arepeat.__module__ = "aioplus"
 areversed.__module__ = "aioplus"
+atail.__module__ = "aioplus"
 awaitify.__module__ = "aioplus"

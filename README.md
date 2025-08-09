@@ -260,6 +260,24 @@ if __name__ == "__main__":
     asyncio.run(main())
 ```
 
+#### *atail*
+
+For more, see the [documentation][docs/aioplus/atail].
+
+```python
+import asyncio
+
+from aioplus import arange, atail
+
+async def main() -> None:
+    """Run the program."""
+    async for num in atail(arange(23), n=4):
+        print(num)
+
+if __name__ == "__main__":
+    asyncio.run(main())
+```
+
 #### *awaitify*
 
 For more, see the [documentation][docs/aioplus/awaitify].
@@ -302,6 +320,7 @@ MIT License, Copyright (c) 2025 Sergei Y. Bogdanov. See [LICENSE][github/license
 [docs/aioplus/arange]: https://aioplus.readthedocs.io/en/latest/arange.html
 [docs/aioplus/arepeat]: https://aioplus.readthedocs.io/en/latest/arepeat.html
 [docs/aioplus/areversed]: https://aioplus.readthedocs.io/en/latest/areversed.html
+[docs/aioplus/atail]: https://aioplus.readthedocs.io/en/latest/atail.html
 [docs/aioplus/awaitify]: https://aioplus.readthedocs.io/en/latest/awaitify.html
 
 [github/license]: https://github.com/syubogdanov/aioplus/tree/main/LICENSE

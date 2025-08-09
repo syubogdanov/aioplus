@@ -275,6 +275,25 @@ For more, see the :doc:`documentation <areversed>`.
     if __name__ == "__main__":
         asyncio.run(main())
 
+atail
+-----
+
+For more, see the :doc:`documentation <atail>`.
+
+.. code-block:: python
+
+    import asyncio
+
+    from aioplus import arange, atail
+
+    async def main() -> None:
+        """Run the program."""
+        async for num in atail(arange(23), n=4):
+            print(num)
+
+    if __name__ == "__main__":
+        asyncio.run(main())
+
 awaitify
 --------
 
@@ -316,6 +335,7 @@ For more, see the :doc:`documentation <awaitify>`.
    arange
    arepeat
    areversed
+   atail
    awaitify
 
 License
