@@ -28,3 +28,10 @@ class TestAnth:
         value = await anth(aiterator, n=23, default=42)
 
         assert value == 42
+
+    async def test__anth__negative_index(self) -> None:
+        """Case: `n` is negative."""
+        aiterator = arange(4)
+
+        with pytest.raises(ValueError, match="'n' must be non-negative"):
+            await anth(aiterator, n=-1)
