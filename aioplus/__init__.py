@@ -4,6 +4,7 @@ from aioplus.internal.abatched import abatched
 from aioplus.internal.acount import acount
 from aioplus.internal.acycle import acycle
 from aioplus.internal.aenumerate import aenumerate
+from aioplus.internal.ahead import ahead
 from aioplus.internal.aislice import aislice
 from aioplus.internal.alen import alen
 from aioplus.internal.anth import anth
@@ -25,6 +26,7 @@ __all__: list[str] = [
     "acount",
     "acycle",
     "aenumerate",
+    "ahead",
     "aislice",
     "alen",
     "anth",
@@ -43,6 +45,7 @@ abatched.__module__ = "aioplus"
 acount.__module__ = "aioplus"
 acycle.__module__ = "aioplus"
 aenumerate.__module__ = "aioplus"
+ahead.__module__ = "aioplus"
 aislice.__module__ = "aioplus"
 alen.__module__ = "aioplus"
 anth.__module__ = "aioplus"

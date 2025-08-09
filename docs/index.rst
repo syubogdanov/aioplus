@@ -140,6 +140,25 @@ For more, see the :doc:`documentation <aenumerate>`.
     if __name__ == "__main__":
         asyncio.run(main())
 
+ahead
+-----
+
+For more, see the :doc:`documentation <ahead>`.
+
+.. code-block:: python
+
+    import asyncio
+
+    from aioplus import ahead, arange
+
+    async def main() -> None:
+        """Run the program."""
+        async for num in ahead(arange(23), n=4):
+            print(num)
+
+    if __name__ == "__main__":
+        asyncio.run(main())
+
 aislice
 -------
 
@@ -194,7 +213,7 @@ For more, see the :doc:`documentation <anth>`.
         """Run the program."""
         aiterable = arange(23)
         value = await anth(aiterable, n=4)
-        print(f'value = {value}')
+        print(f"value = {value}")
 
     if __name__ == "__main__":
         asyncio.run(main())
