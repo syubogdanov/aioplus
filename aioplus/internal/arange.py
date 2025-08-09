@@ -4,6 +4,8 @@ from collections.abc import AsyncIterable, AsyncIterator
 from dataclasses import dataclass
 from typing import Self, SupportsIndex, overload
 
+from aioplus.internal import cast
+
 
 @overload
 def arange(stop: SupportsIndex, /) -> AsyncIterable[int]: ...
@@ -83,33 +85,9 @@ def arange(
     if step is None:
         step = 1
 
-    if not isinstance(start, SupportsIndex):
-        detail = "'start' must be 'SupportsIndex'"
-        raise TypeError(detail)
-
-    if not isinstance(stop, SupportsIndex):
-        detail = "'stop' must be 'SupportsIndex'"
-        raise TypeError(detail)
-
-    if not isinstance(step, SupportsIndex):
-        detail = "'step' must be 'SupportsIndex'"
-        raise TypeError(detail)
-
-    start = start.__index__()
-    stop = stop.__index__()
-    step = step.__index__()
-
-    if not isinstance(start, int):
-        detail = "'start.__index__()' must be 'int'"
-        raise TypeError(detail)
-
-    if not isinstance(stop, int):
-        detail = "'stop.__index__()' must be 'int'"
-        raise TypeError(detail)
-
-    if not isinstance(step, int):
-        detail = "'step.__index__()' must be 'int'"
-        raise TypeError(detail)
+    start = cast.to_int(start, variable_name="start")
+    stop = cast.to_int(stop, variable_name="stop")
+    step = cast.to_int(step, variable_name="step")
 
     if step == 0:
         detail = "'step' must not be zero"

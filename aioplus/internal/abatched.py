@@ -2,6 +2,7 @@ from collections.abc import AsyncIterable, AsyncIterator
 from dataclasses import dataclass
 from typing import Self, TypeVar
 
+from aioplus.internal import cast
 from aioplus.internal.aislice import aislice
 
 
@@ -60,13 +61,7 @@ def abatched(
         detail = "'aiterable' must be 'AsyncIterable'"
         raise TypeError(detail)
 
-    if not isinstance(n, int):
-        detail = "'n' must be 'int'"
-        raise TypeError(detail)
-
-    if n < 1:
-        detail = "'n' must be at least one"
-        raise ValueError(detail)
+    n = cast.to_positive_int(n, variable_name="n")
 
     if not isinstance(strict, bool):
         detail = "'strict' must be 'bool'"

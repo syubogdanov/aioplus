@@ -1,6 +1,7 @@
 from collections.abc import AsyncIterable
 from typing import Any, SupportsIndex, TypeVar, overload
 
+from aioplus.internal import cast
 from aioplus.internal.aenumerate import aenumerate
 
 
@@ -64,19 +65,7 @@ async def anth(
         detail = "'aiterable' must be 'AsyncIterable'"
         raise TypeError(detail)
 
-    if not isinstance(n, SupportsIndex):
-        detail = "'n' must be 'SupportsIndex'"
-        raise TypeError(detail)
-
-    n = n.__index__()
-
-    if not isinstance(n, int):
-        detail = "'n.__index__()' must be 'int'"
-        raise TypeError(detail)
-
-    if n < 0:
-        detail = "'n' must be non-negative"
-        raise ValueError(detail)
+    n = cast.to_non_negative_int(n, variable_name="n")
 
     async for index, value in aenumerate(aiterable):
         if index == n:

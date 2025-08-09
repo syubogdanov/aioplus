@@ -2,6 +2,8 @@ from collections.abc import AsyncIterable, AsyncIterator
 from dataclasses import dataclass
 from typing import Self, SupportsIndex, TypeVar, overload
 
+from aioplus.internal import cast
+
 
 T = TypeVar("T")
 
@@ -29,7 +31,7 @@ def aislice(
 ) -> AsyncIterable[T]: ...
 
 
-def aislice(  # noqa: C901, PLR0912
+def aislice(
     aiterable: AsyncIterable[T],
     start: SupportsIndex,
     stop: SupportsIndex | None = None,
@@ -93,45 +95,9 @@ def aislice(  # noqa: C901, PLR0912
     if step is None:
         step = 1
 
-    if not isinstance(start, SupportsIndex):
-        detail = "'start' must be 'SupportsIndex'"
-        raise TypeError(detail)
-
-    if not isinstance(step, SupportsIndex):
-        detail = "'step' must be 'SupportsIndex'"
-        raise TypeError(detail)
-
-    if not isinstance(stop, SupportsIndex):
-        detail = "'stop' must be 'SupportsIndex'"
-        raise TypeError(detail)
-
-    start = start.__index__()
-    stop = stop.__index__()
-    step = step.__index__()
-
-    if not isinstance(start, int):
-        detail = "'start.__index__()' must be 'int'"
-        raise TypeError(detail)
-
-    if not isinstance(stop, int):
-        detail = "'stop.__index__()' must be 'int'"
-        raise TypeError(detail)
-
-    if not isinstance(step, int):
-        detail = "'step.__index__()' must be 'int'"
-        raise TypeError(detail)
-
-    if start < 0:
-        detail = "'start' must be non-negative"
-        raise ValueError(detail)
-
-    if stop < 0:
-        detail = "'stop' must be non-negative"
-        raise ValueError(detail)
-
-    if step <= 0:
-        detail = "'step' must be positive"
-        raise ValueError(detail)
+    start = cast.to_non_negative_int(start, variable_name="start")
+    stop = cast.to_non_negative_int(stop, variable_name="stop")
+    step = cast.to_positive_int(step, variable_name="step")
 
     return IsliceIterable(aiterable, start, stop, step)
 

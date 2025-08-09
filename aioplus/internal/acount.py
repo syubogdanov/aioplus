@@ -4,6 +4,8 @@ from collections.abc import AsyncIterable, AsyncIterator
 from dataclasses import dataclass
 from typing import Self, SupportsIndex
 
+from aioplus.internal import cast
+
 
 def acount(
     start: SupportsIndex = 0,
@@ -48,24 +50,8 @@ def acount(
     --------
     :func:`itertools.count`
     """
-    if not isinstance(start, SupportsIndex):
-        detail = "'start' must be 'SupportsIndex'"
-        raise TypeError(detail)
-
-    if not isinstance(step, SupportsIndex):
-        detail = "'step' must be 'SupportsIndex'"
-        raise TypeError(detail)
-
-    start = start.__index__()
-    step = step.__index__()
-
-    if not isinstance(start, int):
-        detail = "'start.__index__()' must be 'int'"
-        raise TypeError(detail)
-
-    if not isinstance(step, int):
-        detail = "'step.__index__()' must be 'int'"
-        raise TypeError(detail)
+    start = cast.to_int(start, variable_name="start")
+    step = cast.to_int(step, variable_name="step")
 
     return AcountIterable(start, step)
 

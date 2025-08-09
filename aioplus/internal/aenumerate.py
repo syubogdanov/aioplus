@@ -2,6 +2,8 @@ from collections.abc import AsyncIterable, AsyncIterator
 from dataclasses import dataclass
 from typing import Self, SupportsIndex, TypeVar
 
+from aioplus.internal import cast
+
 
 T = TypeVar("T")
 
@@ -48,15 +50,7 @@ def aenumerate(
         detail = "'aiterable' must be 'AsyncIterable'"
         raise TypeError(detail)
 
-    if not isinstance(start, SupportsIndex):
-        detail = "'start' must be 'SupportsIndex'"
-        raise TypeError(detail)
-
-    start = start.__index__()
-
-    if not isinstance(start, int):
-        detail = "'start.__index__()' must be 'int'"
-        raise TypeError(detail)
+    start = cast.to_int(start, variable_name="start")
 
     return AenumerateIterable(aiterable, start)
 

@@ -5,6 +5,8 @@ from collections.abc import AsyncIterable, AsyncIterator
 from dataclasses import dataclass
 from typing import Self, SupportsIndex, TypeVar
 
+from aioplus.internal import cast
+
 
 T = TypeVar("T")
 
@@ -48,19 +50,7 @@ def atail(aiterable: AsyncIterable[T], /, *, n: SupportsIndex) -> AsyncIterable[
         detail = "'aiterable' must be 'AsyncIterable'"
         raise TypeError(detail)
 
-    if not isinstance(n, SupportsIndex):
-        detail = "'n' must be 'SupportsIndex'"
-        raise TypeError(detail)
-
-    n = n.__index__()
-
-    if not isinstance(n, int):
-        detail = "'n.__index__()' must be 'int'"
-        raise TypeError(detail)
-
-    if n < 0:
-        detail = "'n' must be non-negative"
-        raise ValueError(detail)
+    n = cast.to_non_negative_int(n, variable_name="n")
 
     return AtailIterable(aiterable, n)
 
