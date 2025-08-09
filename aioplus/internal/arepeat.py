@@ -55,6 +55,10 @@ def arepeat(
     if times is not None:
         times = times.__index__()
 
+    if times is not None and not isinstance(times, int):
+        detail = "'times.__index__()' must be 'int'"
+        raise TypeError(detail)
+
     if times is not None and times < 0:
         detail = "'times' must be non-negative"
         raise ValueError(detail)

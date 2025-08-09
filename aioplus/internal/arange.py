@@ -99,6 +99,18 @@ def arange(
     stop = stop.__index__()
     step = step.__index__()
 
+    if not isinstance(start, int):
+        detail = "'start.__index__()' must be 'int'"
+        raise TypeError(detail)
+
+    if not isinstance(stop, int):
+        detail = "'stop.__index__()' must be 'int'"
+        raise TypeError(detail)
+
+    if not isinstance(step, int):
+        detail = "'step.__index__()' must be 'int'"
+        raise TypeError(detail)
+
     if step == 0:
         detail = "'step' must not be zero"
         raise ValueError(detail)

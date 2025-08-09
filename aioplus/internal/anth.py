@@ -70,6 +70,10 @@ async def anth(
 
     n = n.__index__()
 
+    if not isinstance(n, int):
+        detail = "'n.__index__()' must be 'int'"
+        raise TypeError(detail)
+
     if n < 0:
         detail = "'n' must be non-negative"
         raise ValueError(detail)

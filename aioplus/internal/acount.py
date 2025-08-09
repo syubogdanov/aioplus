@@ -59,6 +59,14 @@ def acount(
     start = start.__index__()
     step = step.__index__()
 
+    if not isinstance(start, int):
+        detail = "'start.__index__()' must be 'int'"
+        raise TypeError(detail)
+
+    if not isinstance(step, int):
+        detail = "'step.__index__()' must be 'int'"
+        raise TypeError(detail)
+
     return AcountIterable(start, step)
 
 

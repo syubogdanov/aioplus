@@ -54,6 +54,10 @@ def aenumerate(
 
     start = start.__index__()
 
+    if not isinstance(start, int):
+        detail = "'start.__index__()' must be 'int'"
+        raise TypeError(detail)
+
     return AenumerateIterable(aiterable, start)
 
 
