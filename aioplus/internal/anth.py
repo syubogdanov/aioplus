@@ -1,7 +1,7 @@
 from collections.abc import AsyncIterable
 from typing import Any, SupportsIndex, TypeVar, overload
 
-from aioplus import aenumerate
+from aioplus.internal.aenumerate import aenumerate
 
 
 T1 = TypeVar("T1")
@@ -49,7 +49,7 @@ async def anth(
     --------
     >>> import asyncio
     >>>
-    >>> from aioplus import apairwise, arange
+    >>> from aioplus import anth, arange
     >>>
     >>> async def main() -> None:
     >>>     '''Run the program.'''
