@@ -22,12 +22,12 @@ class TestAbatched:
 
     async def test__abatched__negative_size(self) -> None:
         """Case: negative batch size."""
-        with pytest.raises(ValueError, match="'n' must be at least one"):
+        with pytest.raises(ValueError, match="'n' must be positive"):
             [batch async for batch in abatched(arange(10), n=-1)]
 
     async def test__abatched__zero_size(self) -> None:
         """Case: zero batch size."""
-        with pytest.raises(ValueError, match="'n' must be at least one"):
+        with pytest.raises(ValueError, match="'n' must be positive"):
             [batch async for batch in abatched(arange(10), n=0)]
 
     async def test__abatched__strict(self) -> None:

@@ -1,7 +1,7 @@
-from typing import SupportsIndex
+from typing import LiteralString, SupportsIndex
 
 
-def to_int(obj: SupportsIndex, *, variable_name: str) -> int:
+def to_int(obj: SupportsIndex, /, *, variable_name: LiteralString) -> int:
     """Cast `SupportsIndex` to `int`."""
     if not isinstance(obj, SupportsIndex):
         detail = f"'{variable_name}' must be 'SupportsIndex'"
@@ -16,7 +16,7 @@ def to_int(obj: SupportsIndex, *, variable_name: str) -> int:
     return obj
 
 
-def to_positive_int(obj: SupportsIndex, *, variable_name: str) -> int:
+def to_positive_int(obj: SupportsIndex, /, *, variable_name: LiteralString) -> int:
     """Cast `SupportsIndex` to `int`.
 
     Notes
@@ -32,7 +32,7 @@ def to_positive_int(obj: SupportsIndex, *, variable_name: str) -> int:
     return obj
 
 
-def to_non_negative_int(obj: SupportsIndex, *, variable_name: str) -> int:
+def to_non_negative_int(obj: SupportsIndex, /, *, variable_name: LiteralString) -> int:
     """Cast `SupportsIndex` to `int`.
 
     Notes
