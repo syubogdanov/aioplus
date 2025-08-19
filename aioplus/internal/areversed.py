@@ -71,7 +71,7 @@ class AreversedIterator(AsyncIterator[T]):
 
     def __post_init__(self) -> None:
         """Initialize the object."""
-        self._started_flg: bool = False
+        self._initialized_flg: bool = False
         self._finished_flg: bool = False
         self._stack: list[T] = []
 
@@ -84,8 +84,8 @@ class AreversedIterator(AsyncIterator[T]):
         if self._finished_flg:
             raise StopAsyncIteration
 
-        if not self._started_flg:
-            await self._start()
+        if not self._initialized_flg:
+            await self._initialize()
 
         if not self._stack:
             self._finished_flg = True
@@ -98,12 +98,12 @@ class AreversedIterator(AsyncIterator[T]):
 
         return value
 
-    async def _start(self) -> None:
-        """Start the iterator."""
-        self._started_flg = True
-
+    async def _initialize(self) -> None:
+        """Initialize the stack."""
+        self._initialized_flg = True
         try:
-            self._stack = [value async for value in self.aiterator]
+            async for value in self.aiterator:
+                self._stack.append(value)
 
         except Exception:
             self._finished_flg = True
