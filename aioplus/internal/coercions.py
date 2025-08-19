@@ -100,3 +100,20 @@ def to_executor(obj: Executor, /, *, variable_name: LiteralString) -> Executor:
         raise TypeError(detail)
 
     return obj
+
+
+def to_bool(obj: bool, /, *, variable_name: LiteralString) -> bool:  # noqa: FBT001
+    """Cast `object` to `bool`.
+
+    Notes
+    -----
+    * Raises `TypeError` if `obj` is not `bool`.
+    """
+    -----
+    * Raises `TypeError` if `obj` is not `bool`.
+    """
+    if not isinstance(obj, bool):
+        detail = f"'{variable_name}' must be 'bool'"
+        raise TypeError(detail)
+
+    return obj

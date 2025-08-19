@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from typing import Self, TypeVar
 
 from aioplus.internal.aislice import aislice
-from aioplus.internal.coercions import to_async_iterable, to_positive_int
+from aioplus.internal.coercions import to_async_iterable, to_bool, to_positive_int
 
 
 T = TypeVar("T")
@@ -59,10 +59,7 @@ def abatched(
     """
     aiterable = to_async_iterable(aiterable, variable_name="aiterable")
     n = to_positive_int(n, variable_name="n")
-
-    if not isinstance(strict, bool):
-        detail = "'strict' must be 'bool'"
-        raise TypeError(detail)
+    strict = to_bool(strict, variable_name="strict")
 
     return AbatchedIterable(aiterable, n, strict)
 
