@@ -1,3 +1,4 @@
+from collections import deque
 from collections.abc import AsyncIterable, AsyncIterator
 from dataclasses import dataclass
 from typing import Literal, Self, TypeVar, overload
@@ -80,7 +81,9 @@ class AwindowedIterator(AsyncIterator[tuple[T, ...]]):
 
     def __post_init__(self) -> None:
         """Initialize the object."""
-        raise NotImplementedError
+        self._window: deque[T] = deque(maxlen=self.n)
+        self._initialized_flg: bool = False
+        self._finished_flg: bool = False
 
     def __aiter__(self) -> Self:
         """Return an asynchronous iterator."""
@@ -88,4 +91,30 @@ class AwindowedIterator(AsyncIterator[tuple[T, ...]]):
 
     async def __anext__(self) -> tuple[T, ...]:
         """Return the next value."""
-        raise NotImplementedError
+        if self._finished_flg:
+            raise StopAsyncIteration
+
+        if not self._initialized_flg:
+            await self._initialize()
+
+        try:
+            value = await anext(self.aiterator)
+
+        except Exception:
+            self._finished_flg = True
+            raise
+
+        self._window.append(value)
+        return tuple(self._window)
+
+    async def _initialize(self) -> None:
+        """Initialize the iterator."""
+        self._initialized_flg = True
+        try:
+            for _ in range(self.n - 1):
+                value = await anext(self.aiterator)
+                self._window.append(value)
+
+        except Exception:
+            self._finished_flg = True
+            raise
