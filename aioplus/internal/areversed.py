@@ -107,4 +107,5 @@ class AreversedIterator(AsyncIterator[T]):
 
         except Exception:
             self._finished_flg = True
+            self._stack.clear()
             raise

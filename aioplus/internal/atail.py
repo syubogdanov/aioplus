@@ -110,4 +110,5 @@ class AtailIterator(AsyncIterator[T]):
 
         except Exception:
             self._finished_flg = True
+            self._deque.clear()
             raise

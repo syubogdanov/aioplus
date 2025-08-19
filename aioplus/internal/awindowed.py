@@ -102,6 +102,7 @@ class AwindowedIterator(AsyncIterator[tuple[T, ...]]):
 
         except Exception:
             self._finished_flg = True
+            self._window.clear()
             raise
 
         self._window.append(value)
@@ -117,4 +118,5 @@ class AwindowedIterator(AsyncIterator[tuple[T, ...]]):
 
         except Exception:
             self._finished_flg = True
+            self._window.clear()
             raise
