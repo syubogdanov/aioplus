@@ -18,12 +18,14 @@ keywords = [
     "asyncio",
     "builtins",
     "concurrency",
+    "iteration",
+    "iterator",
     "itertools",
     "python",
     "stdlib",
 ]
 classifiers = [
-    "Development Status :: 2 - Pre-Alpha",
+    "Development Status :: 4 - Beta",
     "Framework :: AsyncIO",
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
