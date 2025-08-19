@@ -5,6 +5,8 @@ from contextvars import copy_context
 from functools import partial, wraps
 from typing import ParamSpec, TypeVar
 
+from aioplus.internal.coercions import to_callable, to_executor
+
 
 ReturnT = TypeVar("ReturnT")
 ParamsT = ParamSpec("ParamsT")
@@ -54,13 +56,10 @@ def awaitify(
     --------
     :meth:`asyncio.loop.run_in_executor`
     """
-    if not callable(func):
-        detail = "'func' must be callable"
-        raise TypeError(detail)
+    func = to_callable(func, variable_name="func")
 
-    if executor is not None and not isinstance(executor, Executor):
-        detail = "'executor' must be 'Executor' or 'None'"
-        raise TypeError(detail)
+    if executor is not None:
+        executor = to_executor(executor, variable_name="executor")
 
     @wraps(func)
     async def afunc(*args: ParamsT.args, **kwargs: ParamsT.kwargs) -> ReturnT:

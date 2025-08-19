@@ -1,7 +1,10 @@
-from collections.abc import AsyncIterable
-from typing import LiteralString, SupportsIndex, TypeVar
+from collections.abc import AsyncIterable, Callable
+from concurrent.futures import Executor
+from typing import LiteralString, ParamSpec, SupportsIndex, TypeVar
 
 
+P = ParamSpec("P")
+R = TypeVar("R")
 T = TypeVar("T")
 
 
@@ -66,6 +69,34 @@ def to_async_iterable(
     """
     if not isinstance(obj, AsyncIterable):
         detail = f"'{variable_name}' must be 'AsyncIterable'"
+        raise TypeError(detail)
+
+    return obj
+
+
+def to_callable(obj: Callable[P, R], /, *, variable_name: LiteralString) -> Callable[P, R]:
+    """Cast `object` to `Callable`.
+
+    Notes
+    -----
+    * Raises `TypeError` if `obj` is not `Callable`.
+    """
+    if not callable(obj):
+        detail = f"'{variable_name}' must be callable"
+        raise TypeError(detail)
+
+    return obj
+
+
+def to_executor(obj: Executor, /, *, variable_name: LiteralString) -> Executor:
+    """Cast `object` to `Executor`.
+
+    Notes
+    -----
+    * Raises `TypeError` if `obj` is not `Executor`.
+    """
+    if not isinstance(obj, Executor):
+        detail = f"'{variable_name}' must be 'Executor'"
         raise TypeError(detail)
 
     return obj
