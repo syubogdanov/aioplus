@@ -74,9 +74,9 @@ class AtailIterator(AsyncIterator[T]):
 
     def __post_init__(self) -> None:
         """Initialize the object."""
-        self._buffer: deque[T] = deque(maxlen=self.n)
-        self._initialized_flg: bool = False
+        self._started_flg: bool = False
         self._finished_flg: bool = False
+        self._deque: deque[T] = deque(maxlen=self.n)
 
     def __aiter__(self) -> Self:
         """Return an asynchronous iterator."""
@@ -87,23 +87,28 @@ class AtailIterator(AsyncIterator[T]):
         if self._finished_flg:
             raise StopAsyncIteration
 
-        if not self._initialized_flg:
-            self._initialized_flg = True
-            try:
-                async for value in self.aiterator:
-                    self._buffer.append(value)
+        if not self._started_flg:
+            await self._start()
 
-            except Exception:
-                self._finished_flg = True
-                raise
-
-        if not self._buffer:
+        if not self._deque:
             self._finished_flg = True
             raise StopAsyncIteration
 
-        value = self._buffer.popleft()
+        value = self._deque.popleft()
 
         # Move to the next coroutine!
         await asyncio.sleep(0.0)
 
         return value
+
+    async def _start(self) -> None:
+        """Start the iterator."""
+        self._started_flg = True
+
+        try:
+            async for value in self.aiterator:
+                self._deque.append(value)
+
+        except Exception:
+            self._finished_flg = True
+            raise
