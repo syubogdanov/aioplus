@@ -1,41 +1,37 @@
 import asyncio
 
-from collections import deque
 from collections.abc import AsyncIterable, AsyncIterator
 from dataclasses import dataclass
-from typing import Self, SupportsIndex, TypeVar
+from typing import Self, TypeVar
 
-from aioplus.internal.utils.coercions import to_async_iterable, to_non_negative_int
+from aioplus.internal.coercions import to_async_iterable
 
 
 T = TypeVar("T")
 
 
-def atail(aiterable: AsyncIterable[T], /, *, n: SupportsIndex) -> AsyncIterable[T]:
-    """Return the last ``n`` items of the ``aiterable``.
+def areversed(aiterable: AsyncIterable[T], /) -> AsyncIterable[T]:
+    """Return a reverse iterator.
 
     Parameters
     ----------
-    aiterable : AsyncIterable[T]
-        An asynchronous iterable to retrieve items from.
-
-    n : SupportsIndex
-        The number of items to retrieve from the end.
+    aiterable : AsyncIterable of T
+        An asynchronous iterable to be reversed.
 
     Returns
     -------
-    AsyncIterable[T]
-        An asynchronous iterable yielding the last ``n`` items of the ``aiterable``.
+    AsyncIterable of T
+        An asynchronous iterable yielding the objects in reverse order.
 
     Examples
     --------
     >>> import asyncio
     >>>
-    >>> from aioplus import arange, atail
+    >>> from aioplus import arange, areversed
     >>>
     >>> async def main() -> None:
     >>>     '''Run the program.'''
-    >>>     async for num in atail(arange(23), n=4):
+    >>>     async for num in areversed(arange(2304)):
     >>>         print(num)
     >>>
     >>> if __name__ == '__main__':
@@ -43,39 +39,40 @@ def atail(aiterable: AsyncIterable[T], /, *, n: SupportsIndex) -> AsyncIterable[
 
     Notes
     -----
-    - The last ``n`` items are buffered in memory before yielding;
+    - Entire iterable is buffered in memory before yielding results;
     - Yields control to the event loop before producing each value.
+
+    See Also
+    --------
+    :func:`reversed`
     """
     aiterable = to_async_iterable(aiterable, variable_name="aiterable")
-    n = to_non_negative_int(n, variable_name="n")
 
-    return AtailIterable(aiterable, n)
+    return AreversedIterable(aiterable)
 
 
 @dataclass
-class AtailIterable(AsyncIterable[T]):
-    """An asynchronous iterable."""
+class AreversedIterable(AsyncIterable[T]):
+    """A reversed asynchronous iterable."""
 
     aiterable: AsyncIterable[T]
-    n: int
 
     def __aiter__(self) -> AsyncIterator[T]:
         """Return an asynchronous iterator."""
         aiterator = aiter(self.aiterable)
-        return AtailIterator(aiterator, self.n)
+        return AreversedIterator(aiterator)
 
 
 @dataclass
-class AtailIterator(AsyncIterator[T]):
-    """An asynchronous iterator."""
+class AreversedIterator(AsyncIterator[T]):
+    """A reversed asynchronous iterator."""
 
-    aiterator: AsyncIterable[T]
-    n: int
+    aiterator: AsyncIterator[T]
 
     def __post_init__(self) -> None:
         """Initialize the object."""
-        self._buffer: deque[T] = deque(maxlen=self.n)
-        self._initialized_flg: bool = False
+        self._stack: list[T] = []
+        self._started_flg: bool = False
         self._finished_flg: bool = False
 
     def __aiter__(self) -> Self:
@@ -87,21 +84,19 @@ class AtailIterator(AsyncIterator[T]):
         if self._finished_flg:
             raise StopAsyncIteration
 
-        if not self._initialized_flg:
-            self._initialized_flg = True
+        if not self._started_flg:
+            self._started_flg = True
             try:
-                async for value in self.aiterator:
-                    self._buffer.append(value)
-
+                self._stack = [value async for value in self.aiterator]
             except Exception:
                 self._finished_flg = True
                 raise
 
-        if not self._buffer:
+        if not self._stack:
             self._finished_flg = True
             raise StopAsyncIteration
 
-        value = self._buffer.popleft()
+        value = self._stack.pop()
 
         # Move to the next coroutine!
         await asyncio.sleep(0.0)

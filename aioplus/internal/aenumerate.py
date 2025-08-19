@@ -2,7 +2,7 @@ from collections.abc import AsyncIterable, AsyncIterator
 from dataclasses import dataclass
 from typing import Self, SupportsIndex, TypeVar
 
-from aioplus.internal.utils.coercions import to_async_iterable, to_int
+from aioplus.internal.coercions import to_async_iterable, to_int
 
 
 T = TypeVar("T")

@@ -1,7 +1,7 @@
 from collections.abc import AsyncIterable
 
-from aioplus.internal.utils.coercions import to_async_iterable
-from aioplus.internal.utils.typing import SupportsBool
+from aioplus.internal.coercions import to_async_iterable
+from aioplus.internal.typing import SupportsBool
 
 
 async def aany(aiterable: AsyncIterable[SupportsBool], /) -> bool:

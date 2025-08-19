@@ -1,37 +1,41 @@
 import asyncio
 
+from collections import deque
 from collections.abc import AsyncIterable, AsyncIterator
 from dataclasses import dataclass
-from typing import Self, TypeVar
+from typing import Self, SupportsIndex, TypeVar
 
-from aioplus.internal.utils.coercions import to_async_iterable
+from aioplus.internal.coercions import to_async_iterable, to_non_negative_int
 
 
 T = TypeVar("T")
 
 
-def areversed(aiterable: AsyncIterable[T], /) -> AsyncIterable[T]:
-    """Return a reverse iterator.
+def atail(aiterable: AsyncIterable[T], /, *, n: SupportsIndex) -> AsyncIterable[T]:
+    """Return the last ``n`` items of the ``aiterable``.
 
     Parameters
     ----------
-    aiterable : AsyncIterable of T
-        An asynchronous iterable to be reversed.
+    aiterable : AsyncIterable[T]
+        An asynchronous iterable to retrieve items from.
+
+    n : SupportsIndex
+        The number of items to retrieve from the end.
 
     Returns
     -------
-    AsyncIterable of T
-        An asynchronous iterable yielding the objects in reverse order.
+    AsyncIterable[T]
+        An asynchronous iterable yielding the last ``n`` items of the ``aiterable``.
 
     Examples
     --------
     >>> import asyncio
     >>>
-    >>> from aioplus import arange, areversed
+    >>> from aioplus import arange, atail
     >>>
     >>> async def main() -> None:
     >>>     '''Run the program.'''
-    >>>     async for num in areversed(arange(2304)):
+    >>>     async for num in atail(arange(23), n=4):
     >>>         print(num)
     >>>
     >>> if __name__ == '__main__':
@@ -39,40 +43,39 @@ def areversed(aiterable: AsyncIterable[T], /) -> AsyncIterable[T]:
 
     Notes
     -----
-    - Entire iterable is buffered in memory before yielding results;
+    - The last ``n`` items are buffered in memory before yielding;
     - Yields control to the event loop before producing each value.
-
-    See Also
-    --------
-    :func:`reversed`
     """
     aiterable = to_async_iterable(aiterable, variable_name="aiterable")
+    n = to_non_negative_int(n, variable_name="n")
 
-    return AreversedIterable(aiterable)
+    return AtailIterable(aiterable, n)
 
 
 @dataclass
-class AreversedIterable(AsyncIterable[T]):
-    """A reversed asynchronous iterable."""
+class AtailIterable(AsyncIterable[T]):
+    """An asynchronous iterable."""
 
     aiterable: AsyncIterable[T]
+    n: int
 
     def __aiter__(self) -> AsyncIterator[T]:
         """Return an asynchronous iterator."""
         aiterator = aiter(self.aiterable)
-        return AreversedIterator(aiterator)
+        return AtailIterator(aiterator, self.n)
 
 
 @dataclass
-class AreversedIterator(AsyncIterator[T]):
-    """A reversed asynchronous iterator."""
+class AtailIterator(AsyncIterator[T]):
+    """An asynchronous iterator."""
 
-    aiterator: AsyncIterator[T]
+    aiterator: AsyncIterable[T]
+    n: int
 
     def __post_init__(self) -> None:
         """Initialize the object."""
-        self._stack: list[T] = []
-        self._started_flg: bool = False
+        self._buffer: deque[T] = deque(maxlen=self.n)
+        self._initialized_flg: bool = False
         self._finished_flg: bool = False
 
     def __aiter__(self) -> Self:
@@ -84,19 +87,21 @@ class AreversedIterator(AsyncIterator[T]):
         if self._finished_flg:
             raise StopAsyncIteration
 
-        if not self._started_flg:
-            self._started_flg = True
+        if not self._initialized_flg:
+            self._initialized_flg = True
             try:
-                self._stack = [value async for value in self.aiterator]
+                async for value in self.aiterator:
+                    self._buffer.append(value)
+
             except Exception:
                 self._finished_flg = True
                 raise
 
-        if not self._stack:
+        if not self._buffer:
             self._finished_flg = True
             raise StopAsyncIteration
 
-        value = self._stack.pop()
+        value = self._buffer.popleft()
 
         # Move to the next coroutine!
         await asyncio.sleep(0.0)

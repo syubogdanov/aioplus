@@ -2,7 +2,7 @@ from collections.abc import AsyncIterable, AsyncIterator
 from dataclasses import dataclass
 from typing import Literal, Self, TypeVar, overload
 
-from aioplus.internal.utils.coercions import to_async_iterable, to_positive_int
+from aioplus.internal.coercions import to_async_iterable, to_positive_int
 
 
 T = TypeVar("T")

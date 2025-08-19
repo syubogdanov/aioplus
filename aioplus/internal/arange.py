@@ -4,7 +4,7 @@ from collections.abc import AsyncIterable, AsyncIterator
 from dataclasses import dataclass
 from typing import Self, SupportsIndex, overload
 
-from aioplus.internal.utils.coercions import to_int
+from aioplus.internal.coercions import to_int
 
 
 @overload

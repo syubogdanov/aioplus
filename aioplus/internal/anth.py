@@ -1,9 +1,9 @@
 from collections.abc import AsyncIterable
 from typing import Any, SupportsIndex, TypeVar, overload
 
-from aioplus.internal.core.aenumerate import aenumerate
-from aioplus.internal.utils.coercions import to_async_iterable, to_non_negative_int
-from aioplus.internal.utils.sentinels import Sentinel
+from aioplus.internal.aenumerate import aenumerate
+from aioplus.internal.coercions import to_async_iterable, to_non_negative_int
+from aioplus.internal.sentinels import Sentinel
 
 
 T1 = TypeVar("T1")
