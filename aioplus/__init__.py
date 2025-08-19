@@ -1,19 +1,19 @@
-from aioplus.internal.aall import aall
-from aioplus.internal.aany import aany
-from aioplus.internal.abatched import abatched
-from aioplus.internal.acount import acount
-from aioplus.internal.acycle import acycle
-from aioplus.internal.aenumerate import aenumerate
-from aioplus.internal.ahead import ahead
-from aioplus.internal.aislice import aislice
-from aioplus.internal.alen import alen
-from aioplus.internal.anth import anth
-from aioplus.internal.apairwise import apairwise
-from aioplus.internal.arange import arange
-from aioplus.internal.arepeat import arepeat
-from aioplus.internal.areversed import areversed
-from aioplus.internal.atail import atail
-from aioplus.internal.awaitify import awaitify
+from aioplus.internal.core.aall import aall
+from aioplus.internal.core.aany import aany
+from aioplus.internal.core.abatched import abatched
+from aioplus.internal.core.acount import acount
+from aioplus.internal.core.acycle import acycle
+from aioplus.internal.core.aenumerate import aenumerate
+from aioplus.internal.core.ahead import ahead
+from aioplus.internal.core.aislice import aislice
+from aioplus.internal.core.alen import alen
+from aioplus.internal.core.anth import anth
+from aioplus.internal.core.apairwise import apairwise
+from aioplus.internal.core.arange import arange
+from aioplus.internal.core.arepeat import arepeat
+from aioplus.internal.core.areversed import areversed
+from aioplus.internal.core.atail import atail
+from aioplus.internal.core.awaitify import awaitify
 
 
 __author__ = "Sergei Y. Bogdanov <syubogdanov@outlook.com>"

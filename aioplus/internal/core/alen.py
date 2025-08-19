@@ -1,7 +1,7 @@
 from collections.abc import AsyncIterable
 from typing import Any
 
-from aioplus.internal import cast
+from aioplus.internal.utils import cast
 
 
 async def alen(aiterable: AsyncIterable[Any], /) -> int:

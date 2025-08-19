@@ -1,8 +1,8 @@
 from collections.abc import AsyncIterable
 from typing import Any, SupportsIndex, TypeVar, overload
 
-from aioplus.internal import cast
-from aioplus.internal.aenumerate import aenumerate
+from aioplus.internal.core.aenumerate import aenumerate
+from aioplus.internal.utils import cast
 
 
 T1 = TypeVar("T1")

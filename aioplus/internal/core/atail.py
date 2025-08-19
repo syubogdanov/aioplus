@@ -5,7 +5,7 @@ from collections.abc import AsyncIterable, AsyncIterator
 from dataclasses import dataclass
 from typing import Self, SupportsIndex, TypeVar
 
-from aioplus.internal import cast
+from aioplus.internal.utils import cast
 
 
 T = TypeVar("T")
