@@ -217,8 +217,8 @@ from aioplus import apairwise, arange
 
 async def main() -> None:
     """Run the program."""
-    async for before, after in apairwise(arange(23)):
-        print(f"{before} -> {after}")
+    async for left, right in apairwise(arange(23)):
+        print(f"pair = ({left}, {right})")
 
 if __name__ == "__main__":
     asyncio.run(main())
@@ -296,6 +296,24 @@ if __name__ == "__main__":
     asyncio.run(main())
 ```
 
+#### atriplewise
+
+For more, see the [documentation][docs/aioplus/atriplewise].
+
+```python
+import asyncio
+
+from aioplus import arange, atriplewise
+
+async def main() -> None:
+    """Run the program."""
+    async for left, middle, right in atriplewise(arange(23)):
+        print(f"window = ({left}, {middle}, {right})")
+
+if __name__ == "__main__":
+    asyncio.run(main())
+```
+
 #### *awaitify*
 
 For more, see the [documentation][docs/aioplus/awaitify].
@@ -313,6 +331,24 @@ async def main() -> None:
     """Run the program."""
     afunc = awaitify(func)
     await afunc(num=2304)
+
+if __name__ == "__main__":
+    asyncio.run(main())
+```
+
+#### awindowed
+
+For more, see the [documentation][docs/aioplus/awindowed].
+
+```python
+import asyncio
+
+from aioplus import arange, awindowed
+
+async def main() -> None:
+    """Run the program."""
+    async for left, middle, right in awindowed(arange(23), n=3):
+        print(f"window = ({left}, {middle}, {right})")
 
 if __name__ == "__main__":
     asyncio.run(main())
@@ -340,7 +376,9 @@ MIT License, Copyright (c) 2025 Sergei Y. Bogdanov. See [LICENSE][github/license
 [docs/aioplus/arepeat]: https://aioplus.readthedocs.io/en/latest/arepeat.html
 [docs/aioplus/areversed]: https://aioplus.readthedocs.io/en/latest/areversed.html
 [docs/aioplus/atail]: https://aioplus.readthedocs.io/en/latest/atail.html
+[docs/aioplus/atriplewise]: https://aioplus.readthedocs.io/en/latest/atriplewise.html
 [docs/aioplus/awaitify]: https://aioplus.readthedocs.io/en/latest/awaitify.html
+[docs/aioplus/awindowed]: https://aioplus.readthedocs.io/en/latest/awindowed.html
 
 [github/license]: https://github.com/syubogdanov/aioplus/tree/main/LICENSE
 

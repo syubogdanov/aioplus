@@ -8,37 +8,33 @@ from aioplus.internal.utils import cast
 T = TypeVar("T")
 
 
-def apairwise(aiterable: AsyncIterable[T]) -> AsyncIterable[tuple[T, T]]:
-    """Return successive overlapping pairs taken from the input ``aiterable``.
+def atriplewise(aiterable: AsyncIterable[T]) -> AsyncIterable[tuple[T, T, T]]:
+    """Return successive overlapping triplets taken from the input ``aiterable``.
 
     Parameters
     ----------
     aiterable : AsyncIterable of T
-        An asynchronous iterable of elements to be paired.
+        An asynchronous iterable of elements to be triplet.
 
     Returns
     -------
-    AsyncIterable of tuple[T, T]
-        An asynchronous iterable yielding pairs of elements.
+    AsyncIterable of tuple[T, T, T]
+        An asynchronous iterable yielding triplets of elements.
 
     Examples
     --------
     >>> import asyncio
     >>>
-    >>> from aioplus import apairwise, arange
+    >>> from aioplus import arange, atriplewise
     >>>
     >>> async def main() -> None:
     >>>     '''Run the program.'''
-    >>>     async for left, right in apairwise(arange(23)):
-    >>>         print(f'pair = ({left}, {right})')
+    >>>     async for left, middle, right in atriplewise(arange(23)):
+    >>>         print(f'triplet = ({left}, {middle}, {right})')
     >>>
     >>> if __name__ == '__main__':
     >>>     asyncio.run(main())
-
-    See Also
-    --------
-    :func:`itertools.pairwise`
     """
     aiterable = cast.to_async_iterable(aiterable, variable_name="aiterable")
 
-    return awindowed(aiterable, n=2)
+    return awindowed(aiterable, n=3)

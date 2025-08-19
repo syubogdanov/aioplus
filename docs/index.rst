@@ -231,8 +231,8 @@ For more, see the :doc:`documentation <apairwise>`.
 
     async def main() -> None:
         """Run the program."""
-        async for before, after in apairwise(arange(23)):
-            print(f"{before} -> {after}")
+        async for left, right in apairwise(arange(23)):
+            print(f"pair = ({left}, {right})")
 
     if __name__ == "__main__":
         asyncio.run(main())
@@ -313,6 +313,25 @@ For more, see the :doc:`documentation <atail>`.
     if __name__ == "__main__":
         asyncio.run(main())
 
+atriplewise
+-----------
+
+For more, see the :doc:`documentation <atriplewise>`.
+
+.. code-block:: python
+
+    import asyncio
+
+    from aioplus import arange, atriplewise
+
+    async def main() -> None:
+        """Run the program."""
+        async for left, middle, right in atriplewise(arange(23)):
+            print(f"triplet = ({left}, {middle}, {right})")
+
+    if __name__ == "__main__":
+        asyncio.run(main())
+
 awaitify
 --------
 
@@ -332,6 +351,25 @@ For more, see the :doc:`documentation <awaitify>`.
         """Run the program."""
         afunc = awaitify(func)
         await afunc(num=2304)
+
+    if __name__ == "__main__":
+        asyncio.run(main())
+
+awindowed
+---------
+
+For more, see the :doc:`documentation <awindowed>`.
+
+.. code-block:: python
+
+    import asyncio
+
+    from aioplus import arange, awindowed
+
+    async def main() -> None:
+        """Run the program."""
+        async for left, middle, right in awindowed(arange(23), n=3):
+            print(f"window = ({left}, {middle}, {right})")
 
     if __name__ == "__main__":
         asyncio.run(main())
@@ -356,7 +394,9 @@ For more, see the :doc:`documentation <awaitify>`.
    arepeat
    areversed
    atail
+   atriplewise
    awaitify
+   awindowed
 
 License
 -------

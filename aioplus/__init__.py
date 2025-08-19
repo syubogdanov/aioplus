@@ -13,11 +13,13 @@ from aioplus.internal.core.arange import arange
 from aioplus.internal.core.arepeat import arepeat
 from aioplus.internal.core.areversed import areversed
 from aioplus.internal.core.atail import atail
+from aioplus.internal.core.atriplewise import atriplewise
 from aioplus.internal.core.awaitify import awaitify
+from aioplus.internal.core.awindowed import awindowed
 
 
 __author__ = "Sergei Y. Bogdanov <syubogdanov@outlook.com>"
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 __all__: list[str] = [
     "aall",
@@ -35,7 +37,9 @@ __all__: list[str] = [
     "arepeat",
     "areversed",
     "atail",
+    "atriplewise",
     "awaitify",
+    "awindowed",
 ]
 
 
@@ -54,4 +58,6 @@ arange.__module__ = "aioplus"
 arepeat.__module__ = "aioplus"
 areversed.__module__ = "aioplus"
 atail.__module__ = "aioplus"
+atriplewise.__module__ = "aioplus"
 awaitify.__module__ = "aioplus"
+awindowed.__module__ = "aioplus"
