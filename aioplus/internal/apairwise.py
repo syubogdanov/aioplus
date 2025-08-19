@@ -8,7 +8,7 @@ from aioplus.internal.coercions import to_async_iterable
 T = TypeVar("T")
 
 
-def apairwise(aiterable: AsyncIterable[T]) -> AsyncIterable[tuple[T, T]]:
+def apairwise(aiterable: AsyncIterable[T], /) -> AsyncIterable[tuple[T, T]]:
     """Return successive overlapping pairs taken from the input ``aiterable``.
 
     Parameters

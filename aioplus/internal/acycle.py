@@ -11,7 +11,7 @@ from aioplus.internal.coercions import to_async_iterable
 T = TypeVar("T")
 
 
-def acycle(aiterable: AsyncIterable[T]) -> AsyncIterable[T]:
+def acycle(aiterable: AsyncIterable[T], /) -> AsyncIterable[T]:
     """Make an iterator returning elements from the ``aiterable`` and saving a copy of each.
 
     Parameters

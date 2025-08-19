@@ -8,7 +8,7 @@ from aioplus.internal.coercions import to_async_iterable
 T = TypeVar("T")
 
 
-def atriplewise(aiterable: AsyncIterable[T]) -> AsyncIterable[tuple[T, T, T]]:
+def atriplewise(aiterable: AsyncIterable[T], /) -> AsyncIterable[tuple[T, T, T]]:
     """Return successive overlapping triplets taken from the input ``aiterable``.
 
     Parameters
