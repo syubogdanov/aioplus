@@ -347,6 +347,7 @@ For more, see the :doc:`documentation <awaitify>`.
    acount
    acycle
    aenumerate
+   ahead
    aislice
    alen
    anth
