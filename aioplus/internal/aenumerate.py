@@ -74,7 +74,7 @@ class AenumerateIterator(AsyncIterator[tuple[int, T]]):
 
     def __post_init__(self) -> None:
         """Initialize the object."""
-        self._next_count = self.start
+        self._next_count: int = self.start
         self._finished_flg: bool = False
 
     def __aiter__(self) -> Self:
