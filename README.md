@@ -347,8 +347,8 @@ from aioplus import arange, awindowed
 
 async def main() -> None:
     """Run the program."""
-    async for left, middle, right in awindowed(arange(23), n=3):
-        print(f"window = ({left}, {middle}, {right})")
+    async for window in awindowed(arange(23), n=4):
+        print(f"window = {window}")
 
 if __name__ == "__main__":
     asyncio.run(main())

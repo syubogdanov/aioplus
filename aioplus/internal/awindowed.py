@@ -9,10 +9,6 @@ T = TypeVar("T")
 
 
 @overload
-def awindowed(aiterable: AsyncIterable[T], /, *, n: Literal[1]) -> AsyncIterable[tuple[T]]: ...
-
-
-@overload
 def awindowed(aiterable: AsyncIterable[T], /, *, n: Literal[2]) -> AsyncIterable[tuple[T, T]]: ...
 
 
@@ -23,24 +19,6 @@ def awindowed(
     *,
     n: Literal[3],
 ) -> AsyncIterable[tuple[T, T, T]]: ...
-
-
-@overload
-def awindowed(
-    aiterable: AsyncIterable[T],
-    /,
-    *,
-    n: Literal[4],
-) -> AsyncIterable[tuple[T, T, T, T]]: ...
-
-
-@overload
-def awindowed(
-    aiterable: AsyncIterable[T],
-    /,
-    *,
-    n: Literal[5],
-) -> AsyncIterable[tuple[T, T, T, T, T]]: ...
 
 
 @overload
@@ -68,8 +46,8 @@ def awindowed(aiterable: AsyncIterable[T], /, *, n: int) -> AsyncIterable[tuple[
     >>>
     >>> async def main() -> None:
     >>>     '''Run the program.'''
-    >>>     async for left, middle, right in awindowed(arange(23), n=3):
-    >>>         print(f'window = ({left}, {middle}, {right})')
+    >>>     async for window in awindowed(arange(23), n=4):
+    >>>         print(f'window = {window}')
     >>>
     >>> if __name__ == '__main__':
     >>>     asyncio.run(main())
