@@ -89,7 +89,7 @@ def arange(
     stop = to_int(stop, variable_name="stop")
     step = to_int(step, variable_name="step")
 
-    if step == 0:
+    if not step:
         detail = "'step' must not be zero"
         raise ValueError(detail)
 
