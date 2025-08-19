@@ -198,6 +198,26 @@ For more, see the :doc:`documentation <aislice>`.
     if __name__ == "__main__":
         asyncio.run(main())
 
+alast
+-----
+
+For more, see the :doc:`documentation <alast>`.
+
+.. code-block:: python
+
+    import asyncio
+
+    from aioplus import alast, arange
+
+    async def main() -> None:
+        """Run the program."""
+        aiterable = arange(4, 23)
+        num = await alast(aiterable)
+        print(f"aiterable[-1] = {num}")
+
+    if __name__ == "__main__":
+        asyncio.run(main())
+
 alen
 ----
 
@@ -408,6 +428,7 @@ For more, see the :doc:`documentation <awindowed>`.
    afirst
    ahead
    aislice
+   alast
    alen
    anth
    apairwise

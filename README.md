@@ -187,6 +187,25 @@ if __name__ == "__main__":
     asyncio.run(main())
 ```
 
+#### *alast*
+
+For more, see the [documentation][docs/aioplus/alast].
+
+```python
+import asyncio
+
+from aioplus import alast, arange
+
+async def main() -> None:
+    """Run the program."""
+    aiterable = arange(4, 23)
+    num = await alast(aiterable)
+    print(f"aiterable[-1] = {num}")
+
+if __name__ == "__main__":
+    asyncio.run(main())
+```
+
 #### *alen*
 
 For more, see the [documentation][docs/aioplus/alen].
@@ -389,6 +408,7 @@ MIT License, Copyright (c) 2025 Sergei Y. Bogdanov. See [LICENSE][github/license
 [docs/aioplus/afirst]: https://aioplus.readthedocs.io/en/latest/afirst.html
 [docs/aioplus/ahead]: https://aioplus.readthedocs.io/en/latest/ahead.html
 [docs/aioplus/aislice]: https://aioplus.readthedocs.io/en/latest/aislice.html
+[docs/aioplus/alast]: https://aioplus.readthedocs.io/en/latest/alast.html
 [docs/aioplus/alen]: https://aioplus.readthedocs.io/en/latest/alen.html
 [docs/aioplus/anth]: https://aioplus.readthedocs.io/en/latest/anth.html
 [docs/aioplus/apairwise]: https://aioplus.readthedocs.io/en/latest/apairwise.html
