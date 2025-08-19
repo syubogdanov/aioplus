@@ -50,10 +50,6 @@ def arepeat(
     --------
     :func:`itertools.repeat`
     """
-    if times is not None and not isinstance(times, SupportsIndex):
-        detail = "'times' must be 'SupportsIndex'"
-        raise TypeError(detail)
-
     if times is not None:
         times = to_non_negative_int(times, variable_name="times")
 
