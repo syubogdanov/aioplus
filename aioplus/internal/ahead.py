@@ -2,6 +2,7 @@ from collections.abc import AsyncIterable
 from typing import SupportsIndex, TypeVar
 
 from aioplus.internal.aislice import aislice
+from aioplus.internal.coercions import to_async_iterable, to_non_negative_int
 
 
 T = TypeVar("T")
@@ -41,4 +42,7 @@ def ahead(aiterable: AsyncIterable[T], /, *, n: SupportsIndex) -> AsyncIterable[
     --------
     :func:`itertools.islice`
     """
+    aiterable = to_async_iterable(aiterable, variable_name="aiterable")
+    n = to_non_negative_int(n, variable_name="n")
+
     return aislice(aiterable, n)

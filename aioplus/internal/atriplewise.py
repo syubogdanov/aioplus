@@ -2,6 +2,7 @@ from collections.abc import AsyncIterable
 from typing import TypeVar
 
 from aioplus.internal.awindowed import awindowed
+from aioplus.internal.coercions import to_async_iterable
 
 
 T = TypeVar("T")
@@ -34,4 +35,6 @@ def atriplewise(aiterable: AsyncIterable[T]) -> AsyncIterable[tuple[T, T, T]]:
     >>> if __name__ == '__main__':
     >>>     asyncio.run(main())
     """
+    aiterable = to_async_iterable(aiterable, variable_name="aiterable")
+
     return awindowed(aiterable, n=3)
