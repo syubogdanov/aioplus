@@ -1,5 +1,6 @@
 import asyncio
 
+from collections import deque
 from collections.abc import AsyncIterable, AsyncIterator
 from dataclasses import dataclass
 from typing import Self, TypeVar
@@ -71,10 +72,9 @@ class AcycleIterator(AsyncIterator[T]):
 
     def __post_init__(self) -> None:
         """Initialize the object."""
+        self._deque: deque[T] = deque()
         self._initialized_flg: bool = False
         self._finished_flg: bool = False
-        self._values: list[T] = []
-        self._next_index: int = 0
 
     def __aiter__(self) -> Self:
         """Return an asynchronous iterator."""
@@ -86,10 +86,7 @@ class AcycleIterator(AsyncIterator[T]):
             raise StopAsyncIteration
 
         if self._initialized_flg:
-            value = self._values[self._next_index]
-
-            self._next_index += 1
-            self._next_index %= len(self._values)
+            value = self._rotate()
 
             # Move to the next coroutine!
             await asyncio.sleep(0)
@@ -102,21 +99,22 @@ class AcycleIterator(AsyncIterator[T]):
         except StopAsyncIteration:
             self._initialized_flg = True
 
-            if not self._values:
+            if not self._deque:
                 self._finished_flg = True
                 raise
 
-            value = self._values[self._next_index]
-
-            self._next_index += 1
-            self._next_index %= len(self._values)
-
-            return value
+            return self._rotate()
 
         except Exception:
-            self._initialized_flg = True
             self._finished_flg = True
+            self._deque.clear()
             raise
 
-        self._values.append(value)
+        self._deque.append(value)
+        return value
+
+    def _rotate(self) -> T:
+        """Rotate the deque."""
+        value = self._deque.popleft()
+        self._deque.append(value)
         return value
