@@ -109,9 +109,6 @@ def to_bool(obj: bool, /, *, variable_name: LiteralString) -> bool:  # noqa: FBT
     -----
     * Raises `TypeError` if `obj` is not `bool`.
     """
-    -----
-    * Raises `TypeError` if `obj` is not `bool`.
-    """
     if not isinstance(obj, bool):
         detail = f"'{variable_name}' must be 'bool'"
         raise TypeError(detail)
