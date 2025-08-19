@@ -1,4 +1,8 @@
-from typing import LiteralString, SupportsIndex
+from collections.abc import AsyncIterable
+from typing import LiteralString, SupportsIndex, TypeVar
+
+
+T = TypeVar("T")
 
 
 def to_int(obj: SupportsIndex, /, *, variable_name: LiteralString) -> int:
@@ -44,5 +48,24 @@ def to_non_negative_int(obj: SupportsIndex, /, *, variable_name: LiteralString) 
     if obj < 0:
         detail = f"'{variable_name}' must be non-negative"
         raise ValueError(detail)
+
+    return obj
+
+
+def to_async_iterable(
+    obj: AsyncIterable[T],
+    /,
+    *,
+    variable_name: LiteralString,
+) -> AsyncIterable[T]:
+    """Cast `object` to `AsyncIterable`.
+
+    Notes
+    -----
+    * Raises `TypeError` if `obj` is not `AsyncIterable`.
+    """
+    if not isinstance(obj, AsyncIterable):
+        detail = f"'{variable_name}' must be 'AsyncIterable'"
+        raise TypeError(detail)
 
     return obj

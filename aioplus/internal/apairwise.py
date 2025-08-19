@@ -2,6 +2,8 @@ from collections.abc import AsyncIterable, AsyncIterator
 from dataclasses import dataclass
 from typing import Self, TypeVar
 
+from aioplus.internal import cast
+
 
 T = TypeVar("T")
 
@@ -37,9 +39,7 @@ def apairwise(aiterable: AsyncIterable[T]) -> AsyncIterable[tuple[T, T]]:
     --------
     :func:`itertools.pairwise`
     """
-    if not isinstance(aiterable, AsyncIterable):
-        detail = "'aiterable' must be 'AsyncIterable'"
-        raise TypeError(detail)
+    aiterable = cast.to_async_iterable(aiterable, variable_name="aiterable")
 
     return ApairwiseIterable(aiterable)
 

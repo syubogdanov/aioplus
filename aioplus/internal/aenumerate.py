@@ -46,10 +46,7 @@ def aenumerate(
     --------
     :func:`enumerate`
     """
-    if not isinstance(aiterable, AsyncIterable):
-        detail = "'aiterable' must be 'AsyncIterable'"
-        raise TypeError(detail)
-
+    aiterable = cast.to_async_iterable(aiterable, variable_name="aiterable")
     start = cast.to_int(start, variable_name="start")
 
     return AenumerateIterable(aiterable, start)

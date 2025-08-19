@@ -57,10 +57,7 @@ def abatched(
     --------
     :func:`itertools.batched`
     """
-    if not isinstance(aiterable, AsyncIterable):
-        detail = "'aiterable' must be 'AsyncIterable'"
-        raise TypeError(detail)
-
+    aiterable = cast.to_async_iterable(aiterable, variable_name="aiterable")
     n = cast.to_positive_int(n, variable_name="n")
 
     if not isinstance(strict, bool):

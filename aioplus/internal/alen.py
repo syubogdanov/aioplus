@@ -1,6 +1,8 @@
 from collections.abc import AsyncIterable
 from typing import Any
 
+from aioplus.internal import cast
+
 
 async def alen(aiterable: AsyncIterable[Any], /) -> int:
     """Return length of the iterable.
@@ -33,9 +35,7 @@ async def alen(aiterable: AsyncIterable[Any], /) -> int:
     --------
     :func:`len`
     """
-    if not isinstance(aiterable, AsyncIterable):
-        detail = "'aiterable' must be 'AsyncIterable'"
-        raise TypeError(detail)
+    aiterable = cast.to_async_iterable(aiterable, variable_name="aiterable")
 
     count = 0
     async for _ in aiterable:

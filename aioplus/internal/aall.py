@@ -1,5 +1,6 @@
 from collections.abc import AsyncIterable
 
+from aioplus.internal import cast
 from aioplus.internal.typing import SupportsBool
 
 
@@ -40,7 +41,10 @@ async def aall(aiterable: AsyncIterable[SupportsBool], /) -> bool:
     --------
     :func:`all`
     """
+    aiterable = cast.to_async_iterable(aiterable, variable_name="aiterable")
+
     async for value in aiterable:
-        if not bool(value):
+        if not value:
             return False
+
     return True

@@ -46,10 +46,7 @@ def atail(aiterable: AsyncIterable[T], /, *, n: SupportsIndex) -> AsyncIterable[
     - The last ``n`` items are buffered in memory before yielding;
     - Yields control to the event loop before producing each value.
     """
-    if not isinstance(aiterable, AsyncIterable):
-        detail = "'aiterable' must be 'AsyncIterable'"
-        raise TypeError(detail)
-
+    aiterable = cast.to_async_iterable(aiterable, variable_name="aiterable")
     n = cast.to_non_negative_int(n, variable_name="n")
 
     return AtailIterable(aiterable, n)

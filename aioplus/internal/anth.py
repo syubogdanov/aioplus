@@ -61,10 +61,7 @@ async def anth(
     >>> if __name__ == '__main__':
     >>>     asyncio.run(main())
     """
-    if not isinstance(aiterable, AsyncIterable):
-        detail = "'aiterable' must be 'AsyncIterable'"
-        raise TypeError(detail)
-
+    aiterable = cast.to_async_iterable(aiterable, variable_name="aiterable")
     n = cast.to_non_negative_int(n, variable_name="n")
 
     async for index, value in aenumerate(aiterable):

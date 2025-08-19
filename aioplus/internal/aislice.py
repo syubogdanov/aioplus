@@ -79,10 +79,6 @@ def aislice(
     --------
     :func:`itertools.islice`
     """
-    if not isinstance(aiterable, AsyncIterable):
-        detail = "'aiterable' must be 'AsyncIterable'"
-        raise TypeError(detail)
-
     if stop is None and step is not None:
         detail = "'step' is not specified but 'stop' is"
         raise ValueError(detail)
@@ -95,6 +91,7 @@ def aislice(
     if step is None:
         step = 1
 
+    aiterable = cast.to_async_iterable(aiterable, variable_name="aiterable")
     start = cast.to_non_negative_int(start, variable_name="start")
     stop = cast.to_non_negative_int(stop, variable_name="stop")
     step = cast.to_positive_int(step, variable_name="step")
