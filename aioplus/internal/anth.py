@@ -6,16 +6,16 @@ from aioplus.internal.coercions import to_async_iterable, to_non_negative_int
 from aioplus.internal.sentinels import Sentinel
 
 
-T1 = TypeVar("T1")
-T2 = TypeVar("T2")
+T = TypeVar("T")
+D = TypeVar("D")
 
 
 @overload
-async def anth(aiterable: AsyncIterable[T1], /, *, n: SupportsIndex) -> T1: ...
+async def anth(aiterable: AsyncIterable[T], /, *, n: SupportsIndex) -> T: ...
 
 
 @overload
-async def anth(aiterable: AsyncIterable[T1], /, *, n: SupportsIndex, default: T2) -> T1 | T2: ...
+async def anth(aiterable: AsyncIterable[T], /, *, n: SupportsIndex, default: D) -> T | D: ...
 
 
 async def anth(
@@ -29,19 +29,19 @@ async def anth(
 
     Parameters
     ----------
-    aiterable : AsyncIterable[T1]
+    aiterable : AsyncIterable[T]
         An asynchronous iterable to retrieve the nth item from.
 
     n : SupportsIndex
         The index of the item to retrieve, starting from 0.
 
-    default : T2, optional
+    default : D, optional
         A default value to return if the nth item does not exist.
         If not provided, :obj:`IndexError` will be raised if the nth item is not found.
 
     Returns
     -------
-    T1 or T2
+    T or D
         The nth item or the default value.
 
     Examples
