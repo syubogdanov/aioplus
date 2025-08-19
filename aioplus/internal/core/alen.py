@@ -1,7 +1,7 @@
 from collections.abc import AsyncIterable
 from typing import Any
 
-from aioplus.internal.utils import cast
+from aioplus.internal.utils.coercions import to_async_iterable
 
 
 async def alen(aiterable: AsyncIterable[Any], /) -> int:
@@ -35,7 +35,7 @@ async def alen(aiterable: AsyncIterable[Any], /) -> int:
     --------
     :func:`len`
     """
-    aiterable = cast.to_async_iterable(aiterable, variable_name="aiterable")
+    aiterable = to_async_iterable(aiterable, variable_name="aiterable")
 
     count = 0
     async for _ in aiterable:

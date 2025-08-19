@@ -2,7 +2,7 @@ from collections.abc import AsyncIterable, AsyncIterator
 from dataclasses import dataclass
 from typing import Literal, Self, TypeVar, overload
 
-from aioplus.internal.utils import cast
+from aioplus.internal.utils.coercions import to_async_iterable, to_positive_int
 
 
 T = TypeVar("T")
@@ -74,8 +74,8 @@ def awindowed(aiterable: AsyncIterable[T], /, *, n: int) -> AsyncIterable[tuple[
     >>> if __name__ == '__main__':
     >>>     asyncio.run(main())
     """
-    aiterable = cast.to_async_iterable(aiterable, variable_name="aiterable")
-    n = cast.to_positive_int(n, variable_name="n")
+    aiterable = to_async_iterable(aiterable, variable_name="aiterable")
+    n = to_positive_int(n, variable_name="n")
 
     return AwindowedIterable(aiterable, n=n)
 

@@ -4,7 +4,7 @@ from collections.abc import AsyncIterable, AsyncIterator
 from dataclasses import dataclass
 from typing import Self, SupportsIndex, overload
 
-from aioplus.internal.utils import cast
+from aioplus.internal.utils.coercions import to_int
 
 
 @overload
@@ -85,9 +85,9 @@ def arange(
     if step is None:
         step = 1
 
-    start = cast.to_int(start, variable_name="start")
-    stop = cast.to_int(stop, variable_name="stop")
-    step = cast.to_int(step, variable_name="step")
+    start = to_int(start, variable_name="start")
+    stop = to_int(stop, variable_name="stop")
+    step = to_int(step, variable_name="step")
 
     if step == 0:
         detail = "'step' must not be zero"

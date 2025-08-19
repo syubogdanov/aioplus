@@ -4,7 +4,7 @@ from collections.abc import AsyncIterable, AsyncIterator
 from dataclasses import dataclass
 from typing import Self, SupportsIndex, TypeVar
 
-from aioplus.internal.utils import cast
+from aioplus.internal.utils.coercions import to_non_negative_int
 
 
 T = TypeVar("T")
@@ -55,7 +55,7 @@ def arepeat(
         raise TypeError(detail)
 
     if times is not None:
-        times = cast.to_non_negative_int(times, variable_name="times")
+        times = to_non_negative_int(times, variable_name="times")
 
     return ArepeatIterable(obj, times)
 

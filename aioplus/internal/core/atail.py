@@ -5,7 +5,7 @@ from collections.abc import AsyncIterable, AsyncIterator
 from dataclasses import dataclass
 from typing import Self, SupportsIndex, TypeVar
 
-from aioplus.internal.utils import cast
+from aioplus.internal.utils.coercions import to_async_iterable, to_non_negative_int
 
 
 T = TypeVar("T")
@@ -46,8 +46,8 @@ def atail(aiterable: AsyncIterable[T], /, *, n: SupportsIndex) -> AsyncIterable[
     - The last ``n`` items are buffered in memory before yielding;
     - Yields control to the event loop before producing each value.
     """
-    aiterable = cast.to_async_iterable(aiterable, variable_name="aiterable")
-    n = cast.to_non_negative_int(n, variable_name="n")
+    aiterable = to_async_iterable(aiterable, variable_name="aiterable")
+    n = to_non_negative_int(n, variable_name="n")
 
     return AtailIterable(aiterable, n)
 

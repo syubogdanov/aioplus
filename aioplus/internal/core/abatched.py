@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from typing import Self, TypeVar
 
 from aioplus.internal.core.aislice import aislice
-from aioplus.internal.utils import cast
+from aioplus.internal.utils.coercions import to_async_iterable, to_positive_int
 
 
 T = TypeVar("T")
@@ -57,8 +57,8 @@ def abatched(
     --------
     :func:`itertools.batched`
     """
-    aiterable = cast.to_async_iterable(aiterable, variable_name="aiterable")
-    n = cast.to_positive_int(n, variable_name="n")
+    aiterable = to_async_iterable(aiterable, variable_name="aiterable")
+    n = to_positive_int(n, variable_name="n")
 
     if not isinstance(strict, bool):
         detail = "'strict' must be 'bool'"

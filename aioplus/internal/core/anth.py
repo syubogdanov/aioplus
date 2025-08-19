@@ -2,7 +2,7 @@ from collections.abc import AsyncIterable
 from typing import Any, SupportsIndex, TypeVar, overload
 
 from aioplus.internal.core.aenumerate import aenumerate
-from aioplus.internal.utils import cast
+from aioplus.internal.utils.coercions import to_async_iterable, to_non_negative_int
 from aioplus.internal.utils.sentinels import Sentinel
 
 
@@ -59,8 +59,8 @@ async def anth(
     >>> if __name__ == '__main__':
     >>>     asyncio.run(main())
     """
-    aiterable = cast.to_async_iterable(aiterable, variable_name="aiterable")
-    n = cast.to_non_negative_int(n, variable_name="n")
+    aiterable = to_async_iterable(aiterable, variable_name="aiterable")
+    n = to_non_negative_int(n, variable_name="n")
 
     async for index, value in aenumerate(aiterable):
         if index == n:
