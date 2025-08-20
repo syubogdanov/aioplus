@@ -62,18 +62,18 @@ async def amin(
 
     Parameters
     ----------
-    aiterable : AsyncIterable[Any]
+    aiterable : AsyncIterable[T]
         An asynchronous iterable of objects.
 
     key : Callable[[T], SupportsRichComparison], optional
         A function that extracts a comparison key from each element in the iterable.
 
-    default : T, optional
+    default : D, optional
         A default value to return if the iterable is empty.
 
     Returns
     -------
-    SupportsRichComparisonT | T
+    T or D
         The smallest item in the iterable or the default value.
 
     Examples
