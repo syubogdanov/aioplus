@@ -62,7 +62,7 @@ async def asum(aiterable: AsyncIterable[Any], /, *, start: Any = 0) -> Any:
     --------
     :func:`sum`
     """
-    aiterable = coercions.to_async_iterable(aiterable)
+    aiterable = coercions.to_async_iterable(aiterable, variable_name="aiterable")
 
     total = start
 
