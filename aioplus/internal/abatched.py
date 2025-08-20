@@ -37,17 +37,9 @@ def abatched(
 
     Examples
     --------
-    >>> import asyncio
-    >>>
-    >>> from aioplus import abatched, arange
-    >>>
-    >>> async def main() -> None:
-    >>>     '''Run the program.'''
-    >>>     async for batch in abatched(arange(23), n=4):
-    >>>         print(batch)
-    >>>
-    >>> if __name__ == '__main__':
-    >>>     asyncio.run(main())
+    >>> aiterable = arange(23)
+    >>> [batch async for batch in abatched(aiterable, n=3)]
+    [(0, 1, 2), (3, 4, 5), ..., (18, 19, 20), (21, 22)]
 
     Notes
     -----

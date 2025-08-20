@@ -53,17 +53,8 @@ def arange(
 
     Examples
     --------
-    >>> import asyncio
-    >>>
-    >>> from aioplus import arange
-    >>>
-    >>> async def main() -> None:
-    >>>     '''Run the program.'''
-    >>>     async for num in arange(2304):
-    >>>         print(num)
-    >>>
-    >>> if __name__ == '__main__':
-    >>>     asyncio.run(main())
+    >>> [num async for num in arange(23)]
+    [0, 1, 2, 3, 4, ..., 19, 20, 21, 22]
 
     Notes
     -----

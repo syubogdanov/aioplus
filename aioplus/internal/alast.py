@@ -37,18 +37,9 @@ async def alast(aiterable: AsyncIterable[Any], /, *, default: Any = Sentinel) ->
 
     Examples
     --------
-    >>> import asyncio
-    >>>
-    >>> from aioplus import alast, arange
-    >>>
-    >>> async def main() -> None:
-    >>>     '''Run the program.'''
-    >>>     aiterable = arange(4, 23)
-    >>>     num = await alast(aiterable)
-    >>>     print(f'aiterable[-1] = {num}')
-    >>>
-    >>> if __name__ == '__main__':
-    >>>     asyncio.run(main())
+    >>> aiterable = arange(23)
+    >>> await alast(aiterable)
+    22
     """
     aiterable = to_async_iterable(aiterable, variable_name="aiterable")
 

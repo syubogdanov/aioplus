@@ -236,12 +236,9 @@ For more, see the [documentation][docs/aioplus/atriplewise].
 For more, see the [documentation][docs/aioplus/awaitify].
 
 ```python
->>> def func(num: int) -> None:
-...     print(f"Num: {num}")
-... 
->>> afunc = awaitify(func)
->>> await afunc(num=23)
-Num: 23
+>>> aprint = awaitify(print)
+>>> await aprint("4 -> 23")
+4 -> 23
 ```
 
 #### awindowed

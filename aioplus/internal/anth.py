@@ -46,18 +46,9 @@ async def anth(
 
     Examples
     --------
-    >>> import asyncio
-    >>>
-    >>> from aioplus import anth, arange
-    >>>
-    >>> async def main() -> None:
-    >>>     '''Run the program.'''
-    >>>     aiterable = arange(23)
-    >>>     value = await anth(aiterable, n=4)
-    >>>     print(f'value = {value}')
-    >>>
-    >>> if __name__ == '__main__':
-    >>>     asyncio.run(main())
+    >>> aiterable = arange(23)
+    >>> await anth(aiterable, n=4)
+    4
     """
     aiterable = to_async_iterable(aiterable, variable_name="aiterable")
     n = to_non_negative_int(n, variable_name="n")

@@ -63,17 +63,9 @@ def aislice(
 
     Examples
     --------
-    >>> import asyncio
-    >>>
-    >>> from aioplus import aislice, arange
-    >>>
-    >>> async def main() -> None:
-    >>>     '''Run the program.'''
-    >>>     async for num in aislice(arange(23), 4):
-    >>>         print(num)
-    >>>
-    >>> if __name__ == '__main__':
-    >>>     asyncio.run(main())
+    >>> aiterable = arange(2003)
+    >>> [num async for num in aislice(aiterable, 4, 23)]
+    [4, 5, 6, 7, 8, ..., 20, 21, 22]
 
     See Also
     --------

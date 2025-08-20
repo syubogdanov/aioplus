@@ -26,17 +26,9 @@ def ahead(aiterable: AsyncIterable[T], /, *, n: SupportsIndex) -> AsyncIterable[
 
     Examples
     --------
-    >>> import asyncio
-    >>>
-    >>> from aioplus import ahead, arange
-    >>>
-    >>> async def main() -> None:
-    >>>     '''Run the program.'''
-    >>>     async for num in ahead(arange(23), n=4):
-    >>>         print(num)
-    >>>
-    >>> if __name__ == '__main__':
-    >>>     asyncio.run(main())
+    >>> aiterable = arange(23)
+    >>> [num async for num in ahead(aiterable, n=4)]
+    [0, 1, 2, 3]
 
     See Also
     --------

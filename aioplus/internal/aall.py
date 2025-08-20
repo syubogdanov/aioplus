@@ -21,17 +21,9 @@ async def aall(aiterable: AsyncIterable[SupportsBool], /) -> bool:
 
     Examples
     --------
-    >>> import asyncio
-    >>>
-    >>> from aioplus import aall, arange
-    >>>
-    >>> async def main() -> None:
-    >>>     '''Run the program.'''
-    >>>     aiterable = (num > 0 async for num in arange(2304))
-    >>>     flg = await aall(aiterable)
-    >>>
-    >>> if __name__ == '__main__':
-    >>>     asyncio.run(main())
+    >>> aiterable = arange(23)
+    >>> await aall(aiterable)
+    False
 
     Notes
     -----

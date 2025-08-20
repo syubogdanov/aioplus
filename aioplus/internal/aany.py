@@ -21,17 +21,9 @@ async def aany(aiterable: AsyncIterable[SupportsBool], /) -> bool:
 
     Examples
     --------
-    >>> import asyncio
-    >>>
-    >>> from aioplus import aany, arange
-    >>>
-    >>> async def main() -> None:
-    >>>     '''Run the program.'''
-    >>>     aiterable = (num % 2 == 0 async for num in arange(2304))
-    >>>     flg = await aany(aiterable)
-    >>>
-    >>> if __name__ == '__main__':
-    >>>     asyncio.run(main())
+    >>> aiterable = arange(23)
+    >>> await aany(aiterable)
+    True
 
     Notes
     -----

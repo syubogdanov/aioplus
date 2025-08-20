@@ -19,17 +19,9 @@ async def alen(aiterable: AsyncIterable[Any], /) -> int:
 
     Examples
     --------
-    >>> import asyncio
-    >>>
-    >>> from aioplus import alen, arange
-    >>>
-    >>> async def main() -> None:
-    >>>     aiterable = arange(2304)
-    >>>     length = await alen(aiterable)
-    >>>     print(f"len(aiterable) == {length}")
-    >>>
-    >>> if __name__ == '__main__':
-    >>>     asyncio.run(main())
+    >>> aiterable = arange(23)
+    >>> await alen(aiterable)
+    23
 
     See Also
     --------

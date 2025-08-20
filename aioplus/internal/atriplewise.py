@@ -23,17 +23,9 @@ def atriplewise(aiterable: AsyncIterable[T], /) -> AsyncIterable[tuple[T, T, T]]
 
     Examples
     --------
-    >>> import asyncio
-    >>>
-    >>> from aioplus import arange, atriplewise
-    >>>
-    >>> async def main() -> None:
-    >>>     '''Run the program.'''
-    >>>     async for left, middle, right in atriplewise(arange(23)):
-    >>>         print(f'triplet = ({left}, {middle}, {right})')
-    >>>
-    >>> if __name__ == '__main__':
-    >>>     asyncio.run(main())
+    >>> aiterable = arange(23)
+    >>> [triplet async for triplet in atriplewise(aiterable)]
+    [(0, 1, 2), (1, 2, 3), ..., (19, 20, 21), (20, 21, 22)]
     """
     aiterable = to_async_iterable(aiterable, variable_name="aiterable")
 

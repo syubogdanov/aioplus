@@ -25,17 +25,9 @@ def areversed(aiterable: AsyncIterable[T], /) -> AsyncIterable[T]:
 
     Examples
     --------
-    >>> import asyncio
-    >>>
-    >>> from aioplus import arange, areversed
-    >>>
-    >>> async def main() -> None:
-    >>>     '''Run the program.'''
-    >>>     async for num in areversed(arange(2304)):
-    >>>         print(num)
-    >>>
-    >>> if __name__ == '__main__':
-    >>>     asyncio.run(main())
+    >>> aiterable = arange(23)
+    >>> [num async for num in areversed(aiterable)]
+    [22, 21, 20, 19, 18, ..., 4, 3, 2, 1, 0]
 
     Notes
     -----

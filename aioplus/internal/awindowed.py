@@ -41,17 +41,9 @@ def awindowed(aiterable: AsyncIterable[T], /, *, n: int) -> AsyncIterable[tuple[
 
     Examples
     --------
-    >>> import asyncio
-    >>>
-    >>> from aioplus import arange, awindowed
-    >>>
-    >>> async def main() -> None:
-    >>>     '''Run the program.'''
-    >>>     async for window in awindowed(arange(23), n=4):
-    >>>         print(f'window = {window}')
-    >>>
-    >>> if __name__ == '__main__':
-    >>>     asyncio.run(main())
+    >>> aiterable = arange(23)
+    >>> [window async for window in awindowed(aiterable, n=3)]
+    [(0, 1, 2), (1, 2, 3), ..., (19, 20, 21), (20, 21, 22)]
     """
     aiterable = to_async_iterable(aiterable, variable_name="aiterable")
     n = to_positive_int(n, variable_name="n")

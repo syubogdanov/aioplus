@@ -36,21 +36,9 @@ def awaitify(
 
     Examples
     --------
-    >>> import asyncio
-    >>>
-    >>> from aioplus import awaitify
-    >>>
-    >>> def func(num: int) -> None:
-    >>>     '''Print the number.'''
-    >>>     print(f'Num: {num}')
-    >>>
-    >>> async def main() -> None:
-    >>>     '''Run the program.'''
-    >>>     afunc = awaitify(func)
-    >>>     await afunc(num=2304)
-    >>>
-    >>> if __name__ == '__main__':
-    >>>     asyncio.run(main())
+    >>> aprint = awaitify(print)
+    >>> await aprint("4 -> 23")
+    4 -> 23
 
     See Also
     --------

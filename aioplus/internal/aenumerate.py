@@ -30,17 +30,9 @@ def aenumerate(
 
     Examples
     --------
-    >>> import asyncio
-    >>>
-    >>> from aioplus import aenumerate, arange
-    >>>
-    >>> async def main() -> None:
-    >>>     '''Run the program.'''
-    >>>     async for index, num in aenumerate(arange(2304)):
-    >>>         print(index, num)
-    >>>
-    >>> if __name__ == '__main__':
-    >>>     asyncio.run(main())
+    >>> aiterable = arange(4, 23)
+    >>> [(index, num) async for index, num in aenumerate(aiterable)]
+    [(0, 4), (1, 5), (2, 6), (3, 7), ..., (17, 21), (18, 22)]
 
     See Also
     --------

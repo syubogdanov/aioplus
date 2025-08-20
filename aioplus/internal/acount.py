@@ -30,17 +30,8 @@ def acount(
 
     Examples
     --------
-    >>> import asyncio
-    >>>
-    >>> from aioplus import acount
-    >>>
-    >>> async def main() -> None:
-    >>>     '''Run the program.'''
-    >>>     async for num in acount(start=23, step=4):
-    >>>         print(num)
-    >>>
-    >>> if __name__ == '__main__':
-    >>>     asyncio.run(main())
+    >>> [num async for num in acount(start=23, step=4)]
+    [23, 27, 31, 35, 39, 43, 47, ...]
 
     Notes
     -----

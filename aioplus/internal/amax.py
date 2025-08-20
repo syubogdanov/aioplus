@@ -78,18 +78,9 @@ async def amax(
 
     Examples
     --------
-    >>> import asyncio
-    >>>
-    >>> from aioplus import amax, arange
-    >>>
-    >>> async def main() -> None:
-    >>>     '''Run the program.'''
-    >>>     aiterable = arange(23)
-    >>>     largest = await amax(aiterable)
-    >>>     print(f'max(aiterable) == {largest}')
-    >>>
-    >>> if __name__ == '__main__':
-    >>>     asyncio.run(main())
+    >>> aiterable = arange(23)
+    >>> await amax(aiterable)
+    22
 
     See Also
     --------

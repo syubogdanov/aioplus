@@ -26,17 +26,9 @@ def acycle(aiterable: AsyncIterable[T], /) -> AsyncIterable[T]:
 
     Examples
     --------
-    >>> import asyncio
-    >>>
-    >>> from aioplus import acycle, arange
-    >>>
-    >>> async def main() -> None:
-    >>>     '''Run the program.'''
-    >>>     async for num in acycle(arange(23)):
-    >>>         print(num)
-    >>>
-    >>> if __name__ == '__main__':
-    >>>     asyncio.run(main())
+    >>> aiterable = arange(23)
+    >>> [num async for num in acycle(aiterable)]
+    [0, 1, ..., 22, 23, 0, 1, ..., 22, 23, ...]
 
     Notes
     -----

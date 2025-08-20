@@ -29,17 +29,9 @@ def atail(aiterable: AsyncIterable[T], /, *, n: SupportsIndex) -> AsyncIterable[
 
     Examples
     --------
-    >>> import asyncio
-    >>>
-    >>> from aioplus import arange, atail
-    >>>
-    >>> async def main() -> None:
-    >>>     '''Run the program.'''
-    >>>     async for num in atail(arange(23), n=4):
-    >>>         print(num)
-    >>>
-    >>> if __name__ == '__main__':
-    >>>     asyncio.run(main())
+    >>> aiterable = arange(23)
+    >>> [num async for num in atail(aiterable, n=4)]
+    [19, 20, 21, 22]
 
     Notes
     -----

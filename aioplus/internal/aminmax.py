@@ -80,19 +80,9 @@ async def aminmax(
 
     Examples
     --------
-    >>> import asyncio
-    >>>
-    >>> from aioplus import aminmax, arange
-    >>>
-    >>> async def main() -> None:
-    >>>     '''Run the program.'''
-    >>>     aiterable = arange(23)
-    >>>     smallest, largest = await aminmax(aiterable)
-    >>>     print(f'min(aiterable) == {smallest}')
-    >>>     print(f'max(aiterable) == {largest}')
-    >>>
-    >>> if __name__ == '__main__':
-    >>>     asyncio.run(main())
+    >>> aiterable = arange(23)
+    >>> await aminmax(aiterable)
+    (0, 22)
 
     Notes
     -----

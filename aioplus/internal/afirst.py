@@ -36,18 +36,9 @@ async def afirst(aiterable: AsyncIterable[Any], /, *, default: Any = Sentinel) -
 
     Examples
     --------
-    >>> import asyncio
-    >>>
-    >>> from aioplus import afirst, arange
-    >>>
-    >>> async def main() -> None:
-    >>>     '''Run the program.'''
-    >>>     aiterable = arange(4, 23)
-    >>>     num = await afirst(aiterable)
-    >>>     print(f'aiterable[0] = {num}')
-    >>>
-    >>> if __name__ == '__main__':
-    >>>     asyncio.run(main())
+    >>> aiterable = arange(23)
+    >>> await afirst(aiterable)
+    0
     """
     aiterable = to_async_iterable(aiterable, variable_name="aiterable")
 

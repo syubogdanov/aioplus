@@ -23,17 +23,9 @@ def apairwise(aiterable: AsyncIterable[T], /) -> AsyncIterable[tuple[T, T]]:
 
     Examples
     --------
-    >>> import asyncio
-    >>>
-    >>> from aioplus import apairwise, arange
-    >>>
-    >>> async def main() -> None:
-    >>>     '''Run the program.'''
-    >>>     async for left, right in apairwise(arange(23)):
-    >>>         print(f'pair = ({left}, {right})')
-    >>>
-    >>> if __name__ == '__main__':
-    >>>     asyncio.run(main())
+    >>> aiterable = arange(23)
+    >>> [pair async for pair in apairwise(aiterable)]
+    [(0, 1), (1, 2), (2, 3), ..., (20, 21), (21, 22)]
 
     See Also
     --------
