@@ -88,11 +88,11 @@ def aislice(
     stop = to_non_negative_int(stop, variable_name="stop")
     step = to_positive_int(step, variable_name="step")
 
-    return IsliceIterable(aiterable, start, stop, step)
+    return AisliceIterable(aiterable, start, stop, step)
 
 
 @dataclass
-class IsliceIterable(AsyncIterable[T]):
+class AisliceIterable(AsyncIterable[T]):
     """An asynchronous slice iterable."""
 
     aiterable: AsyncIterable[T]
@@ -103,11 +103,11 @@ class IsliceIterable(AsyncIterable[T]):
     def __aiter__(self) -> AsyncIterator[T]:
         """Return an asynchronous iterator."""
         aiterator = aiter(self.aiterable)
-        return IsliceIterator(aiterator, self.start, self.stop, self.step)
+        return AisliceIterator(aiterator, self.start, self.stop, self.step)
 
 
 @dataclass
-class IsliceIterator(AsyncIterator[T]):
+class AisliceIterator(AsyncIterator[T]):
     """An asynchronous slice iterator."""
 
     aiterator: AsyncIterator[T]
