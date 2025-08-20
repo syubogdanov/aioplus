@@ -9,6 +9,7 @@ from aioplus.internal.ahead import ahead
 from aioplus.internal.aislice import aislice
 from aioplus.internal.alast import alast
 from aioplus.internal.alen import alen
+from aioplus.internal.amin import amin
 from aioplus.internal.anth import anth
 from aioplus.internal.apairwise import apairwise
 from aioplus.internal.arange import arange
@@ -21,7 +22,7 @@ from aioplus.internal.awindowed import awindowed
 
 
 __author__ = "Sergei Y. Bogdanov <syubogdanov@outlook.com>"
-__version__ = "0.2.0"
+__version__ = "0.3.0"
 
 __all__: list[str] = [
     "aall",
@@ -35,6 +36,7 @@ __all__: list[str] = [
     "aislice",
     "alast",
     "alen",
+    "amin",
     "anth",
     "apairwise",
     "arange",
@@ -58,6 +60,7 @@ ahead.__module__ = "aioplus"
 aislice.__module__ = "aioplus"
 alast.__module__ = "aioplus"
 alen.__module__ = "aioplus"
+amin.__module__ = "aioplus"
 anth.__module__ = "aioplus"
 apairwise.__module__ = "aioplus"
 arange.__module__ = "aioplus"

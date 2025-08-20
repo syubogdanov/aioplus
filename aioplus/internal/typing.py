@@ -1,15 +1,9 @@
 from abc import abstractmethod
-from typing import Literal, Protocol, TypeVar, runtime_checkable
+from typing import Protocol, TypeVar, runtime_checkable
 
 
 T_co = TypeVar("T_co", covariant=True)
 T_contra = TypeVar("T_contra", contravariant=True)
-
-
-LiteralPositiveInteger = Literal[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
-LiteralNegativeInteger = Literal[-1, -2, -3, -4, -5, -6, -7, -8, -9, -10, -11, -12, -13, -14, -15]
-
-LiteralInteger = LiteralNegativeInteger | Literal[0] | LiteralPositiveInteger
 
 
 @runtime_checkable
@@ -37,3 +31,20 @@ class SupportsRAdd(Protocol[T_contra, T_co]):
     @abstractmethod
     def __radd__(self, x: T_contra, /) -> T_co:
         """Perform reverse addition operation."""
+
+
+@runtime_checkable
+class SupportsDunderLT(Protocol[T_contra]):
+    """An ABC with one abstract method `__lt__`."""
+
+    @abstractmethod
+    def __lt__(self, other: T_contra, /) -> bool:
+        """Perform less-than comparison."""
+
+
+class SupportsDunderGT(Protocol[T_contra]):
+    """An ABC with one abstract method `__gt__`."""
+
+    @abstractmethod
+    def __gt__(self, other: T_contra, /) -> bool:
+        """Perform greater-than comparison."""

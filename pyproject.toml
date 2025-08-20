@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "aioplus"
-version = "0.2.0"
+version = "0.3.0"
 description = "Because asyncio.gather() is not enough!"
 license = "MIT"
 authors = ["Sergei Y. Bogdanov <syubogdanov@outlook.com>"]
