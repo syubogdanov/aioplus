@@ -74,7 +74,7 @@ class AwindowedIterator(AsyncIterator[tuple[T, ...]]):
     def __post_init__(self) -> None:
         """Initialize the object."""
         self._window: deque[T] = deque(maxlen=self.n)
-        self._initialized_flg: bool = False
+        self._prefetched_flg: bool = False
         self._finished_flg: bool = False
 
     def __aiter__(self) -> Self:
@@ -86,8 +86,8 @@ class AwindowedIterator(AsyncIterator[tuple[T, ...]]):
         if self._finished_flg:
             raise StopAsyncIteration
 
-        if not self._initialized_flg:
-            await self._initialize()
+        if not self._prefetched_flg:
+            await self._prefetch()
 
         try:
             value = await anext(self.aiterator)
@@ -100,9 +100,9 @@ class AwindowedIterator(AsyncIterator[tuple[T, ...]]):
         self._window.append(value)
         return tuple(self._window)
 
-    async def _initialize(self) -> None:
-        """Initialize the iterator."""
-        self._initialized_flg = True
+    async def _prefetch(self) -> None:
+        """Prefetch the window."""
+        self._prefetched_flg = True
         try:
             for _ in range(self.n - 1):
                 value = await anext(self.aiterator)

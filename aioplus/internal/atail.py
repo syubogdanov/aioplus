@@ -66,7 +66,7 @@ class AtailIterator(AsyncIterator[T]):
 
     def __post_init__(self) -> None:
         """Initialize the object."""
-        self._initialized_flg: bool = False
+        self._prefetched_flg: bool = False
         self._finished_flg: bool = False
         self._deque: deque[T] = deque(maxlen=self.n)
 
@@ -79,8 +79,8 @@ class AtailIterator(AsyncIterator[T]):
         if self._finished_flg:
             raise StopAsyncIteration
 
-        if not self._initialized_flg:
-            await self._initialize()
+        if not self._prefetched_flg:
+            await self._prefetch()
 
         if not self._deque:
             self._finished_flg = True
@@ -93,9 +93,9 @@ class AtailIterator(AsyncIterator[T]):
 
         return value
 
-    async def _initialize(self) -> None:
-        """Start the iterator."""
-        self._initialized_flg = True
+    async def _prefetch(self) -> None:
+        """Prefetch the deque."""
+        self._prefetched_flg = True
         try:
             async for value in self.aiterator:
                 self._deque.append(value)

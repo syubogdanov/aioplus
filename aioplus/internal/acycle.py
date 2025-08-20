@@ -65,7 +65,7 @@ class AcycleIterator(AsyncIterator[T]):
     def __post_init__(self) -> None:
         """Initialize the object."""
         self._deque: deque[T] = deque()
-        self._initialized_flg: bool = False
+        self._prefetched_flg: bool = False
         self._finished_flg: bool = False
 
     def __aiter__(self) -> Self:
@@ -77,7 +77,7 @@ class AcycleIterator(AsyncIterator[T]):
         if self._finished_flg:
             raise StopAsyncIteration
 
-        if self._initialized_flg:
+        if self._prefetched_flg:
             value = self._rotate()
 
             # Move to the next coroutine!
@@ -89,7 +89,7 @@ class AcycleIterator(AsyncIterator[T]):
             value = await anext(self.aiterator)
 
         except StopAsyncIteration:
-            self._initialized_flg = True
+            self._prefetched_flg = True
 
             if not self._deque:
                 self._finished_flg = True
