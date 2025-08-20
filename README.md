@@ -211,6 +211,16 @@ For more, see the [documentation][docs/aioplus/areversed].
 [22, 21, 20, 19, 18, ..., 4, 3, 2, 1, 0]
 ```
 
+#### *asum*
+
+For more, see the [documentation][docs/aioplus/asum].
+
+```python
+>>> aiterable = arange(23)
+>>> await asum(aiterable)
+253
+```
+
 #### *atail*
 
 For more, see the [documentation][docs/aioplus/atail].
@@ -277,6 +287,7 @@ MIT License, Copyright (c) 2025 Sergei Y. Bogdanov. See [LICENSE][github/license
 [docs/aioplus/arange]: https://aioplus.readthedocs.io/en/latest/arange.html
 [docs/aioplus/arepeat]: https://aioplus.readthedocs.io/en/latest/arepeat.html
 [docs/aioplus/areversed]: https://aioplus.readthedocs.io/en/latest/areversed.html
+[docs/aioplus/asum]: https://aioplus.readthedocs.io/en/latest/asum.html
 [docs/aioplus/atail]: https://aioplus.readthedocs.io/en/latest/atail.html
 [docs/aioplus/atriplewise]: https://aioplus.readthedocs.io/en/latest/atriplewise.html
 [docs/aioplus/awaitify]: https://aioplus.readthedocs.io/en/latest/awaitify.html

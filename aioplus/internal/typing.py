@@ -42,6 +42,7 @@ class SupportsDunderLT(Protocol[T_contra]):
         """Perform less-than comparison."""
 
 
+@runtime_checkable
 class SupportsDunderGT(Protocol[T_contra]):
     """An ABC with one abstract method `__gt__`."""
 

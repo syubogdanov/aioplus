@@ -232,6 +232,17 @@ For more, see the :doc:`documentation <areversed>`.
     >>> [num async for num in areversed(aiterable)]
     [22, 21, 20, 19, 18, ..., 4, 3, 2, 1, 0]
 
+asum
+----
+
+For more, see the :doc:`documentation <asum>`.
+
+.. code-block:: python
+
+    >>> aiterable = arange(23)
+    >>> await asum(aiterable)
+    253
+
 atail
 -----
 
@@ -300,6 +311,7 @@ For more, see the :doc:`documentation <awindowed>`.
    arange
    arepeat
    areversed
+   asum
    atail
    atriplewise
    awaitify
