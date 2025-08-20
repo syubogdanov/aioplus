@@ -6,7 +6,7 @@ from aioplus import amin, arange
 
 
 class TestAmin:
-    """Tests for `aioplus.alen`."""
+    """Tests for `aioplus.amin`."""
 
     async def test__amin(self) -> None:
         """Case: default behavior."""

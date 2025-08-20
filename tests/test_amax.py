@@ -6,7 +6,7 @@ from aioplus import amax, arange
 
 
 class TestAmax:
-    """Tests for `aioplus.alen`."""
+    """Tests for `aioplus.amax`."""
 
     async def test__amax(self) -> None:
         """Case: default behavior."""
