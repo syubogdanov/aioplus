@@ -60,7 +60,7 @@ async def aminmax(
     key: Callable[[Any], Any] | None = None,
     default: Any = Sentinel,
 ) -> tuple[Any, Any]:
-    """Return the smallest and the largest item in ``aiterable``.
+    """Return the smallest and the largest items in ``aiterable``.
 
     Parameters
     ----------
@@ -93,6 +93,10 @@ async def aminmax(
     >>>
     >>> if __name__ == '__main__':
     >>>     asyncio.run(main())
+
+    Notes
+    -----
+    * This function is not comparison-optimized.
 
     See Also
     --------
