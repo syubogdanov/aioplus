@@ -9,6 +9,7 @@ from aioplus.internal.ahead import ahead
 from aioplus.internal.aislice import aislice
 from aioplus.internal.alast import alast
 from aioplus.internal.alen import alen
+from aioplus.internal.amax import amax
 from aioplus.internal.amin import amin
 from aioplus.internal.anth import anth
 from aioplus.internal.apairwise import apairwise
@@ -36,6 +37,7 @@ __all__: list[str] = [
     "aislice",
     "alast",
     "alen",
+    "amax",
     "amin",
     "anth",
     "apairwise",
@@ -60,6 +62,7 @@ ahead.__module__ = "aioplus"
 aislice.__module__ = "aioplus"
 alast.__module__ = "aioplus"
 alen.__module__ = "aioplus"
+amax.__module__ = "aioplus"
 amin.__module__ = "aioplus"
 anth.__module__ = "aioplus"
 apairwise.__module__ = "aioplus"

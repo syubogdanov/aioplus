@@ -238,6 +238,26 @@ For more, see the :doc:`documentation <alen>`.
     if __name__ == "__main__":
         asyncio.run(main())
 
+amax
+----
+
+For more, see the :doc:`documentation <amax>`.
+
+.. code-block:: python
+
+    import asyncio
+
+    from aioplus import amax, arange
+
+    async def main() -> None:
+        """Run the program."""
+        aiterable = arange(23)
+        largest = await amax(aiterable)
+        print(f"max(aiterable) == {largest}")
+
+    if __name__ == "__main__":
+        asyncio.run(main())
+
 amin
 ----
 
@@ -450,6 +470,7 @@ For more, see the :doc:`documentation <awindowed>`.
    aislice
    alast
    alen
+   amax
    amin
    anth
    apairwise
