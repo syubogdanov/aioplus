@@ -1,6 +1,7 @@
 from collections.abc import AsyncIterable
 from typing import Any, Literal, Protocol, TypeVar, overload
 
+from aioplus.internal import coercions
 from aioplus.internal.typing import SupportsAdd, SupportsRAdd
 
 
@@ -16,26 +17,26 @@ SupportsSumNoDefaultT = TypeVar("SupportsSumNoDefaultT", bound=SupportsSumWithNo
 
 
 @overload
-async def asum(iterable: AsyncIterable[bool | int], /, *, start: int = 0) -> int: ...
+async def asum(aiterable: AsyncIterable[bool | int], /, *, start: int = 0) -> int: ...
 
 
 @overload
 async def asum(
-    iterable: AsyncIterable[SupportsSumNoDefaultT],
+    aiterable: AsyncIterable[SupportsSumNoDefaultT],
     /,
 ) -> SupportsSumNoDefaultT | Literal[0]: ...
 
 
 @overload
 async def asum(
-    iterable: AsyncIterable[AddableT1],
+    aiterable: AsyncIterable[AddableT1],
     /,
     *,
     start: AddableT2,
 ) -> AddableT1 | AddableT2: ...
 
 
-async def asum(iterable: AsyncIterable[Any], /, *, start: Any = 0) -> Any:
+async def asum(aiterable: AsyncIterable[Any], /, *, start: Any = 0) -> Any:
     """Sum ``start`` and items of ``aiterable`` from left to right and return the total.
 
     Parameters
@@ -61,9 +62,11 @@ async def asum(iterable: AsyncIterable[Any], /, *, start: Any = 0) -> Any:
     --------
     :func:`sum`
     """
+    aiterable = coercions.to_async_iterable(aiterable)
+
     total = start
 
-    async for value in iterable:
+    async for value in aiterable:
         total += value
 
     return total
