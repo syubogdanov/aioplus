@@ -11,6 +11,7 @@ from aioplus.internal.alast import alast
 from aioplus.internal.alen import alen
 from aioplus.internal.amax import amax
 from aioplus.internal.amin import amin
+from aioplus.internal.aminmax import aminmax
 from aioplus.internal.anth import anth
 from aioplus.internal.apairwise import apairwise
 from aioplus.internal.arange import arange
@@ -39,6 +40,7 @@ __all__: list[str] = [
     "alen",
     "amax",
     "amin",
+    "aminmax",
     "anth",
     "apairwise",
     "arange",
@@ -64,6 +66,7 @@ alast.__module__ = "aioplus"
 alen.__module__ = "aioplus"
 amax.__module__ = "aioplus"
 amin.__module__ = "aioplus"
+aminmax.__module__ = "aioplus"
 anth.__module__ = "aioplus"
 apairwise.__module__ = "aioplus"
 arange.__module__ = "aioplus"

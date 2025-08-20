@@ -5,7 +5,9 @@ from typing import LiteralString, ParamSpec, SupportsIndex, TypeVar
 
 P = ParamSpec("P")
 R = TypeVar("R")
-T = TypeVar("T")
+
+T1 = TypeVar("T1")
+T2 = TypeVar("T2")
 
 
 def to_int(obj: SupportsIndex, /, *, variable_name: LiteralString) -> int:
@@ -56,11 +58,11 @@ def to_non_negative_int(obj: SupportsIndex, /, *, variable_name: LiteralString) 
 
 
 def to_async_iterable(
-    obj: AsyncIterable[T],
+    obj: AsyncIterable[T1],
     /,
     *,
     variable_name: LiteralString,
-) -> AsyncIterable[T]:
+) -> AsyncIterable[T1]:
     """Cast `object` to `AsyncIterable`.
 
     Notes
@@ -112,5 +114,24 @@ def to_bool(obj: bool, /, *, variable_name: LiteralString) -> bool:  # noqa: FBT
     if not isinstance(obj, bool):
         detail = f"'{variable_name}' must be 'bool'"
         raise TypeError(detail)
+
+    return obj
+
+
+def to_pair(obj: tuple[T1, T2], /, *, variable_name: LiteralString) -> tuple[T1, T2]:
+    """Cast `object` to two-element tuple.
+
+    Notes
+    -----
+    * Raises `TypeError` if `obj` is not `tuple`;
+    * Raises `ValueError` if `len(obj) != 2`.
+    """
+    if not isinstance(obj, tuple):
+        detail = f"'{variable_name}' must be 'tuple'"
+        raise TypeError(detail)
+
+    if len(obj) != 2:
+        detail = f"'len({variable_name})' must be '2'"
+        raise ValueError(detail)
 
     return obj

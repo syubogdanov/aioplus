@@ -263,6 +263,26 @@ if __name__ == "__main__":
     asyncio.run(main())
 ```
 
+#### *aminmax*
+
+For more, see the [documentation][docs/aioplus/aminmax].
+
+```python
+import asyncio
+
+from aioplus import aminmax, arange
+
+async def main() -> None:
+    """Run the program."""
+    aiterable = arange(23)
+    smallest, largest = await aminmax(aiterable)
+    print(f"min(aiterable) == {smallest}")
+    print(f"max(aiterable) == {largest}")
+
+if __name__ == "__main__":
+    asyncio.run(main())
+```
+
 #### *anth*
 
 For more, see the [documentation][docs/aioplus/anth].
@@ -450,6 +470,7 @@ MIT License, Copyright (c) 2025 Sergei Y. Bogdanov. See [LICENSE][github/license
 [docs/aioplus/alen]: https://aioplus.readthedocs.io/en/latest/alen.html
 [docs/aioplus/amax]: https://aioplus.readthedocs.io/en/latest/amax.html
 [docs/aioplus/amin]: https://aioplus.readthedocs.io/en/latest/amin.html
+[docs/aioplus/aminmax]: https://aioplus.readthedocs.io/en/latest/aminmax.html
 [docs/aioplus/anth]: https://aioplus.readthedocs.io/en/latest/anth.html
 [docs/aioplus/apairwise]: https://aioplus.readthedocs.io/en/latest/apairwise.html
 [docs/aioplus/arange]: https://aioplus.readthedocs.io/en/latest/arange.html
