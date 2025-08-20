@@ -83,9 +83,10 @@ async def amin(
     >>> from aioplus import amin, arange
     >>>
     >>> async def main() -> None:
+    >>>     '''Run the program.'''
     >>>     aiterable = arange(23)
     >>>     smallest = await amin(aiterable)
-    >>>     print(f"min(aiterable) == {smallest}")
+    >>>     print(f'min(aiterable) == {smallest}')
     >>>
     >>> if __name__ == '__main__':
     >>>     asyncio.run(main())
