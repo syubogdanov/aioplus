@@ -2,7 +2,7 @@ from collections.abc import AsyncIterable, Callable
 from typing import Any, TypeAlias, TypeVar, overload
 
 from aioplus.internal import coercions
-from aioplus.internal.sentinels import Sentinel
+from aioplus.internal.constants import SENTINEL
 from aioplus.internal.typing import SupportsDunderGT, SupportsDunderLT
 
 
@@ -56,7 +56,7 @@ async def amax(
     /,
     *,
     key: Callable[[Any], Any] | None = None,
-    default: Any = Sentinel,
+    default: Any = SENTINEL,
 ) -> Any:
     """Return the largest item in ``aiterable``.
 
@@ -97,7 +97,7 @@ async def amax(
         largest = await anext(aiterator)
 
     except StopAsyncIteration:
-        if default is not Sentinel:
+        if default is not SENTINEL:
             return default
 
         detail = "amax(): empty iterable"

@@ -3,7 +3,7 @@ from typing import Any, SupportsIndex, TypeVar, overload
 
 from aioplus.internal.aenumerate import aenumerate
 from aioplus.internal.coercions import to_async_iterable, to_non_negative_int
-from aioplus.internal.sentinels import Sentinel
+from aioplus.internal.constants import SENTINEL
 
 
 T = TypeVar("T")
@@ -23,7 +23,7 @@ async def anth(
     /,
     *,
     n: SupportsIndex,
-    default: Any = Sentinel,
+    default: Any = SENTINEL,
 ) -> Any:
     """Return the nth item or a default value.
 
@@ -57,7 +57,7 @@ async def anth(
         if index == n:
             return value
 
-    if default is not Sentinel:
+    if default is not SENTINEL:
         return default
 
     detail = "The iterable contains fewer than 'n' items"

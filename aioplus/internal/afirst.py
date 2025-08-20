@@ -2,7 +2,7 @@ from collections.abc import AsyncIterable
 from typing import Any, TypeVar, overload
 
 from aioplus.internal.coercions import to_async_iterable
-from aioplus.internal.sentinels import Sentinel
+from aioplus.internal.constants import SENTINEL
 
 
 T = TypeVar("T")
@@ -17,7 +17,7 @@ async def afirst(aiterable: AsyncIterable[T], /) -> T: ...
 async def afirst(aiterable: AsyncIterable[T], /, *, default: D) -> T | D: ...
 
 
-async def afirst(aiterable: AsyncIterable[Any], /, *, default: Any = Sentinel) -> Any:
+async def afirst(aiterable: AsyncIterable[Any], /, *, default: Any = SENTINEL) -> Any:
     """Return the first item of the ``aiterable``.
 
     Parameters
@@ -45,7 +45,7 @@ async def afirst(aiterable: AsyncIterable[Any], /, *, default: Any = Sentinel) -
     aiterator = aiter(aiterable)
     value = await anext(aiterator, default)
 
-    if value is not Sentinel:
+    if value is not SENTINEL:
         return value
 
     detail = "afirst(): empty iterable"

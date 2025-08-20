@@ -2,7 +2,7 @@ from collections.abc import AsyncIterable, Callable
 from typing import Any, TypeAlias, TypeVar, overload
 
 from aioplus.internal import coercions
-from aioplus.internal.sentinels import Sentinel
+from aioplus.internal.constants import SENTINEL
 from aioplus.internal.typing import SupportsDunderGT, SupportsDunderLT
 
 
@@ -58,7 +58,7 @@ async def aminmax(
     /,
     *,
     key: Callable[[Any], Any] | None = None,
-    default: Any = Sentinel,
+    default: Any = SENTINEL,
 ) -> tuple[Any, Any]:
     """Return the smallest and the largest items in ``aiterable``.
 
@@ -98,7 +98,7 @@ async def aminmax(
     if key is not None:
         key = coercions.to_callable(key, variable_name="key")
 
-    if default is not Sentinel:
+    if default is not SENTINEL:
         default = coercions.to_pair(default, variable_name="default")
 
     aiterator = aiter(aiterable)
@@ -107,7 +107,7 @@ async def aminmax(
         smallest = largest = await anext(aiterator)
 
     except StopAsyncIteration:
-        if default is not Sentinel:
+        if default is not SENTINEL:
             return default
 
         detail = "aminmax(): empty iterable"
