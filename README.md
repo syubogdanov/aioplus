@@ -29,17 +29,9 @@ pip install aioplus
 For more, see the [documentation][docs/aioplus/aall].
 
 ```python
-import asyncio
-
-from aioplus import aall, arange
-
-async def main() -> None:
-    """Run the program."""
-    aiterable = (num > 0 async for num in arange(2304))
-    flg = await aall(aiterable)
-
-if __name__ == "__main__":
-    asyncio.run(main())
+>>> aiterable = arange(23)
+>>> await aall(aiterable)
+False
 ```
 
 #### *aany*
@@ -47,17 +39,9 @@ if __name__ == "__main__":
 For more, see the [documentation][docs/aioplus/aany].
 
 ```python
-import asyncio
-
-from aioplus import aany, arange
-
-async def main() -> None:
-    """Run the program."""
-    aiterable = (num % 2 == 0 async for num in arange(2304))
-    flg = await aany(aiterable)
-
-if __name__ == "__main__":
-    asyncio.run(main())
+>>> aiterable = arange(23)
+>>> await aany(aiterable)
+True
 ```
 
 #### *abatched*
@@ -65,17 +49,9 @@ if __name__ == "__main__":
 For more, see the [documentation][docs/aioplus/abatched].
 
 ```python
-import asyncio
-
-from aioplus import abatched, arange
-
-async def main() -> None:
-    """Run the program."""
-    async for batch in abatched(arange(23), n=4):
-        print(batch)
-
-if __name__ == "__main__":
-    asyncio.run(main())
+>>> aiterable = arange(23)
+>>> [batch async for batch in abatched(aiterable, n=3)]
+[(0, 1, 2), (3, 4, 5), ..., (18, 19, 20), (21, 22)]
 ```
 
 #### *acount*
@@ -83,17 +59,8 @@ if __name__ == "__main__":
 For more, see the [documentation][docs/aioplus/acount].
 
 ```python
-import asyncio
-
-from aioplus import acount
-
-async def main() -> None:
-    """Run the program."""
-    async for num in acount(start=23, step=4):
-        print(num)
-
-if __name__ == "__main__":
-    asyncio.run(main())
+>>> [num async for num in acount(start=23, step=4)]
+[23, 27, 31, 35, 39, 43, 47, ...]
 ```
 
 #### *acycle*
@@ -101,17 +68,9 @@ if __name__ == "__main__":
 For more, see the [documentation][docs/aioplus/acycle].
 
 ```python
-import asyncio
-
-from aioplus import acycle, arange
-
-async def main() -> None:
-    """Run the program."""
-    async for num in acycle(arange(23)):
-        print(num)
-
-if __name__ == "__main__":
-    asyncio.run(main())
+>>> aiterable = arange(23)
+>>> [num async for num in acycle(aiterable)]
+[0, 1, ..., 22, 23, 0, 1, ..., 22, 23, ...]
 ```
 
 #### *aenumerate*
@@ -119,17 +78,9 @@ if __name__ == "__main__":
 For more, see the [documentation][docs/aioplus/aenumerate].
 
 ```python
-import asyncio
-
-from aioplus import aenumerate, arange
-
-async def main() -> None:
-    """Run the program."""
-    async for index, num in aenumerate(arange(2304)):
-        print(index, num)
-
-if __name__ == "__main__":
-    asyncio.run(main())
+>>> aiterable = arange(4, 23)
+>>> [(index, num) async for index, num in aenumerate(aiterable)]
+[(0, 4), (1, 5), (2, 6), (3, 7), ..., (17, 21), (18, 22)]
 ```
 
 #### *afirst*
@@ -137,18 +88,9 @@ if __name__ == "__main__":
 For more, see the [documentation][docs/aioplus/afirst].
 
 ```python
-import asyncio
-
-from aioplus import afirst, arange
-
-async def main() -> None:
-    """Run the program."""
-    aiterable = arange(4, 23)
-    num = await afirst(aiterable)
-    print(f"aiterable[0] = {num}")
-
-if __name__ == "__main__":
-    asyncio.run(main())
+>>> aiterable = arange(23)
+>>> await afirst(aiterable)
+0
 ```
 
 #### *ahead*
@@ -156,17 +98,9 @@ if __name__ == "__main__":
 For more, see the [documentation][docs/aioplus/ahead].
 
 ```python
-import asyncio
-
-from aioplus import ahead, arange
-
-async def main() -> None:
-    """Run the program."""
-    async for num in ahead(arange(23), n=4):
-        print(num)
-
-if __name__ == "__main__":
-    asyncio.run(main())
+>>> aiterable = arange(23)
+>>> [num async for num in ahead(aiterable, n=4)]
+[0, 1, 2, 3]
 ```
 
 #### *aislice*
@@ -174,17 +108,9 @@ if __name__ == "__main__":
 For more, see the [documentation][docs/aioplus/aislice].
 
 ```python
-import asyncio
-
-from aioplus import aislice, arange
-
-async def main() -> None:
-    """Run the program."""
-    async for num in aislice(arange(23), 4):
-        print(num)
-
-if __name__ == "__main__":
-    asyncio.run(main())
+>>> aiterable = arange(2003)
+>>> [num async for num in aislice(aiterable, 4, 23)]
+[4, 5, 6, 7, 8, ..., 20, 21, 22]
 ```
 
 #### *alast*
@@ -192,18 +118,9 @@ if __name__ == "__main__":
 For more, see the [documentation][docs/aioplus/alast].
 
 ```python
-import asyncio
-
-from aioplus import alast, arange
-
-async def main() -> None:
-    """Run the program."""
-    aiterable = arange(4, 23)
-    num = await alast(aiterable)
-    print(f"aiterable[-1] = {num}")
-
-if __name__ == "__main__":
-    asyncio.run(main())
+>>> aiterable = arange(23)
+>>> await alast(aiterable)
+22
 ```
 
 #### *alen*
@@ -211,18 +128,9 @@ if __name__ == "__main__":
 For more, see the [documentation][docs/aioplus/alen].
 
 ```python
-import asyncio
-
-from aioplus import alen, arange
-
-async def main() -> None:
-    """Run the program."""
-    aiterable = arange(2304)
-    length = await alen(aiterable)
-    print(f"len(aiterable) == {length}")
-
-if __name__ == "__main__":
-    asyncio.run(main())
+>>> aiterable = arange(23)
+>>> await alen(aiterable)
+23
 ```
 
 #### *amax*
@@ -230,18 +138,9 @@ if __name__ == "__main__":
 For more, see the [documentation][docs/aioplus/amax].
 
 ```python
-import asyncio
-
-from aioplus import amax, arange
-
-async def main() -> None:
-    """Run the program."""
-    aiterable = arange(23)
-    largest = await amax(aiterable)
-    print(f"max(aiterable) == {largest}")
-
-if __name__ == "__main__":
-    asyncio.run(main())
+>>> aiterable = arange(23)
+>>> await amax(aiterable)
+22
 ```
 
 #### *amin*
@@ -249,18 +148,9 @@ if __name__ == "__main__":
 For more, see the [documentation][docs/aioplus/amin].
 
 ```python
-import asyncio
-
-from aioplus import amin, arange
-
-async def main() -> None:
-    """Run the program."""
-    aiterable = arange(23)
-    smallest = await amin(aiterable)
-    print(f"min(aiterable) == {smallest}")
-
-if __name__ == "__main__":
-    asyncio.run(main())
+>>> aiterable = arange(23)
+>>> await amin(aiterable)
+0
 ```
 
 #### *aminmax*
@@ -268,19 +158,9 @@ if __name__ == "__main__":
 For more, see the [documentation][docs/aioplus/aminmax].
 
 ```python
-import asyncio
-
-from aioplus import aminmax, arange
-
-async def main() -> None:
-    """Run the program."""
-    aiterable = arange(23)
-    smallest, largest = await aminmax(aiterable)
-    print(f"min(aiterable) == {smallest}")
-    print(f"max(aiterable) == {largest}")
-
-if __name__ == "__main__":
-    asyncio.run(main())
+>>> aiterable = arange(23)
+>>> await aminmax(aiterable)
+(0, 22)
 ```
 
 #### *anth*
@@ -288,18 +168,9 @@ if __name__ == "__main__":
 For more, see the [documentation][docs/aioplus/anth].
 
 ```python
-import asyncio
-
-from aioplus import anth, arange
-
-async def main() -> None:
-    """Run the program."""
-    aiterable = arange(23)
-    value = await anth(aiterable, n=4)
-    print(f"value = {value}")
-
-if __name__ == "__main__":
-    asyncio.run(main())
+>>> aiterable = arange(23)
+>>> await anth(aiterable, n=4)
+4
 ```
 
 #### *apairwise*
@@ -307,17 +178,9 @@ if __name__ == "__main__":
 For more, see the [documentation][docs/aioplus/apairwise].
 
 ```python
-import asyncio
-
-from aioplus import apairwise, arange
-
-async def main() -> None:
-    """Run the program."""
-    async for left, right in apairwise(arange(23)):
-        print(f"pair = ({left}, {right})")
-
-if __name__ == "__main__":
-    asyncio.run(main())
+>>> aiterable = arange(23)
+>>> [pair async for pair in apairwise(aiterable)]
+[(0, 1), (1, 2), (2, 3), ..., (20, 21), (21, 22)]
 ```
 
 #### *arange*
@@ -325,17 +188,8 @@ if __name__ == "__main__":
 For more, see the [documentation][docs/aioplus/arange].
 
 ```python
-import asyncio
-
-from aioplus import arange
-
-async def main() -> None:
-    """Run the program."""
-    async for num in arange(2304):
-        print(num)
-
-if __name__ == "__main__":
-    asyncio.run(main())
+>>> [num async for num in arange(23)]
+[0, 1, 2, 3, 4, ..., 19, 20, 21, 22]
 ```
 
 #### *arepeat*
@@ -343,17 +197,8 @@ if __name__ == "__main__":
 For more, see the [documentation][docs/aioplus/arepeat].
 
 ```python
-import asyncio
-
-from aioplus import arepeat
-
-async def main() -> None:
-    """Run the program."""
-    async for num in arepeat(23, times=4):
-        print(num)
-
-if __name__ == "__main__":
-    asyncio.run(main())
+>>> [num async for num in arepeat(23, times=4)]
+[23, 23, 23, 23]
 ```
 
 #### *areversed*
@@ -361,17 +206,9 @@ if __name__ == "__main__":
 For more, see the [documentation][docs/aioplus/areversed].
 
 ```python
-import asyncio
-
-from aioplus import arange, areversed
-
-async def main() -> None:
-    """Run the program."""
-    async for num in areversed(arange(2304)):
-        print(num)
-
-if __name__ == "__main__":
-    asyncio.run(main())
+>>> aiterable = arange(23)
+>>> [num async for num in areversed(aiterable)]
+[22, 21, 20, 19, 18, ..., 4, 3, 2, 1, 0]
 ```
 
 #### *atail*
@@ -379,17 +216,9 @@ if __name__ == "__main__":
 For more, see the [documentation][docs/aioplus/atail].
 
 ```python
-import asyncio
-
-from aioplus import arange, atail
-
-async def main() -> None:
-    """Run the program."""
-    async for num in atail(arange(23), n=4):
-        print(num)
-
-if __name__ == "__main__":
-    asyncio.run(main())
+>>> aiterable = arange(23)
+>>> [num async for num in atail(aiterable, n=4)]
+[19, 20, 21, 22]
 ```
 
 #### atriplewise
@@ -397,17 +226,9 @@ if __name__ == "__main__":
 For more, see the [documentation][docs/aioplus/atriplewise].
 
 ```python
-import asyncio
-
-from aioplus import arange, atriplewise
-
-async def main() -> None:
-    """Run the program."""
-    async for left, middle, right in atriplewise(arange(23)):
-        print(f"window = ({left}, {middle}, {right})")
-
-if __name__ == "__main__":
-    asyncio.run(main())
+>>> aiterable = arange(23)
+>>> [triplet async for triplet in atriplewise(aiterable)]
+[(0, 1, 2), (1, 2, 3), ..., (19, 20, 21), (20, 21, 22)]
 ```
 
 #### *awaitify*
@@ -415,21 +236,12 @@ if __name__ == "__main__":
 For more, see the [documentation][docs/aioplus/awaitify].
 
 ```python
-import asyncio
-
-from aioplus import awaitify
-
-def func(num: int) -> None:
-    """Print the number."""
-    print(f"Num: {num}")
-
-async def main() -> None:
-    """Run the program."""
-    afunc = awaitify(func)
-    await afunc(num=2304)
-
-if __name__ == "__main__":
-    asyncio.run(main())
+>>> def func(num: int) -> None:
+...     print(f"Num: {num}")
+... 
+>>> afunc = awaitify(func)
+>>> await afunc(num=23)
+Num: 23
 ```
 
 #### awindowed
@@ -437,17 +249,9 @@ if __name__ == "__main__":
 For more, see the [documentation][docs/aioplus/awindowed].
 
 ```python
-import asyncio
-
-from aioplus import arange, awindowed
-
-async def main() -> None:
-    """Run the program."""
-    async for window in awindowed(arange(23), n=4):
-        print(f"window = {window}")
-
-if __name__ == "__main__":
-    asyncio.run(main())
+>>> aiterable = arange(23)
+>>> [window async for window in awindowed(aiterable, n=3)]
+[(0, 1, 2), (1, 2, 3), ..., (19, 20, 21), (20, 21, 22)]
 ```
 
 ## License
