@@ -3,8 +3,8 @@ from concurrent.futures import Executor
 from dataclasses import dataclass
 from typing import Self, TypeVar
 
+from aioplus.internal import coercions
 from aioplus.internal.awaitify import awaitify
-from aioplus.internal.coercions import to_executor, to_iterable
 from aioplus.internal.sentinels import Sentinel
 
 
@@ -44,10 +44,10 @@ def anextify(
     --------
     :meth:`asyncio.loop.run_in_executor`
     """
-    iterable = to_iterable(iterable, variable_name="iterable")
+    iterable = coercions.to_iterable(iterable, variable_name="iterable")
 
     if executor is not None:
-        executor = to_executor(executor, variable_name="executor")
+        executor = coercions.to_executor(executor, variable_name="executor")
 
     return AnextifyIterable(iterable, executor)
 
@@ -86,8 +86,9 @@ class AnextifyIterator(AsyncIterator[T]):
             raise StopAsyncIteration
 
         try:
-            awaitified = awaitify(next, executor=self.executor)
-            value = await awaitified(self.iterator, Sentinel.EMPTY)  # type: ignore[call-arg]
+            # `StopIteration` cannot be raised into a `Future`!
+            anext_ = awaitify(next, executor=self.executor)
+            value = await anext_(self.iterator, Sentinel.EMPTY)  # type: ignore[call-arg]
 
         except Exception:
             self._finished_flg = True
