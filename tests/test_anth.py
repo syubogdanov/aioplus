@@ -1,3 +1,5 @@
+import re
+
 import pytest
 
 from aioplus import anth, arange
@@ -8,30 +10,30 @@ class TestAnth:
 
     async def test__anth(self) -> None:
         """Case: default behavior."""
-        aiterator = arange(23)
+        aiterable = arange(23)
 
-        value = await anth(aiterator, n=4)
+        value = await anth(aiterable, n=4)
 
         assert value == 4
 
     async def test__anth__out_of_bounds(self) -> None:
         """Case: `n` is out of bounds."""
-        aiterator = arange(4)
+        aiterable = arange(4)
 
-        with pytest.raises(IndexError, match="The iterable contains fewer than 'n' items"):
-            await anth(aiterator, n=23)
+        with pytest.raises(IndexError, match=re.escape("'aiterable[n]' does not exist")):
+            await anth(aiterable, n=23)
 
     async def test__anth__default(self) -> None:
         """Case: default value is returned when `n` is out of bounds."""
-        aiterator = arange(4)
+        aiterable = arange(4)
 
-        value = await anth(aiterator, n=23, default=42)
+        value = await anth(aiterable, n=23, default=42)
 
         assert value == 42
 
     async def test__anth__negative_index(self) -> None:
         """Case: `n` is negative."""
-        aiterator = arange(4)
+        aiterable = arange(4)
 
         with pytest.raises(ValueError, match="'n' must be non-negative"):
-            await anth(aiterator, n=-1)
+            await anth(aiterable, n=-1)

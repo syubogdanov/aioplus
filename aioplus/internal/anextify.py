@@ -5,7 +5,7 @@ from typing import Self, TypeVar
 
 from aioplus.internal.awaitify import awaitify
 from aioplus.internal.coercions import to_executor, to_iterable
-from aioplus.internal.constants import SENTINEL
+from aioplus.internal.sentinels import Sentinel
 
 
 T = TypeVar("T")
@@ -87,13 +87,13 @@ class AnextifyIterator(AsyncIterator[T]):
 
         try:
             awaitified = awaitify(next, executor=self.executor)
-            value = await awaitified(self.iterator, SENTINEL)  # type: ignore[call-arg]
+            value = await awaitified(self.iterator, Sentinel.EMPTY)  # type: ignore[call-arg]
 
         except Exception:
             self._finished_flg = True
             raise
 
-        if value is SENTINEL:
+        if value is Sentinel.EMPTY:
             self._finished_flg = True
             raise StopAsyncIteration
 

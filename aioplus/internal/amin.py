@@ -2,7 +2,8 @@ from collections.abc import AsyncIterable, Callable
 from typing import Any, TypeAlias, TypeVar, overload
 
 from aioplus.internal import coercions
-from aioplus.internal.constants import SENTINEL
+from aioplus.internal.aminmax import aminmax
+from aioplus.internal.sentinels import Sentinel
 from aioplus.internal.typing import SupportsDunderGT, SupportsDunderLT
 
 
@@ -56,7 +57,7 @@ async def amin(
     /,
     *,
     key: Callable[[Any], Any] | None = None,
-    default: Any = SENTINEL,
+    default: Any = Sentinel.UNSET,
 ) -> Any:
     """Return the smallest item in ``aiterable``.
 
@@ -91,19 +92,12 @@ async def amin(
     if key is not None:
         key = coercions.to_callable(key, variable_name="key")
 
-    aiterator = aiter(aiterable)
+    smallest, _ = await aminmax(aiterable, key=key, default=(Sentinel.EMPTY, Sentinel.EMPTY))
+    if smallest is not Sentinel.EMPTY:
+        return smallest
 
-    try:
-        smallest = await anext(aiterator)
+    if default is not Sentinel.UNSET:
+        return default
 
-    except StopAsyncIteration:
-        if default is not SENTINEL:
-            return default
-
-        detail = "amin(): empty iterable"
-        raise ValueError(detail) from None
-
-    async for value in aiterator:
-        smallest = min(smallest, value, key=key)
-
-    return smallest
+    detail = "amin(): empty iterable"
+    raise ValueError(detail) from None

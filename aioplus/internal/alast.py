@@ -3,7 +3,7 @@ from typing import Any, TypeVar, overload
 
 from aioplus.internal.atail import atail
 from aioplus.internal.coercions import to_async_iterable
-from aioplus.internal.constants import SENTINEL
+from aioplus.internal.sentinels import Sentinel
 
 
 T = TypeVar("T")
@@ -18,7 +18,7 @@ async def alast(aiterable: AsyncIterable[T], /) -> T: ...
 async def alast(aiterable: AsyncIterable[T], /, *, default: D) -> T | D: ...
 
 
-async def alast(aiterable: AsyncIterable[Any], /, *, default: Any = SENTINEL) -> Any:
+async def alast(aiterable: AsyncIterable[Any], /, *, default: Any = Sentinel.UNSET) -> Any:
     """Return the last item of the ``aiterable``.
 
     Parameters
@@ -46,8 +46,8 @@ async def alast(aiterable: AsyncIterable[Any], /, *, default: Any = SENTINEL) ->
     aiterator = aiter(atail(aiterable, n=1))
     value = await anext(aiterator, default)
 
-    if value is not SENTINEL:
-        return value
+    if value is Sentinel.UNSET:
+        detail = "alast(): empty iterable"
+        raise IndexError(detail) from None
 
-    detail = "alast(): empty iterable"
-    raise IndexError(detail) from None
+    return value
