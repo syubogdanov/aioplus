@@ -87,8 +87,8 @@ class AnextifyIterator(AsyncIterator[T]):
 
         try:
             # `StopIteration` cannot be raised into a `Future`!
-            anext_ = awaitify(next, executor=self.executor)
-            value = await anext_(self.iterator, Sentinel.EMPTY)  # type: ignore[call-arg]
+            awaitified = awaitify(next, executor=self.executor)
+            value = await awaitified(self.iterator, Sentinel.EMPTY)  # type: ignore[call-arg]
 
         except Exception:
             self._finished_flg = True
