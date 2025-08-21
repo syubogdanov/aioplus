@@ -1,4 +1,4 @@
-from collections.abc import AsyncIterable, Callable
+from collections.abc import AsyncIterable, Callable, Iterable
 from concurrent.futures import Executor
 from typing import LiteralString, ParamSpec, SupportsIndex, TypeVar
 
@@ -133,5 +133,24 @@ def to_pair(obj: tuple[T1, T2], /, *, variable_name: LiteralString) -> tuple[T1,
     if len(obj) != 2:
         detail = f"'len({variable_name})' must be '2'"
         raise ValueError(detail)
+
+    return obj
+
+
+def to_iterable(
+    obj: Iterable[T1],
+    /,
+    *,
+    variable_name: LiteralString,
+) -> Iterable[T1]:
+    """Cast `object` to `Iterable`.
+
+    Notes
+    -----
+    * Raises `TypeError` if `obj` is not `Iterable`.
+    """
+    if not isinstance(obj, Iterable):
+        detail = f"'{variable_name}' must be 'Iterable'"
+        raise TypeError(detail)
 
     return obj

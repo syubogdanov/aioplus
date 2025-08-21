@@ -179,6 +179,18 @@ For more, see the :doc:`documentation <aminmax>`.
     >>> await aminmax(aiterable)
     (0, 22)
 
+anextify
+--------
+
+For more, see the :doc:`documentation <anextify>`.
+
+.. code-block:: python
+
+    >>> iterable = [0, 1, 2, 3, 4, 5]
+    >>> aiterable = anextify(iterable)
+    >>> [num async for num in aiterable]
+    [0, 1, 2, 3, 4, 5]
+
 anth
 ----
 
@@ -306,6 +318,7 @@ For more, see the :doc:`documentation <awindowed>`.
    amax
    amin
    aminmax
+   anextify
    anth
    apairwise
    arange

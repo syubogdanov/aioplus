@@ -163,6 +163,17 @@ For more, see the [documentation][docs/aioplus/aminmax].
 (0, 22)
 ```
 
+#### *anextify*
+
+For more, see the [documentation][docs/aioplus/anextify].
+
+```python
+>>> iterable = [0, 1, 2, 3, 4, 5]
+>>> aiterable = anextify(iterable)
+>>> [num async for num in aiterable]
+[0, 1, 2, 3, 4, 5]
+```
+
 #### *anth*
 
 For more, see the [documentation][docs/aioplus/anth].
@@ -282,6 +293,7 @@ MIT License, Copyright (c) 2025 Sergei Y. Bogdanov. See [LICENSE][github/license
 [docs/aioplus/amax]: https://aioplus.readthedocs.io/en/latest/amax.html
 [docs/aioplus/amin]: https://aioplus.readthedocs.io/en/latest/amin.html
 [docs/aioplus/aminmax]: https://aioplus.readthedocs.io/en/latest/aminmax.html
+[docs/aioplus/anextify]: https://aioplus.readthedocs.io/en/latest/anextify.html
 [docs/aioplus/anth]: https://aioplus.readthedocs.io/en/latest/anth.html
 [docs/aioplus/apairwise]: https://aioplus.readthedocs.io/en/latest/apairwise.html
 [docs/aioplus/arange]: https://aioplus.readthedocs.io/en/latest/arange.html

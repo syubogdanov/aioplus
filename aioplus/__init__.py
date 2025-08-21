@@ -12,6 +12,7 @@ from aioplus.internal.alen import alen
 from aioplus.internal.amax import amax
 from aioplus.internal.amin import amin
 from aioplus.internal.aminmax import aminmax
+from aioplus.internal.anextify import anextify
 from aioplus.internal.anth import anth
 from aioplus.internal.apairwise import apairwise
 from aioplus.internal.arange import arange
@@ -25,7 +26,7 @@ from aioplus.internal.awindowed import awindowed
 
 
 __author__ = "Sergei Y. Bogdanov <syubogdanov@outlook.com>"
-__version__ = "0.4.0"
+__version__ = "0.5.0"
 
 __all__: list[str] = [
     "aall",
@@ -42,6 +43,7 @@ __all__: list[str] = [
     "amax",
     "amin",
     "aminmax",
+    "anextify",
     "anth",
     "apairwise",
     "arange",
@@ -69,6 +71,7 @@ alen.__module__ = "aioplus"
 amax.__module__ = "aioplus"
 amin.__module__ = "aioplus"
 aminmax.__module__ = "aioplus"
+anextify.__module__ = "aioplus"
 anth.__module__ = "aioplus"
 apairwise.__module__ = "aioplus"
 arange.__module__ = "aioplus"
