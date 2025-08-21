@@ -24,12 +24,12 @@ pip install aioplus
 
 ### Usage
 
-#### *CurrentThreadExecutor*
+#### *CallerThreadExecutor*
 
-For more, see the [documentation][docs/aioplus/CurrentThreadExecutor].
+For more, see the [documentation][docs/aioplus/CallerThreadExecutor].
 
 ```python
->>> executor = CurrentThreadExecutor()
+>>> executor = CallerThreadExecutor()
 >>> iterable = [1, 2, 3, 4, 5, 6, 7, 8]
 >>> aiterable = anextify(iterable, executor=executor)
 >>> [num async for num in aiterable]
@@ -291,7 +291,7 @@ MIT License, Copyright (c) 2025 Sergei Y. Bogdanov. See [LICENSE][github/license
 <!-- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- -->
 
 [docs/aioplus]: https://aioplus.readthedocs.io/
-[docs/aioplus/CurrentThreadExecutor]: https://aioplus.readthedocs.io/en/latest/CurrentThreadExecutor.html
+[docs/aioplus/CallerThreadExecutor]: https://aioplus.readthedocs.io/en/latest/CallerThreadExecutor.html
 [docs/aioplus/aall]: https://aioplus.readthedocs.io/en/latest/aall.html
 [docs/aioplus/aany]: https://aioplus.readthedocs.io/en/latest/aany.html
 [docs/aioplus/abatched]: https://aioplus.readthedocs.io/en/latest/abatched.html

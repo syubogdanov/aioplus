@@ -1,13 +1,12 @@
 import json
 import tomllib
 
-from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from tomllib import TOMLDecodeError
 
 import pytest
 
-from aioplus import awaitify
+from aioplus import CallerThreadExecutor, awaitify
 
 
 JSON = {"aioplus": "awaitify"}
@@ -59,7 +58,7 @@ class TestAwaitify:
 
     async def test__awaitify__executor(self, path: Path) -> None:
         """Case: executor provided."""
-        executor = ThreadPoolExecutor(max_workers=1)
+        executor = CallerThreadExecutor()
         aexists = awaitify(path.exists, executor=executor)
 
         exists_flg = await aexists()

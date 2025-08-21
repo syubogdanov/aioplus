@@ -26,14 +26,14 @@ The library is available as
 Usage
 ~~~~~
 
-CurrentThreadExecutor
----------------------
+CallerThreadExecutor
+--------------------
 
-For more, see the :doc:`documentation <CurrentThreadExecutor>`.
+For more, see the :doc:`documentation <CallerThreadExecutor>`.
 
 .. code-block:: python
 
-    >>> executor = CurrentThreadExecutor()
+    >>> executor = CallerThreadExecutor()
     >>> iterable = [1, 2, 3, 4, 5, 6, 7, 8]
     >>> aiterable = anextify(iterable, executor=executor)
     >>> [num async for num in aiterable]
@@ -317,7 +317,7 @@ For more, see the :doc:`documentation <awindowed>`.
    :hidden:
    :maxdepth: 1
 
-   CurrentThreadExecutor
+   CallerThreadExecutor
    aall
    aany
    abatched

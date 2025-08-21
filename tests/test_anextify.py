@@ -1,10 +1,9 @@
 from collections.abc import Generator
-from concurrent.futures import ThreadPoolExecutor
 from contextlib import closing
 
 import pytest
 
-from aioplus import anextify
+from aioplus import CallerThreadExecutor, anextify
 
 
 class TestAnextify:
@@ -42,7 +41,7 @@ class TestAnextify:
         """Case: executor provided."""
         iterable = [1, 2, 3, 4, 5]
 
-        executor = ThreadPoolExecutor(max_workers=1)
+        executor = CallerThreadExecutor()
         aiterable = anextify(iterable, executor=executor)
 
         nums = [num async for num in aiterable]

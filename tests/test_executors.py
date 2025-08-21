@@ -1,12 +1,12 @@
-from aioplus import CurrentThreadExecutor, anextify
+from aioplus import CallerThreadExecutor, anextify
 
 
-class TestCurrentThreadExecutor:
-    """Tests for `aioplus.CurrentThreadExecutor`."""
+class TestCallerThreadExecutor:
+    """Tests for `aioplus.CallerThreadExecutor`."""
 
-    async def test__current_thread_executor(self) -> None:
+    async def test__caller_thread_executor(self) -> None:
         """Case: default behavior."""
-        executor = CurrentThreadExecutor()
+        executor = CallerThreadExecutor()
 
         iterable = [1, 2, 3, 4, 5, 6, 7, 8]
         aiterable = anextify(iterable, executor=executor)
