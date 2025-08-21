@@ -1,4 +1,5 @@
 from collections.abc import Generator
+from concurrent.futures import ThreadPoolExecutor
 from contextlib import closing
 
 import pytest
@@ -36,3 +37,14 @@ class TestAnextify:
 
         with closing(generator()) as iterable, pytest.raises(ValueError, match=detail):
             [num async for num in anextify(iterable)]
+
+    async def test__anextify__executor(self) -> None:
+        """Case: executor provided."""
+        iterable = [1, 2, 3, 4, 5]
+
+        executor = ThreadPoolExecutor(max_workers=1)
+        aiterable = anextify(iterable, executor=executor)
+
+        nums = [num async for num in aiterable]
+
+        assert nums == [1, 2, 3, 4, 5]

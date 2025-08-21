@@ -1,6 +1,7 @@
 import json
 import tomllib
 
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from tomllib import TOMLDecodeError
 
@@ -55,3 +56,12 @@ class TestAwaitify:
 
         with path.open(mode="rb") as file, pytest.raises(TOMLDecodeError):
             await aload(file)
+
+    async def test__awaitify__executor(self, path: Path) -> None:
+        """Case: executor provided."""
+        executor = ThreadPoolExecutor(max_workers=1)
+        aexists = awaitify(path.exists, executor=executor)
+
+        exists_flg = await aexists()
+
+        assert exists_flg
