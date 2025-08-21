@@ -26,6 +26,19 @@ The library is available as
 Usage
 ~~~~~
 
+CurrentThreadExecutor
+---------------------
+
+For more, see the :doc:`documentation <CurrentThreadExecutor>`.
+
+.. code-block:: python
+
+    >>> executor = CurrentThreadExecutor()
+    >>> iterable = [1, 2, 3, 4, 5, 6, 7, 8]
+    >>> aiterable = anextify(iterable, executor=executor)
+    >>> [num async for num in aiterable]
+    [1, 2, 3, 4, 5, 6, 7, 8]
+
 aall
 ----
 
@@ -304,6 +317,7 @@ For more, see the :doc:`documentation <awindowed>`.
    :hidden:
    :maxdepth: 1
 
+   CurrentThreadExecutor
    aall
    aany
    abatched

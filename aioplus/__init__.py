@@ -23,12 +23,14 @@ from aioplus.internal.atail import atail
 from aioplus.internal.atriplewise import atriplewise
 from aioplus.internal.awaitify import awaitify
 from aioplus.internal.awindowed import awindowed
+from aioplus.internal.executors import CurrentThreadExecutor
 
 
 __author__ = "Sergei Y. Bogdanov <syubogdanov@outlook.com>"
 __version__ = "0.5.0"
 
 __all__: list[str] = [
+    "CurrentThreadExecutor",
     "aall",
     "aany",
     "abatched",
@@ -57,6 +59,7 @@ __all__: list[str] = [
 ]
 
 
+CurrentThreadExecutor.__module__ = "aioplus"
 aall.__module__ = "aioplus"
 aany.__module__ = "aioplus"
 abatched.__module__ = "aioplus"
