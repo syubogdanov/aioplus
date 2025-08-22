@@ -2,8 +2,8 @@ from collections.abc import AsyncIterable, AsyncIterator
 from dataclasses import dataclass
 from typing import Self, TypeVar
 
+from aioplus.internal import coercions
 from aioplus.internal.aislice import aislice
-from aioplus.internal.coercions import to_async_iterable, to_bool, to_positive_int
 
 
 T = TypeVar("T")
@@ -49,9 +49,9 @@ def abatched(
     --------
     :func:`itertools.batched`
     """
-    aiterable = to_async_iterable(aiterable, variable_name="aiterable")
-    n = to_positive_int(n, variable_name="n")
-    strict = to_bool(strict, variable_name="strict")
+    aiterable = coercions.be_async_iterable(aiterable, variable_name="aiterable")
+    n = coercions.be_positive_int(n, variable_name="n")
+    strict = coercions.be_bool(strict, variable_name="strict")
 
     return AbatchedIterable(aiterable, n, strict)
 

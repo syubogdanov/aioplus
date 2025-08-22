@@ -48,7 +48,7 @@ class CallerThreadExecutor(Executor):
         -----
         * Tasks are executed immediately (not lazy) to avoid deferred execution in destructors.
         """
-        fn = coercions.to_callable(fn, variable_name="fn")
+        fn = coercions.be_callable(fn, variable_name="fn")
 
         future: Future[R] = Future()
 

@@ -1,8 +1,8 @@
 from collections.abc import AsyncIterable
 from typing import Any, SupportsIndex, TypeVar, overload
 
+from aioplus.internal import coercions
 from aioplus.internal.aenumerate import aenumerate
-from aioplus.internal.coercions import to_async_iterable, to_non_negative_int
 from aioplus.internal.sentinels import Sentinel
 
 
@@ -50,8 +50,8 @@ async def anth(
     >>> await anth(aiterable, n=4)
     4
     """
-    aiterable = to_async_iterable(aiterable, variable_name="aiterable")
-    n = to_non_negative_int(n, variable_name="n")
+    aiterable = coercions.be_async_iterable(aiterable, variable_name="aiterable")
+    n = coercions.be_non_negative_int(n, variable_name="n")
 
     async for index, value in aenumerate(aiterable):
         if index == n:

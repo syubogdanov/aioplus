@@ -4,7 +4,7 @@ from collections.abc import AsyncIterable, AsyncIterator
 from dataclasses import dataclass
 from typing import Self, SupportsIndex
 
-from aioplus.internal.coercions import to_int
+from aioplus.internal import coercions
 
 
 def acount(
@@ -41,8 +41,8 @@ def acount(
     --------
     :func:`itertools.count`
     """
-    start = to_int(start, variable_name="start")
-    step = to_int(step, variable_name="step")
+    start = coercions.be_int(start, variable_name="start")
+    step = coercions.be_int(step, variable_name="step")
 
     return AcountIterable(start, step)
 

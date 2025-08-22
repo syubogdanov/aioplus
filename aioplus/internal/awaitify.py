@@ -5,7 +5,7 @@ from contextvars import copy_context
 from functools import partial, wraps
 from typing import ParamSpec, TypeVar
 
-from aioplus.internal.coercions import to_callable, to_executor
+from aioplus.internal import coercions
 
 
 ReturnT = TypeVar("ReturnT")
@@ -44,10 +44,10 @@ def awaitify(
     --------
     :meth:`asyncio.loop.run_in_executor`
     """
-    func = to_callable(func, variable_name="func")
+    func = coercions.be_callable(func, variable_name="func")
 
     if executor is not None:
-        executor = to_executor(executor, variable_name="executor")
+        executor = coercions.be_executor(executor, variable_name="executor")
 
     @wraps(func)
     async def afunc(*args: ParamsT.args, **kwargs: ParamsT.kwargs) -> ReturnT:

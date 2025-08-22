@@ -2,7 +2,7 @@ from collections.abc import AsyncIterable, AsyncIterator
 from dataclasses import dataclass
 from typing import Self, SupportsIndex, TypeVar, overload
 
-from aioplus.internal.coercions import to_async_iterable, to_non_negative_int, to_positive_int
+from aioplus.internal import coercions
 
 
 T = TypeVar("T")
@@ -83,10 +83,10 @@ def aislice(
     if step is None:
         step = 1
 
-    aiterable = to_async_iterable(aiterable, variable_name="aiterable")
-    start = to_non_negative_int(start, variable_name="start")
-    stop = to_non_negative_int(stop, variable_name="stop")
-    step = to_positive_int(step, variable_name="step")
+    aiterable = coercions.be_async_iterable(aiterable, variable_name="aiterable")
+    start = coercions.be_non_negative_int(start, variable_name="start")
+    stop = coercions.be_non_negative_int(stop, variable_name="stop")
+    step = coercions.be_positive_int(step, variable_name="step")
 
     return AisliceIterable(aiterable, start, stop, step)
 

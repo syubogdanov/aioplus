@@ -93,13 +93,13 @@ async def aminmax(
     :func:`min`
     :func:`max`
     """
-    aiterable = coercions.to_async_iterable(aiterable, variable_name="aiterable")
+    aiterable = coercions.be_async_iterable(aiterable, variable_name="aiterable")
 
     if key is not None:
-        key = coercions.to_callable(key, variable_name="key")
+        key = coercions.be_callable(key, variable_name="key")
 
     if default is not Sentinel.UNSET:
-        default = coercions.to_pair(default, variable_name="default")
+        default = coercions.be_pair(default, variable_name="default")
 
     aiterator = aiter(aiterable)
     smallest = largest = await anext(aiterator, Sentinel.EMPTY)

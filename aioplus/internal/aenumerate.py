@@ -2,7 +2,7 @@ from collections.abc import AsyncIterable, AsyncIterator
 from dataclasses import dataclass
 from typing import Self, SupportsIndex, TypeVar
 
-from aioplus.internal.coercions import to_async_iterable, to_int
+from aioplus.internal import coercions
 
 
 T = TypeVar("T")
@@ -38,8 +38,8 @@ def aenumerate(
     --------
     :func:`enumerate`
     """
-    aiterable = to_async_iterable(aiterable, variable_name="aiterable")
-    start = to_int(start, variable_name="start")
+    aiterable = coercions.be_async_iterable(aiterable, variable_name="aiterable")
+    start = coercions.be_int(start, variable_name="start")
 
     return AenumerateIterable(aiterable, start)
 

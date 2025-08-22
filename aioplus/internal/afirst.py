@@ -1,7 +1,7 @@
 from collections.abc import AsyncIterable
 from typing import Any, TypeVar, overload
 
-from aioplus.internal.coercions import to_async_iterable
+from aioplus.internal import coercions
 from aioplus.internal.sentinels import Sentinel
 
 
@@ -40,7 +40,7 @@ async def afirst(aiterable: AsyncIterable[Any], /, *, default: Any = Sentinel.UN
     >>> await afirst(aiterable)
     0
     """
-    aiterable = to_async_iterable(aiterable, variable_name="aiterable")
+    aiterable = coercions.be_async_iterable(aiterable, variable_name="aiterable")
 
     aiterator = aiter(aiterable)
     value = await anext(aiterator, default)

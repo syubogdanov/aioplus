@@ -87,10 +87,10 @@ async def amax(
     --------
     :func:`max`
     """
-    aiterable = coercions.to_async_iterable(aiterable, variable_name="aiterable")
+    aiterable = coercions.be_async_iterable(aiterable, variable_name="aiterable")
 
     if key is not None:
-        key = coercions.to_callable(key, variable_name="key")
+        key = coercions.be_callable(key, variable_name="key")
 
     _, largest = await aminmax(aiterable, key=key, default=(Sentinel.EMPTY, Sentinel.EMPTY))
     if largest is not Sentinel.EMPTY:

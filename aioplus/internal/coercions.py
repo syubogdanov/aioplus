@@ -10,7 +10,7 @@ T1 = TypeVar("T1")
 T2 = TypeVar("T2")
 
 
-def to_int(obj: SupportsIndex, /, *, variable_name: LiteralString) -> int:
+def be_int(obj: SupportsIndex, /, *, variable_name: LiteralString) -> int:
     """Cast `SupportsIndex` to `int`."""
     if not isinstance(obj, SupportsIndex):
         detail = f"'{variable_name}' must be 'SupportsIndex'"
@@ -25,14 +25,14 @@ def to_int(obj: SupportsIndex, /, *, variable_name: LiteralString) -> int:
     return obj
 
 
-def to_positive_int(obj: SupportsIndex, /, *, variable_name: LiteralString) -> int:
+def be_positive_int(obj: SupportsIndex, /, *, variable_name: LiteralString) -> int:
     """Cast `SupportsIndex` to `int`.
 
     Notes
     -----
     * Raises `ValueError` if `obj.__index__()` is negative or zero.
     """
-    obj = to_int(obj, variable_name=variable_name)
+    obj = be_int(obj, variable_name=variable_name)
 
     if obj <= 0:
         detail = f"'{variable_name}' must be positive"
@@ -41,14 +41,14 @@ def to_positive_int(obj: SupportsIndex, /, *, variable_name: LiteralString) -> i
     return obj
 
 
-def to_non_negative_int(obj: SupportsIndex, /, *, variable_name: LiteralString) -> int:
+def be_non_negative_int(obj: SupportsIndex, /, *, variable_name: LiteralString) -> int:
     """Cast `SupportsIndex` to `int`.
 
     Notes
     -----
     * Raises `ValueError` if `obj.__index__()` is negative.
     """
-    obj = to_int(obj, variable_name=variable_name)
+    obj = be_int(obj, variable_name=variable_name)
 
     if obj < 0:
         detail = f"'{variable_name}' must be non-negative"
@@ -57,7 +57,7 @@ def to_non_negative_int(obj: SupportsIndex, /, *, variable_name: LiteralString) 
     return obj
 
 
-def to_async_iterable(
+def be_async_iterable(
     obj: AsyncIterable[T1],
     /,
     *,
@@ -76,7 +76,7 @@ def to_async_iterable(
     return obj
 
 
-def to_callable(obj: Callable[P, R], /, *, variable_name: LiteralString) -> Callable[P, R]:
+def be_callable(obj: Callable[P, R], /, *, variable_name: LiteralString) -> Callable[P, R]:
     """Cast `object` to `Callable`.
 
     Notes
@@ -90,7 +90,7 @@ def to_callable(obj: Callable[P, R], /, *, variable_name: LiteralString) -> Call
     return obj
 
 
-def to_executor(obj: Executor, /, *, variable_name: LiteralString) -> Executor:
+def be_executor(obj: Executor, /, *, variable_name: LiteralString) -> Executor:
     """Cast `object` to `Executor`.
 
     Notes
@@ -104,7 +104,7 @@ def to_executor(obj: Executor, /, *, variable_name: LiteralString) -> Executor:
     return obj
 
 
-def to_bool(obj: bool, /, *, variable_name: LiteralString) -> bool:  # noqa: FBT001
+def be_bool(obj: bool, /, *, variable_name: LiteralString) -> bool:  # noqa: FBT001
     """Cast `object` to `bool`.
 
     Notes
@@ -118,7 +118,7 @@ def to_bool(obj: bool, /, *, variable_name: LiteralString) -> bool:  # noqa: FBT
     return obj
 
 
-def to_pair(obj: tuple[T1, T2], /, *, variable_name: LiteralString) -> tuple[T1, T2]:
+def be_pair(obj: tuple[T1, T2], /, *, variable_name: LiteralString) -> tuple[T1, T2]:
     """Cast `object` to two-element tuple.
 
     Notes
@@ -137,7 +137,7 @@ def to_pair(obj: tuple[T1, T2], /, *, variable_name: LiteralString) -> tuple[T1,
     return obj
 
 
-def to_iterable(
+def be_iterable(
     obj: Iterable[T1],
     /,
     *,

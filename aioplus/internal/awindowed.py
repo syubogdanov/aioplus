@@ -3,7 +3,7 @@ from collections.abc import AsyncIterable, AsyncIterator
 from dataclasses import dataclass
 from typing import Literal, Self, TypeVar, overload
 
-from aioplus.internal.coercions import to_async_iterable, to_positive_int
+from aioplus.internal import coercions
 
 
 T = TypeVar("T")
@@ -45,8 +45,8 @@ def awindowed(aiterable: AsyncIterable[T], /, *, n: int) -> AsyncIterable[tuple[
     >>> [window async for window in awindowed(aiterable, n=3)]
     [(0, 1, 2), (1, 2, 3), ..., (19, 20, 21), (20, 21, 22)]
     """
-    aiterable = to_async_iterable(aiterable, variable_name="aiterable")
-    n = to_positive_int(n, variable_name="n")
+    aiterable = coercions.be_async_iterable(aiterable, variable_name="aiterable")
+    n = coercions.be_positive_int(n, variable_name="n")
 
     return AwindowedIterable(aiterable, n=n)
 

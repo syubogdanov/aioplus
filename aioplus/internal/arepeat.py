@@ -4,7 +4,7 @@ from collections.abc import AsyncIterable, AsyncIterator
 from dataclasses import dataclass
 from typing import Self, SupportsIndex, TypeVar
 
-from aioplus.internal.coercions import to_non_negative_int
+from aioplus.internal import coercions
 
 
 T = TypeVar("T")
@@ -42,7 +42,7 @@ def arepeat(
     :func:`itertools.repeat`
     """
     if times is not None:
-        times = to_non_negative_int(times, variable_name="times")
+        times = coercions.be_non_negative_int(times, variable_name="times")
 
     return ArepeatIterable(obj, times)
 
