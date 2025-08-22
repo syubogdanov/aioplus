@@ -94,9 +94,7 @@ async def aminmax(
     :func:`max`
     """
     aiterable = coercions.be_async_iterable(aiterable, variable_name="aiterable")
-
-    if key is not None:
-        key = coercions.be_callable(key, variable_name="key")
+    key = coercions.be_callable(key, variable_name="key", optional=True)
 
     if default is not Sentinel.UNSET:
         default = coercions.be_pair(default, variable_name="default")

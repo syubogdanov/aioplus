@@ -41,8 +41,7 @@ def arepeat(
     --------
     :func:`itertools.repeat`
     """
-    if times is not None:
-        times = coercions.be_non_negative_int(times, variable_name="times")
+    times = coercions.be_non_negative_int(times, variable_name="times", optional=True)
 
     return ArepeatIterable(obj, times)
 

@@ -88,9 +88,7 @@ async def amin(
     :func:`min`
     """
     aiterable = coercions.be_async_iterable(aiterable, variable_name="aiterable")
-
-    if key is not None:
-        key = coercions.be_callable(key, variable_name="key")
+    key = coercions.be_callable(key, variable_name="key", optional=True)
 
     smallest, _ = await aminmax(aiterable, key=key, default=(Sentinel.EMPTY, Sentinel.EMPTY))
     if smallest is not Sentinel.EMPTY:

@@ -45,9 +45,7 @@ def anextify(
     :meth:`asyncio.loop.run_in_executor`
     """
     iterable = coercions.be_iterable(iterable, variable_name="iterable")
-
-    if executor is not None:
-        executor = coercions.be_executor(executor, variable_name="executor")
+    executor = coercions.be_executor(executor, variable_name="executor", optional=True)
 
     return AnextifyIterable(iterable, executor)
 

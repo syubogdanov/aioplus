@@ -1,6 +1,6 @@
 from collections.abc import AsyncIterable, Callable, Iterable
 from concurrent.futures import Executor
-from typing import LiteralString, ParamSpec, SupportsIndex, TypeVar
+from typing import Literal, LiteralString, ParamSpec, SupportsIndex, TypeVar, overload
 
 
 P = ParamSpec("P")
@@ -10,7 +10,7 @@ T1 = TypeVar("T1")
 T2 = TypeVar("T2")
 
 
-def be_int(obj: SupportsIndex, /, *, variable_name: LiteralString) -> int:
+def be_int(obj: SupportsIndex | None, /, *, variable_name: LiteralString) -> int:
     """Cast `SupportsIndex` to `int`."""
     if not isinstance(obj, SupportsIndex):
         detail = f"'{variable_name}' must be 'SupportsIndex'"
@@ -25,14 +25,17 @@ def be_int(obj: SupportsIndex, /, *, variable_name: LiteralString) -> int:
     return obj
 
 
-def be_positive_int(obj: SupportsIndex, /, *, variable_name: LiteralString) -> int:
-    """Cast `SupportsIndex` to `int`.
+def be_positive_int(obj: SupportsIndex | None, /, *, variable_name: LiteralString) -> int:
+    """Cast `SupportsIndex` to `int` [positive]."""
+    if not isinstance(obj, SupportsIndex):
+        detail = f"'{variable_name}' must be 'SupportsIndex'"
+        raise TypeError(detail)
 
-    Notes
-    -----
-    * Raises `ValueError` if `obj.__index__()` is negative or zero.
-    """
-    obj = be_int(obj, variable_name=variable_name)
+    obj = obj.__index__()
+
+    if not isinstance(obj, int):
+        detail = f"'{variable_name}.__index__()' must be 'int'"
+        raise TypeError(detail)
 
     if obj <= 0:
         detail = f"'{variable_name}' must be positive"
@@ -41,14 +44,40 @@ def be_positive_int(obj: SupportsIndex, /, *, variable_name: LiteralString) -> i
     return obj
 
 
-def be_non_negative_int(obj: SupportsIndex, /, *, variable_name: LiteralString) -> int:
-    """Cast `SupportsIndex` to `int`.
+@overload
+def be_non_negative_int(obj: SupportsIndex, /, *, variable_name: LiteralString) -> int: ...
 
-    Notes
-    -----
-    * Raises `ValueError` if `obj.__index__()` is negative.
-    """
-    obj = be_int(obj, variable_name=variable_name)
+
+@overload
+def be_non_negative_int(
+    obj: SupportsIndex | None,
+    /,
+    *,
+    variable_name: LiteralString,
+    optional: Literal[True],
+) -> int | None: ...
+
+
+def be_non_negative_int(
+    obj: SupportsIndex | None,
+    /,
+    *,
+    variable_name: LiteralString,
+    optional: bool = False,
+) -> int | None:
+    """Cast `SupportsIndex` to `int` [non-negative]."""
+    if optional and obj is None:
+        return None
+
+    if not isinstance(obj, SupportsIndex):
+        detail = f"'{variable_name}' must be 'SupportsIndex'"
+        raise TypeError(detail)
+
+    obj = obj.__index__()
+
+    if not isinstance(obj, int):
+        detail = f"'{variable_name}.__index__()' must be 'int'"
+        raise TypeError(detail)
 
     if obj < 0:
         detail = f"'{variable_name}' must be non-negative"
@@ -63,12 +92,7 @@ def be_async_iterable(
     *,
     variable_name: LiteralString,
 ) -> AsyncIterable[T1]:
-    """Cast `object` to `AsyncIterable`.
-
-    Notes
-    -----
-    * Raises `TypeError` if `obj` is not `AsyncIterable`.
-    """
+    """Cast `object` to `AsyncIterable`."""
     if not isinstance(obj, AsyncIterable):
         detail = f"'{variable_name}' must be 'AsyncIterable'"
         raise TypeError(detail)
@@ -76,13 +100,31 @@ def be_async_iterable(
     return obj
 
 
-def be_callable(obj: Callable[P, R], /, *, variable_name: LiteralString) -> Callable[P, R]:
-    """Cast `object` to `Callable`.
+@overload
+def be_callable(obj: Callable[P, R], /, *, variable_name: LiteralString) -> Callable[P, R]: ...
 
-    Notes
-    -----
-    * Raises `TypeError` if `obj` is not `Callable`.
-    """
+
+@overload
+def be_callable(
+    obj: Callable[P, R] | None,
+    /,
+    *,
+    variable_name: LiteralString,
+    optional: Literal[True],
+) -> Callable[P, R] | None: ...
+
+
+def be_callable(
+    obj: Callable[P, R] | None,
+    /,
+    *,
+    variable_name: LiteralString,
+    optional: bool = False,
+) -> Callable[P, R] | None:
+    """Cast `object` to `Callable`."""
+    if optional and obj is None:
+        return None
+
     if not callable(obj):
         detail = f"'{variable_name}' must be callable"
         raise TypeError(detail)
@@ -90,13 +132,31 @@ def be_callable(obj: Callable[P, R], /, *, variable_name: LiteralString) -> Call
     return obj
 
 
-def be_executor(obj: Executor, /, *, variable_name: LiteralString) -> Executor:
-    """Cast `object` to `Executor`.
+@overload
+def be_executor(obj: Executor, /, *, variable_name: LiteralString) -> Executor: ...
 
-    Notes
-    -----
-    * Raises `TypeError` if `obj` is not `Executor`.
-    """
+
+@overload
+def be_executor(
+    obj: Executor | None,
+    /,
+    *,
+    variable_name: LiteralString,
+    optional: Literal[True],
+) -> Executor | None: ...
+
+
+def be_executor(
+    obj: Executor | None,
+    /,
+    *,
+    variable_name: LiteralString,
+    optional: bool = False,
+) -> Executor | None:
+    """Cast `object` to `Executor`."""
+    if optional and obj is None:
+        return None
+
     if not isinstance(obj, Executor):
         detail = f"'{variable_name}' must be 'Executor'"
         raise TypeError(detail)
@@ -105,12 +165,7 @@ def be_executor(obj: Executor, /, *, variable_name: LiteralString) -> Executor:
 
 
 def be_bool(obj: bool, /, *, variable_name: LiteralString) -> bool:  # noqa: FBT001
-    """Cast `object` to `bool`.
-
-    Notes
-    -----
-    * Raises `TypeError` if `obj` is not `bool`.
-    """
+    """Cast `object` to `bool`."""
     if not isinstance(obj, bool):
         detail = f"'{variable_name}' must be 'bool'"
         raise TypeError(detail)
@@ -119,13 +174,7 @@ def be_bool(obj: bool, /, *, variable_name: LiteralString) -> bool:  # noqa: FBT
 
 
 def be_pair(obj: tuple[T1, T2], /, *, variable_name: LiteralString) -> tuple[T1, T2]:
-    """Cast `object` to two-element tuple.
-
-    Notes
-    -----
-    * Raises `TypeError` if `obj` is not `tuple`;
-    * Raises `ValueError` if `len(obj) != 2`.
-    """
+    """Cast `object` to two-element tuple."""
     if not isinstance(obj, tuple):
         detail = f"'{variable_name}' must be 'tuple'"
         raise TypeError(detail)
@@ -143,12 +192,7 @@ def be_iterable(
     *,
     variable_name: LiteralString,
 ) -> Iterable[T1]:
-    """Cast `object` to `Iterable`.
-
-    Notes
-    -----
-    * Raises `TypeError` if `obj` is not `Iterable`.
-    """
+    """Cast `object` to `Iterable`."""
     if not isinstance(obj, Iterable):
         detail = f"'{variable_name}' must be 'Iterable'"
         raise TypeError(detail)

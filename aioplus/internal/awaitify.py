@@ -45,9 +45,7 @@ def awaitify(
     :meth:`asyncio.loop.run_in_executor`
     """
     func = coercions.be_callable(func, variable_name="func")
-
-    if executor is not None:
-        executor = coercions.be_executor(executor, variable_name="executor")
+    executor = coercions.be_executor(executor, variable_name="executor", optional=True)
 
     @wraps(func)
     async def afunc(*args: ParamsT.args, **kwargs: ParamsT.kwargs) -> ReturnT:
