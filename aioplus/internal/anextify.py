@@ -3,7 +3,6 @@ from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
 from typing import Self, TypeVar
 
-from aioplus.internal import coercions
 from aioplus.internal.awaitify import awaitify
 from aioplus.internal.sentinels import Sentinel
 
@@ -44,8 +43,13 @@ def anextify(
     --------
     :meth:`asyncio.loop.run_in_executor`
     """
-    iterable = coercions.be_iterable(iterable, variable_name="iterable")
-    executor = coercions.be_thread_pool_executor(executor, variable_name="executor", optional=True)
+    if not isinstance(iterable, Iterable):
+        detail = "'iterable' must be 'Iterable'"
+        raise TypeError(detail)
+
+    if executor is not None and not isinstance(executor, ThreadPoolExecutor):
+        detail = "'executor' must be 'ThreadPoolExecutor' or 'None'"
+        raise TypeError(detail)
 
     return AnextifyIterable(iterable, executor)
 
@@ -83,9 +87,11 @@ class AnextifyIterator(AsyncIterator[T]):
         if self._finished_flg:
             raise StopAsyncIteration
 
+        # Use `next`, not `__next__`. See the comment below
+        awaitified = awaitify(next, executor=self.executor)
+
         try:
-            # `StopIteration` cannot be raised into a `Future`!
-            awaitified = awaitify(next, executor=self.executor)
+            # Use the default value because `StopIteration` cannot be raised into a `Future`!
             value = await awaitified(self.iterator, Sentinel.EMPTY)  # type: ignore[call-arg]
 
         except Exception:
