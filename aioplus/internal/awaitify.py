@@ -47,7 +47,7 @@ def awaitify(
         raise TypeError(detail)
 
     if executor is not None and not isinstance(executor, ThreadPoolExecutor):
-        detail = "'executor' must be 'ThreadPoolExecutor'"
+        detail = "'executor' must be 'ThreadPoolExecutor' or 'None'"
         raise TypeError(detail)
 
     @wraps(func)

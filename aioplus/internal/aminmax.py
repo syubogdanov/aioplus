@@ -97,7 +97,7 @@ async def aminmax(
         raise TypeError(detail)
 
     if key is not None and not callable(key):
-        detail = "'key' must be 'Callable'"
+        detail = "'key' must be 'Callable' or 'None'"
         raise TypeError(detail)
 
     if default is not Sentinel.UNSET and not isinstance(default, tuple):

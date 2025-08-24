@@ -1,7 +1,6 @@
 from collections.abc import AsyncIterable, Callable
 from typing import Any, TypeAlias, TypeVar, overload
 
-from aioplus.internal import coercions
 from aioplus.internal.aminmax import aminmax
 from aioplus.internal.sentinels import Sentinel
 from aioplus.internal.typing import SupportsDunderGT, SupportsDunderLT
@@ -87,8 +86,13 @@ async def amin(
     --------
     :func:`min`
     """
-    aiterable = coercions.be_async_iterable(aiterable, variable_name="aiterable")
-    key = coercions.be_callable(key, variable_name="key", optional=True)
+    if not isinstance(aiterable, AsyncIterable):
+        detail = "'aiterable' must be 'AsyncIterable'"
+        raise TypeError(detail)
+
+    if key is not None and not callable(key):
+        detail = "'key' must be 'Callable' or 'None'"
+        raise TypeError(detail)
 
     smallest, _ = await aminmax(aiterable, key=key, default=(Sentinel.EMPTY, Sentinel.EMPTY))
     if smallest is not Sentinel.EMPTY:
