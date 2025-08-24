@@ -260,7 +260,7 @@ class CallerThreadExecutor(ThreadPoolExecutor):
         exc_val: BaseException | None,
         exc_tb: TracebackType | None,
     ) -> Literal[False]:
-        """Exit the context.
+        """Shutdown the executor and wait for all futures to complete.
 
         Parameters
         ----------
