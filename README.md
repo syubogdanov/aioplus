@@ -8,9 +8,9 @@
 
 ## Key Features
 
-* As easy as built-ins - but asynchronous;
-* Early returns never cause unawaited coroutine warnings;
-* Nearly the same API as the Python 3.13 standard blocking API.
+* `builtins`, `itertools` and `more-itertools` - but asynchronous;
+* Seamless *sync*-*async* bridging (`awaitify`, `anextify`, etc.);
+* Early returns never cause unawaited coroutine warnings.
 
 ## Getting Started
 

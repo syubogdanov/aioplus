@@ -6,9 +6,9 @@ aioplus
 Key Features
 ------------
 
--  As easy as built-ins - but asynchronous;
--  Early returns never cause unawaited coroutine warnings;
--  Nearly the same API as the Python 3.13 standard blocking API.
+* ``builtins``, ``itertools`` and ``more-itertools`` — but asynchronous;
+* Seamless *sync*-*async* bridging (``awaitify``, ``anextify``, etc.);
+* Early returns never cause unawaited coroutine warnings.
 
 Getting Started
 ---------------
@@ -311,36 +311,36 @@ For more, see the :doc:`documentation <awindowed>`.
     [(0, 1, 2), (1, 2, 3), ..., (19, 20, 21), (20, 21, 22)]
 
 .. toctree::
-   :caption: API Reference
-   :hidden:
-   :maxdepth: 1
+    :caption: API Reference
+    :hidden:
+    :maxdepth: 1
 
-   CallerThreadExecutor
-   aall
-   aany
-   abatched
-   acount
-   acycle
-   aenumerate
-   afirst
-   ahead
-   aislice
-   alast
-   alen
-   amax
-   amin
-   aminmax
-   anextify
-   anth
-   apairwise
-   arange
-   arepeat
-   areversed
-   asum
-   atail
-   atriplewise
-   awaitify
-   awindowed
+    CallerThreadExecutor
+    aall
+    aany
+    abatched
+    acount
+    acycle
+    aenumerate
+    afirst
+    ahead
+    aislice
+    alast
+    alen
+    amax
+    amin
+    aminmax
+    anextify
+    anth
+    apairwise
+    arange
+    arepeat
+    areversed
+    asum
+    atail
+    atriplewise
+    awaitify
+    awindowed
 
 License
 -------
