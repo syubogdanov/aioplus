@@ -30,10 +30,8 @@ For more, see the [documentation][docs/aioplus/CallerThreadExecutor].
 
 ```python
 >>> executor = CallerThreadExecutor()
->>> iterable = [1, 2, 3, 4, 5, 6, 7, 8]
->>> aiterable = anextify(iterable, executor=executor)
->>> [num async for num in aiterable]
-[1, 2, 3, 4, 5, 6, 7, 8]
+>>> loop = asyncio.new_event_loop()
+>>> loop.set_default_executor(executor)
 ```
 
 #### *aall*

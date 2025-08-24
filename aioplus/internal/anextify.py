@@ -1,5 +1,5 @@
 from collections.abc import AsyncIterable, AsyncIterator, Iterable, Iterator
-from concurrent.futures import Executor
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
 from typing import Self, TypeVar
 
@@ -15,7 +15,7 @@ def anextify(
     iterable: Iterable[T],
     /,
     *,
-    executor: Executor | None = None,
+    executor: ThreadPoolExecutor | None = None,
 ) -> AsyncIterable[T]:
     """Make an iterable asynchronous.
 
@@ -24,9 +24,9 @@ def anextify(
     iterable : Iterable[T]
         An iterable to be wrapped for asynchronous execution.
 
-    executor : Executor, optional
-        An optional :class:`concurrent.futures.Executor` to run the function in. If :obj:`None`, the
-        default executor is used (usually a thread pool).
+    executor : ThreadPoolExecutor, optional
+        An optional :class:`concurrent.futures.ThreadPoolExecutor` to run the function in. If
+        :obj:`None`, the default executor is used.
 
     Returns
     -------
@@ -45,7 +45,7 @@ def anextify(
     :meth:`asyncio.loop.run_in_executor`
     """
     iterable = coercions.be_iterable(iterable, variable_name="iterable")
-    executor = coercions.be_executor(executor, variable_name="executor", optional=True)
+    executor = coercions.be_thread_pool_executor(executor, variable_name="executor", optional=True)
 
     return AnextifyIterable(iterable, executor)
 
@@ -55,7 +55,7 @@ class AnextifyIterable(AsyncIterable[T]):
     """An asynchronous iterable."""
 
     iterable: Iterable[T]
-    executor: Executor | None
+    executor: ThreadPoolExecutor | None
 
     def __aiter__(self) -> AsyncIterator[T]:
         """Return an asynchronous iterator."""
@@ -68,7 +68,7 @@ class AnextifyIterator(AsyncIterator[T]):
     """An asynchronous iterator."""
 
     iterator: Iterator[T]
-    executor: Executor | None
+    executor: ThreadPoolExecutor | None
 
     def __post_init__(self) -> None:
         """Initialize the object."""

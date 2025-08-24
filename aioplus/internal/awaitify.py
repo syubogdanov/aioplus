@@ -1,6 +1,6 @@
 from asyncio import get_running_loop
 from collections.abc import Awaitable, Callable
-from concurrent.futures import Executor
+from concurrent.futures import ThreadPoolExecutor
 from contextvars import copy_context
 from functools import partial, wraps
 from typing import ParamSpec, TypeVar
@@ -16,7 +16,7 @@ def awaitify(
     func: Callable[ParamsT, ReturnT],
     /,
     *,
-    executor: Executor | None = None,
+    executor: ThreadPoolExecutor | None = None,
 ) -> Callable[ParamsT, Awaitable[ReturnT]]:
     """Make a function asynchronous.
 
@@ -25,9 +25,9 @@ def awaitify(
     func : Callable
         A callable to be wrapped for asynchronous execution.
 
-    executor : Executor, optional
-        An optional :class:`concurrent.futures.Executor` to run the function in. If :obj:`None`, the
-        default executor is used (usually a thread pool).
+    executor : ThreadPoolExecutor, optional
+        An optional :class:`concurrent.futures.ThreadPoolExecutor` to run the function in. If
+        :obj:`None`, the default executor is used.
 
     Returns
     -------
@@ -45,7 +45,7 @@ def awaitify(
     :meth:`asyncio.loop.run_in_executor`
     """
     func = coercions.be_callable(func, variable_name="func")
-    executor = coercions.be_executor(executor, variable_name="executor", optional=True)
+    executor = coercions.be_thread_pool_executor(executor, variable_name="executor", optional=True)
 
     @wraps(func)
     async def afunc(*args: ParamsT.args, **kwargs: ParamsT.kwargs) -> ReturnT:

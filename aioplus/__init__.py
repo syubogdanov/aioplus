@@ -23,7 +23,7 @@ from aioplus.internal.atail import atail
 from aioplus.internal.atriplewise import atriplewise
 from aioplus.internal.awaitify import awaitify
 from aioplus.internal.awindowed import awindowed
-from aioplus.internal.executors import CallerThreadExecutor
+from aioplus.internal.caller_thread_executor import CallerThreadExecutor
 
 
 __author__ = "Sergei Y. Bogdanov <syubogdanov@outlook.com>"

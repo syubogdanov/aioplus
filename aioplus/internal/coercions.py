@@ -1,5 +1,5 @@
 from collections.abc import AsyncIterable, Callable, Iterable
-from concurrent.futures import Executor
+from concurrent.futures import ThreadPoolExecutor
 from typing import Literal, LiteralString, ParamSpec, SupportsIndex, TypeVar, overload
 
 
@@ -10,7 +10,7 @@ T1 = TypeVar("T1")
 T2 = TypeVar("T2")
 
 
-def be_int(obj: SupportsIndex | None, /, *, variable_name: LiteralString) -> int:
+def be_int(obj: SupportsIndex, /, *, variable_name: LiteralString) -> int:
     """Cast `SupportsIndex` to `int`."""
     if not isinstance(obj, SupportsIndex):
         detail = f"'{variable_name}' must be 'SupportsIndex'"
@@ -25,7 +25,7 @@ def be_int(obj: SupportsIndex | None, /, *, variable_name: LiteralString) -> int
     return obj
 
 
-def be_positive_int(obj: SupportsIndex | None, /, *, variable_name: LiteralString) -> int:
+def be_positive_int(obj: SupportsIndex, /, *, variable_name: LiteralString) -> int:
     """Cast `SupportsIndex` to `int` [positive]."""
     if not isinstance(obj, SupportsIndex):
         detail = f"'{variable_name}' must be 'SupportsIndex'"
@@ -133,32 +133,37 @@ def be_callable(
 
 
 @overload
-def be_executor(obj: Executor, /, *, variable_name: LiteralString) -> Executor: ...
+def be_thread_pool_executor(
+    obj: ThreadPoolExecutor,
+    /,
+    *,
+    variable_name: LiteralString,
+) -> ThreadPoolExecutor: ...
 
 
 @overload
-def be_executor(
-    obj: Executor | None,
+def be_thread_pool_executor(
+    obj: ThreadPoolExecutor | None,
     /,
     *,
     variable_name: LiteralString,
     optional: Literal[True],
-) -> Executor | None: ...
+) -> ThreadPoolExecutor | None: ...
 
 
-def be_executor(
-    obj: Executor | None,
+def be_thread_pool_executor(
+    obj: ThreadPoolExecutor | None,
     /,
     *,
     variable_name: LiteralString,
     optional: bool = False,
-) -> Executor | None:
-    """Cast `object` to `Executor`."""
+) -> ThreadPoolExecutor | None:
+    """Cast `object` to `ThreadPoolExecutor`."""
     if optional and obj is None:
         return None
 
-    if not isinstance(obj, Executor):
-        detail = f"'{variable_name}' must be 'Executor'"
+    if not isinstance(obj, ThreadPoolExecutor):
+        detail = f"'{variable_name}' must be 'concurrent.futures.ThreadPoolExecutor'"
         raise TypeError(detail)
 
     return obj
