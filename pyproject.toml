@@ -18,6 +18,8 @@ keywords = [
     "asyncio",
     "builtins",
     "concurrency",
+    "concurrent",
+    "futures",
     "iteration",
     "iterator",
     "itertools",
