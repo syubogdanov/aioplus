@@ -1,7 +1,6 @@
 from collections.abc import AsyncIterable, Callable
 from typing import Any, TypeAlias, TypeVar, overload
 
-from aioplus.internal import coercions
 from aioplus.internal.sentinels import Sentinel
 from aioplus.internal.typing import SupportsDunderGT, SupportsDunderLT
 
@@ -93,11 +92,21 @@ async def aminmax(
     :func:`min`
     :func:`max`
     """
-    aiterable = coercions.be_async_iterable(aiterable, variable_name="aiterable")
-    key = coercions.be_callable(key, variable_name="key", optional=True)
+    if not isinstance(aiterable, AsyncIterable):
+        detail = "'aiterable' must be 'AsyncIterable'"
+        raise TypeError(detail)
 
-    if default is not Sentinel.UNSET:
-        default = coercions.be_pair(default, variable_name="default")
+    if key is not None and not callable(key):
+        detail = "'key' must be 'Callable'"
+        raise TypeError(detail)
+
+    if default is not Sentinel.UNSET and not isinstance(default, tuple):
+        detail = "'default' must be 'tuple'"
+        raise TypeError(detail)
+
+    if default is not Sentinel.UNSET and len(default) != 2:
+        detail = "'len(default)' must be a '2'"
+        raise ValueError(detail)
 
     aiterator = aiter(aiterable)
     smallest = largest = await anext(aiterator, Sentinel.EMPTY)

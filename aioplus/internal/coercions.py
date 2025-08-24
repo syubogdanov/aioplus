@@ -1,5 +1,4 @@
-from collections.abc import AsyncIterable, Callable, Iterable
-from concurrent.futures import ThreadPoolExecutor
+from collections.abc import AsyncIterable, Callable
 from typing import Literal, LiteralString, ParamSpec, SupportsIndex, TypeVar, overload
 
 
@@ -132,74 +131,10 @@ def be_callable(
     return obj
 
 
-@overload
-def be_thread_pool_executor(
-    obj: ThreadPoolExecutor,
-    /,
-    *,
-    variable_name: LiteralString,
-) -> ThreadPoolExecutor: ...
-
-
-@overload
-def be_thread_pool_executor(
-    obj: ThreadPoolExecutor | None,
-    /,
-    *,
-    variable_name: LiteralString,
-    optional: Literal[True],
-) -> ThreadPoolExecutor | None: ...
-
-
-def be_thread_pool_executor(
-    obj: ThreadPoolExecutor | None,
-    /,
-    *,
-    variable_name: LiteralString,
-    optional: bool = False,
-) -> ThreadPoolExecutor | None:
-    """Cast `object` to `ThreadPoolExecutor`."""
-    if optional and obj is None:
-        return None
-
-    if not isinstance(obj, ThreadPoolExecutor):
-        detail = f"'{variable_name}' must be 'concurrent.futures.ThreadPoolExecutor'"
-        raise TypeError(detail)
-
-    return obj
-
-
 def be_bool(obj: bool, /, *, variable_name: LiteralString) -> bool:  # noqa: FBT001
     """Cast `object` to `bool`."""
     if not isinstance(obj, bool):
         detail = f"'{variable_name}' must be 'bool'"
-        raise TypeError(detail)
-
-    return obj
-
-
-def be_pair(obj: tuple[T1, T2], /, *, variable_name: LiteralString) -> tuple[T1, T2]:
-    """Cast `object` to two-element tuple."""
-    if not isinstance(obj, tuple):
-        detail = f"'{variable_name}' must be 'tuple'"
-        raise TypeError(detail)
-
-    if len(obj) != 2:
-        detail = f"'len({variable_name})' must be '2'"
-        raise ValueError(detail)
-
-    return obj
-
-
-def be_iterable(
-    obj: Iterable[T1],
-    /,
-    *,
-    variable_name: LiteralString,
-) -> Iterable[T1]:
-    """Cast `object` to `Iterable`."""
-    if not isinstance(obj, Iterable):
-        detail = f"'{variable_name}' must be 'Iterable'"
         raise TypeError(detail)
 
     return obj
