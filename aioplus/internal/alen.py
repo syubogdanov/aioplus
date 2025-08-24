@@ -1,8 +1,6 @@
 from collections.abc import AsyncIterable
 from typing import Any
 
-from aioplus.internal import coercions
-
 
 async def alen(aiterable: AsyncIterable[Any], /) -> int:
     """Return length of the iterable.
@@ -27,7 +25,9 @@ async def alen(aiterable: AsyncIterable[Any], /) -> int:
     --------
     :func:`len`
     """
-    aiterable = coercions.be_async_iterable(aiterable, variable_name="aiterable")
+    if not isinstance(aiterable, AsyncIterable):
+        detail = "'aiterable' must be 'AsyncIterable'"
+        raise TypeError(detail)
 
     count = 0
     async for _ in aiterable:

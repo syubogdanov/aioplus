@@ -1,4 +1,4 @@
-from collections.abc import AsyncIterable, Callable
+from collections.abc import AsyncIterable
 from typing import Literal, LiteralString, ParamSpec, SupportsIndex, TypeVar, overload
 
 
@@ -94,38 +94,6 @@ def be_async_iterable(
     """Cast `object` to `AsyncIterable`."""
     if not isinstance(obj, AsyncIterable):
         detail = f"'{variable_name}' must be 'AsyncIterable'"
-        raise TypeError(detail)
-
-    return obj
-
-
-@overload
-def be_callable(obj: Callable[P, R], /, *, variable_name: LiteralString) -> Callable[P, R]: ...
-
-
-@overload
-def be_callable(
-    obj: Callable[P, R] | None,
-    /,
-    *,
-    variable_name: LiteralString,
-    optional: Literal[True],
-) -> Callable[P, R] | None: ...
-
-
-def be_callable(
-    obj: Callable[P, R] | None,
-    /,
-    *,
-    variable_name: LiteralString,
-    optional: bool = False,
-) -> Callable[P, R] | None:
-    """Cast `object` to `Callable`."""
-    if optional and obj is None:
-        return None
-
-    if not callable(obj):
-        detail = f"'{variable_name}' must be callable"
         raise TypeError(detail)
 
     return obj

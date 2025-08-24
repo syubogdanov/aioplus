@@ -5,8 +5,6 @@ from collections.abc import AsyncIterable, AsyncIterator
 from dataclasses import dataclass
 from typing import Self, TypeVar
 
-from aioplus.internal import coercions
-
 
 T = TypeVar("T")
 
@@ -39,7 +37,9 @@ def acycle(aiterable: AsyncIterable[T], /) -> AsyncIterable[T]:
     --------
     :func:`itertools.cycle`
     """
-    aiterable = coercions.be_async_iterable(aiterable, variable_name="aiterable")
+    if not isinstance(aiterable, AsyncIterable):
+        detail = "'aiterable' must be 'AsyncIterable'"
+        raise TypeError(detail)
 
     return AcycleIterable(aiterable)
 

@@ -1,7 +1,6 @@
 from collections.abc import AsyncIterable
 from typing import Any, Literal, Protocol, TypeVar, overload
 
-from aioplus.internal import coercions
 from aioplus.internal.typing import SupportsAdd, SupportsRAdd
 
 
@@ -62,10 +61,11 @@ async def asum(aiterable: AsyncIterable[Any], /, *, start: Any = 0) -> Any:
     --------
     :func:`sum`
     """
-    aiterable = coercions.be_async_iterable(aiterable, variable_name="aiterable")
+    if not isinstance(aiterable, AsyncIterable):
+        detail = "'aiterable' must be 'AsyncIterable'"
+        raise TypeError(detail)
 
     total = start
-
     async for value in aiterable:
         total += value
 

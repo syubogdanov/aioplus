@@ -1,7 +1,6 @@
 from collections.abc import AsyncIterable
 from typing import TypeVar
 
-from aioplus.internal import coercions
 from aioplus.internal.awindowed import awindowed
 
 
@@ -31,6 +30,8 @@ def apairwise(aiterable: AsyncIterable[T], /) -> AsyncIterable[tuple[T, T]]:
     --------
     :func:`itertools.pairwise`
     """
-    aiterable = coercions.be_async_iterable(aiterable, variable_name="aiterable")
+    if not isinstance(aiterable, AsyncIterable):
+        detail = "'aiterable' must be 'AsyncIterable'"
+        raise TypeError(detail)
 
     return awindowed(aiterable, n=2)
