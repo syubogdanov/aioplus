@@ -1,18 +1,12 @@
 from collections.abc import AsyncIterable, AsyncIterator
 from dataclasses import dataclass
-from typing import Self, SupportsIndex, TypeVar
-
-from aioplus.internal import coercions
+from typing import Self, TypeVar
 
 
 T = TypeVar("T")
 
 
-def aenumerate(
-    aiterable: AsyncIterable[T],
-    /,
-    start: SupportsIndex = 0,
-) -> AsyncIterable[tuple[int, T]]:
+def aenumerate(aiterable: AsyncIterable[T], /, start: int = 0) -> AsyncIterable[tuple[int, T]]:
     """Return an enumerated iterator.
 
     Parameters
@@ -38,8 +32,13 @@ def aenumerate(
     --------
     :func:`enumerate`
     """
-    aiterable = coercions.be_async_iterable(aiterable, variable_name="aiterable")
-    start = coercions.be_int(start, variable_name="start")
+    if not isinstance(aiterable, AsyncIterable):
+        detail = "'aiterable' must be 'AsyncIterable'"
+        raise TypeError(detail)
+
+    if not isinstance(start, int):
+        detail = "'start' must be 'int'"
+        raise TypeError(detail)
 
     return AenumerateIterable(aiterable, start)
 

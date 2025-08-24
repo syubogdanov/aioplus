@@ -3,8 +3,6 @@ from collections.abc import AsyncIterable, AsyncIterator
 from dataclasses import dataclass
 from typing import Literal, Self, TypeVar, overload
 
-from aioplus.internal import coercions
-
 
 T = TypeVar("T")
 
@@ -45,8 +43,17 @@ def awindowed(aiterable: AsyncIterable[T], /, *, n: int) -> AsyncIterable[tuple[
     >>> [window async for window in awindowed(aiterable, n=3)]
     [(0, 1, 2), (1, 2, 3), ..., (19, 20, 21), (20, 21, 22)]
     """
-    aiterable = coercions.be_async_iterable(aiterable, variable_name="aiterable")
-    n = coercions.be_positive_int(n, variable_name="n")
+    if not isinstance(aiterable, AsyncIterable):
+        detail = "'aiterable' must be 'AsyncIterable'"
+        raise TypeError(detail)
+
+    if not isinstance(n, int):
+        detail = "'n' must be 'int'"
+        raise TypeError(detail)
+
+    if n <= 0:
+        detail = "'n' must be positive"
+        raise ValueError(detail)
 
     return AwindowedIterable(aiterable, n=n)
 

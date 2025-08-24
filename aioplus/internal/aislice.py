@@ -1,41 +1,34 @@
 from collections.abc import AsyncIterable, AsyncIterator
 from dataclasses import dataclass
-from typing import Self, SupportsIndex, TypeVar, overload
-
-from aioplus.internal import coercions
+from typing import Self, TypeVar, overload
 
 
 T = TypeVar("T")
 
 
 @overload
-def aislice(aiterable: AsyncIterable[T], stop: SupportsIndex, /) -> AsyncIterable[T]: ...
+def aislice(aiterable: AsyncIterable[T], stop: int, /) -> AsyncIterable[T]: ...
+
+
+@overload
+def aislice(aiterable: AsyncIterable[T], start: int, stop: int, /) -> AsyncIterable[T]: ...
 
 
 @overload
 def aislice(
     aiterable: AsyncIterable[T],
-    start: SupportsIndex,
-    stop: SupportsIndex,
+    start: int,
+    stop: int,
+    step: int,
     /,
 ) -> AsyncIterable[T]: ...
 
 
-@overload
-def aislice(
+def aislice(  # noqa: C901
     aiterable: AsyncIterable[T],
-    start: SupportsIndex,
-    stop: SupportsIndex,
-    step: SupportsIndex,
-    /,
-) -> AsyncIterable[T]: ...
-
-
-def aislice(
-    aiterable: AsyncIterable[T],
-    start: SupportsIndex,
-    stop: SupportsIndex | None = None,
-    step: SupportsIndex | None = None,
+    start: int,
+    stop: int | None = None,
+    step: int | None = None,
     /,
 ) -> AsyncIterable[T]:
     """Return selected elements from the iterable.
@@ -71,6 +64,22 @@ def aislice(
     --------
     :func:`itertools.islice`
     """
+    if not isinstance(aiterable, AsyncIterable):
+        detail = "'aiterable' must be 'AsyncIterable'"
+        raise TypeError(detail)
+
+    if not isinstance(start, int):
+        detail = "'start' must be 'int'"
+        raise TypeError(detail)
+
+    if stop is not None and not isinstance(stop, int):
+        detail = "'stop' must be 'int'"
+        raise TypeError(detail)
+
+    if step is not None and not isinstance(step, int):
+        detail = "'step' must be 'int'"
+        raise TypeError(detail)
+
     if stop is None and step is not None:
         detail = "'step' is not specified but 'stop' is"
         raise ValueError(detail)
@@ -83,10 +92,17 @@ def aislice(
     if step is None:
         step = 1
 
-    aiterable = coercions.be_async_iterable(aiterable, variable_name="aiterable")
-    start = coercions.be_non_negative_int(start, variable_name="start")
-    stop = coercions.be_non_negative_int(stop, variable_name="stop")
-    step = coercions.be_positive_int(step, variable_name="step")
+    if start < 0:
+        detail = "'start' must be non-negative"
+        raise ValueError(detail)
+
+    if stop < 0:
+        detail = "'stop' must be non-negative"
+        raise ValueError(detail)
+
+    if step <= 0:
+        detail = "'step' must be positive"
+        raise ValueError(detail)
 
     return AisliceIterable(aiterable, start, stop, step)
 

@@ -3,15 +3,13 @@ import asyncio
 from collections import deque
 from collections.abc import AsyncIterable, AsyncIterator
 from dataclasses import dataclass
-from typing import Self, SupportsIndex, TypeVar
-
-from aioplus.internal import coercions
+from typing import Self, TypeVar
 
 
 T = TypeVar("T")
 
 
-def atail(aiterable: AsyncIterable[T], /, *, n: SupportsIndex) -> AsyncIterable[T]:
+def atail(aiterable: AsyncIterable[T], /, *, n: int) -> AsyncIterable[T]:
     """Return the last ``n`` items of the ``aiterable``.
 
     Parameters
@@ -19,7 +17,7 @@ def atail(aiterable: AsyncIterable[T], /, *, n: SupportsIndex) -> AsyncIterable[
     aiterable : AsyncIterable[T]
         An asynchronous iterable to retrieve items from.
 
-    n : SupportsIndex
+    n : int
         The number of items to retrieve from the end.
 
     Returns
@@ -38,8 +36,17 @@ def atail(aiterable: AsyncIterable[T], /, *, n: SupportsIndex) -> AsyncIterable[
     - The last ``n`` items are buffered in memory before yielding;
     - Yields control to the event loop before producing each value.
     """
-    aiterable = coercions.be_async_iterable(aiterable, variable_name="aiterable")
-    n = coercions.be_non_negative_int(n, variable_name="n")
+    if not isinstance(aiterable, AsyncIterable):
+        detail = "'aiterable' must be 'AsyncIterable'"
+        raise TypeError(detail)
+
+    if not isinstance(n, int):
+        detail = "'n' must be 'int'"
+        raise TypeError(detail)
+
+    if n < 0:
+        detail = "'n' must be non-negative"
+        raise ValueError(detail)
 
     return AtailIterable(aiterable, n)
 

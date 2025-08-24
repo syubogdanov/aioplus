@@ -2,32 +2,25 @@ import asyncio
 
 from collections.abc import AsyncIterable, AsyncIterator
 from dataclasses import dataclass
-from typing import Self, SupportsIndex, overload
-
-from aioplus.internal import coercions
+from typing import Self, overload
 
 
 @overload
-def arange(stop: SupportsIndex, /) -> AsyncIterable[int]: ...
+def arange(stop: int, /) -> AsyncIterable[int]: ...
 
 
 @overload
-def arange(start: SupportsIndex, stop: SupportsIndex, /) -> AsyncIterable[int]: ...
+def arange(start: int, stop: int, /) -> AsyncIterable[int]: ...
 
 
 @overload
-def arange(
-    start: SupportsIndex,
-    stop: SupportsIndex,
-    step: SupportsIndex,
-    /,
-) -> AsyncIterable[int]: ...
+def arange(start: int, stop: int, step: int, /) -> AsyncIterable[int]: ...
 
 
 def arange(
-    start: SupportsIndex,
-    stop: SupportsIndex | None = None,
-    step: SupportsIndex | None = None,
+    start: int,
+    stop: int | None = None,
+    step: int | None = None,
     /,
 ) -> AsyncIterable[int]:
     """Iterate over a range of integers.
@@ -64,6 +57,18 @@ def arange(
     --------
     :func:`range`
     """
+    if not isinstance(start, int):
+        detail = "'start' must be 'int'"
+        raise TypeError(detail)
+
+    if stop is not None and not isinstance(stop, int):
+        detail = "'stop' must be 'int'"
+        raise TypeError(detail)
+
+    if step is not None and not isinstance(step, int):
+        detail = "'step' must be 'int'"
+        raise TypeError(detail)
+
     if stop is None and step is not None:
         detail = "'step' is not specified but 'stop' is"
         raise ValueError(detail)
@@ -75,10 +80,6 @@ def arange(
 
     if step is None:
         step = 1
-
-    start = coercions.be_int(start, variable_name="start")
-    stop = coercions.be_int(stop, variable_name="stop")
-    step = coercions.be_int(step, variable_name="step")
 
     if not step:
         detail = "'step' must not be zero"

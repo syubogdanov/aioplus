@@ -2,15 +2,10 @@ import asyncio
 
 from collections.abc import AsyncIterable, AsyncIterator
 from dataclasses import dataclass
-from typing import Self, SupportsIndex
-
-from aioplus.internal import coercions
+from typing import Self
 
 
-def acount(
-    start: SupportsIndex = 0,
-    step: SupportsIndex = 1,
-) -> AsyncIterable[int]:
+def acount(start: int = 0, step: int = 1) -> AsyncIterable[int]:
     """Return evenly spaced values beginning with ``start``.
 
     Parameters
@@ -41,8 +36,13 @@ def acount(
     --------
     :func:`itertools.count`
     """
-    start = coercions.be_int(start, variable_name="start")
-    step = coercions.be_int(step, variable_name="step")
+    if not isinstance(start, int):
+        detail = "'start' must be 'int'"
+        raise TypeError(detail)
+
+    if not isinstance(step, int):
+        detail = "'step' must be 'int'"
+        raise TypeError(detail)
 
     return AcountIterable(start, step)
 

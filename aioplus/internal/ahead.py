@@ -1,14 +1,13 @@
 from collections.abc import AsyncIterable
-from typing import SupportsIndex, TypeVar
+from typing import TypeVar
 
-from aioplus.internal import coercions
 from aioplus.internal.aislice import aislice
 
 
 T = TypeVar("T")
 
 
-def ahead(aiterable: AsyncIterable[T], /, *, n: SupportsIndex) -> AsyncIterable[T]:
+def ahead(aiterable: AsyncIterable[T], /, *, n: int) -> AsyncIterable[T]:
     """Return the first ``n`` items of the ``aiterable``.
 
     Parameters
@@ -16,7 +15,7 @@ def ahead(aiterable: AsyncIterable[T], /, *, n: SupportsIndex) -> AsyncIterable[
     aiterable : AsyncIterable[T]
         An asynchronous iterable to retrieve items from.
 
-    n : SupportsIndex
+    n : int
         The number of items to retrieve from the start.
 
     Returns
@@ -34,7 +33,16 @@ def ahead(aiterable: AsyncIterable[T], /, *, n: SupportsIndex) -> AsyncIterable[
     --------
     :func:`itertools.islice`
     """
-    aiterable = coercions.be_async_iterable(aiterable, variable_name="aiterable")
-    n = coercions.be_non_negative_int(n, variable_name="n")
+    if not isinstance(aiterable, AsyncIterable):
+        detail = "'aiterable' must be 'AsyncIterable'"
+        raise TypeError(detail)
+
+    if not isinstance(n, int):
+        detail = "'n' must be 'int'"
+        raise TypeError(detail)
+
+    if n < 0:
+        detail = "'n' must be non-negative"
+        raise ValueError(detail)
 
     return aislice(aiterable, n)

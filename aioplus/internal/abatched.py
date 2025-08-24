@@ -2,7 +2,6 @@ from collections.abc import AsyncIterable, AsyncIterator
 from dataclasses import dataclass
 from typing import Self, TypeVar
 
-from aioplus.internal import coercions
 from aioplus.internal.aislice import aislice
 
 
@@ -49,9 +48,21 @@ def abatched(
     --------
     :func:`itertools.batched`
     """
-    aiterable = coercions.be_async_iterable(aiterable, variable_name="aiterable")
-    n = coercions.be_positive_int(n, variable_name="n")
-    strict = coercions.be_bool(strict, variable_name="strict")
+    if not isinstance(aiterable, AsyncIterable):
+        detail = "'aiterable' must be 'AsyncIterable'"
+        raise TypeError(detail)
+
+    if not isinstance(n, int):
+        detail = "'n' must be 'int'"
+        raise TypeError(detail)
+
+    if n <= 0:
+        detail = "'n' must be positive"
+        raise ValueError(detail)
+
+    if not isinstance(strict, bool):
+        detail = "'strict' must be 'bool'"
+        raise TypeError(detail)
 
     return AbatchedIterable(aiterable, n, strict)
 

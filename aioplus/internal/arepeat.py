@@ -2,20 +2,13 @@ import asyncio
 
 from collections.abc import AsyncIterable, AsyncIterator
 from dataclasses import dataclass
-from typing import Self, SupportsIndex, TypeVar
-
-from aioplus.internal import coercions
+from typing import Self, TypeVar
 
 
 T = TypeVar("T")
 
 
-def arepeat(
-    obj: T,
-    /,
-    *,
-    times: SupportsIndex | None = None,
-) -> AsyncIterable[T]:
+def arepeat(obj: T, /, *, times: int | None = None) -> AsyncIterable[T]:
     """Yield the same object repeatedly, either infinitely or a fixed number of times.
 
     Parameters
@@ -41,7 +34,13 @@ def arepeat(
     --------
     :func:`itertools.repeat`
     """
-    times = coercions.be_non_negative_int(times, variable_name="times", optional=True)
+    if times is not None and not isinstance(times, int):
+        detail = "'times' must be 'int' or 'None'"
+        raise TypeError(detail)
+
+    if times is not None and times < 0:
+        detail = "'times' must be non-negative"
+        raise ValueError(detail)
 
     return ArepeatIterable(obj, times)
 
