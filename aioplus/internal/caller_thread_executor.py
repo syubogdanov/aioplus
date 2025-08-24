@@ -38,16 +38,16 @@ class CallerThreadExecutor(ThreadPoolExecutor):
 
         Parameters
         ----------
-        max_workers : Any
+        max_workers : int or None
             This parameter does not affect the behavior of the executor.
 
-        thread_name_prefix : Any
+        thread_name_prefix : str
             This parameter does not affect the behavior of the executor.
 
-        initializer : Any
+        initializer : Callable[..., Any] or None
             This parameter does not affect the behavior of the executor.
 
-        initargs : Any
+        initargs : tuple[Any, ...]
             This parameter does not affect the behavior of the executor.
 
         Notes
