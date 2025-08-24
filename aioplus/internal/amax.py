@@ -1,7 +1,6 @@
 from collections.abc import AsyncIterable, Callable
 from typing import Any, TypeAlias, TypeVar, overload
 
-from aioplus.internal.aminmax import aminmax
 from aioplus.internal.sentinels import Sentinel
 from aioplus.internal.typing import SupportsDunderGT, SupportsDunderLT
 
@@ -94,8 +93,12 @@ async def amax(
         detail = "'key' must be 'Callable' or 'None'"
         raise TypeError(detail)
 
-    _, largest = await aminmax(aiterable, key=key, default=(Sentinel.EMPTY, Sentinel.EMPTY))
+    aiterator = aiter(aiterable)
+    largest = await anext(aiterator, Sentinel.EMPTY)
+
     if largest is not Sentinel.EMPTY:
+        async for value in aiterator:
+            largest = max(largest, value, key=key)
         return largest
 
     if default is not Sentinel.UNSET:

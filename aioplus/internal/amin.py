@@ -1,7 +1,6 @@
 from collections.abc import AsyncIterable, Callable
 from typing import Any, TypeAlias, TypeVar, overload
 
-from aioplus.internal.aminmax import aminmax
 from aioplus.internal.sentinels import Sentinel
 from aioplus.internal.typing import SupportsDunderGT, SupportsDunderLT
 
@@ -94,8 +93,12 @@ async def amin(
         detail = "'key' must be 'Callable' or 'None'"
         raise TypeError(detail)
 
-    smallest, _ = await aminmax(aiterable, key=key, default=(Sentinel.EMPTY, Sentinel.EMPTY))
+    aiterator = aiter(aiterable)
+    smallest = await anext(aiterator, Sentinel.EMPTY)
+
     if smallest is not Sentinel.EMPTY:
+        async for value in aiterator:
+            smallest = min(smallest, value, key=key)
         return smallest
 
     if default is not Sentinel.UNSET:
