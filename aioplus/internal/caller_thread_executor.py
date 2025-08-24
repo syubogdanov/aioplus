@@ -228,6 +228,11 @@ class CallerThreadExecutor(ThreadPoolExecutor):
 
         cancel_futures : bool
             This parameter does not affect the behavior of the executor.
+
+        Returns
+        -------
+        None
+            This method does not return a value.
         """
         if not isinstance(wait, bool):
             detail = "'wait' must be 'bool'"
