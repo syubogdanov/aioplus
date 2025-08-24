@@ -24,6 +24,7 @@ keywords = [
     "iterator",
     "itertools",
     "python",
+    "python3",
     "stdlib",
 ]
 classifiers = [
