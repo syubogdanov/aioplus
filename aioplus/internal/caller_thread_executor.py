@@ -164,7 +164,7 @@ class CallerThreadExecutor(ThreadPoolExecutor):
 
         Notes
         -----
-        * The method submits lazily to avoid blocking the caller thread for infinite iterators;
+        * This method submits lazily to avoid blocking the caller thread on infinite iterators;
         * If ``timeout`` is specified, then :exc:`TimeoutError` is always raised. The executor uses
           the caller thread, so there is no way to enforce the timeout.
         """
