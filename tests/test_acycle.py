@@ -1,24 +1,32 @@
-from aioplus import acycle, arange
+import pytest
+
+from aioplus import acycle, ahead, arange
 
 
-class TestAcycle:
-    """Tests for `aioplus.acycle`."""
+class TestParameters:
+    """Parameter tests."""
+
+    async def test__aiterable(self) -> None:
+        """Case: non-iterable."""
+        with pytest.raises(TypeError):
+            acycle(None)
+
+
+class TestFunction:
+    """Function tests."""
 
     async def test__acycle(self) -> None:
         """Case: default usage."""
-        aiterable = acycle(arange(4))
-        aiterator = aiter(aiterable)
+        aiterable = arange(4)
 
-        nums: list[int] = []
-
-        while len(nums) < 10:
-            num = await anext(aiterator)
-            nums.append(num)
+        nums = [num async for num in ahead(acycle(aiterable), n=10)]
 
         assert nums == [0, 1, 2, 3, 0, 1, 2, 3, 0, 1]
 
     async def test__acycle_empty(self) -> None:
-        """Case: empty iterable."""
-        nums = [num async for num in acycle(arange(0))]
+        """Case: `len(...) == 0`."""
+        aiterable = arange(0)
+
+        nums = [num async for num in acycle(aiterable)]
 
         assert not nums
