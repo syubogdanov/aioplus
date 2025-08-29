@@ -12,55 +12,68 @@ from aioplus import CallerThreadExecutor, awaitify
 JSON = {"aioplus": "awaitify"}
 
 
-@pytest.fixture
-def path(tempfile: Path) -> Path:
-    """Path to *JSON* file."""
-    with tempfile.open(mode="w") as file:
-        json.dump(JSON, file)
-    return tempfile
+class TestParameters:
+    """Parameter tests."""
+
+    async def test__func(self) -> None:
+        """Case: non-callable."""
+        with pytest.raises(TypeError):
+            awaitify(None)
+
+    async def test__executor(self) -> None:
+        """Case: non-executor."""
+        with pytest.raises(TypeError):
+            awaitify(print, executor=23)
 
 
-class TestAwaitify:
-    """Tests for `aioplus.awaitify`."""
+class TestFunction:
+    """Function tests."""
 
-    async def test__awaitify(self, path: Path) -> None:
+    async def test__awaitify(self, file: Path) -> None:
         """Case: default usage."""
-        aexists = awaitify(path.exists)
+        file.touch(exist_ok=True)
 
+        aexists = awaitify(file.exists)
         exists_flg = await aexists()
 
         assert exists_flg
 
-    async def test__awaitify__args(self, path: Path) -> None:
-        """Case: positional arguments."""
-        aload = awaitify(json.load)
+    async def test__awaitify__args(self, file: Path) -> None:
+        """Case: `*args`."""
+        with file.open(mode="w") as fd:
+            json.dump(JSON, fd)
 
-        with path.open() as file:
-            obj = await aload(file)
+        aload = awaitify(json.load)
+        with file.open() as fd:
+            obj = await aload(fd)
 
         assert obj == JSON
 
-    async def test__awaitify__kwargs(self, path: Path) -> None:
-        """Case: keyword arguments."""
-        aload = awaitify(json.load)
+    async def test__awaitify__kwargs(self, file: Path) -> None:
+        """Case: `**kwargs`."""
+        with file.open(mode="w") as fd:
+            json.dump(JSON, fd)
 
-        with path.open() as file:
-            obj = await aload(fp=file)
+        aload = awaitify(json.load)
+        with file.open() as fd:
+            obj = await aload(fp=fd)
 
         assert obj == JSON
 
-    async def test__awaitify__exception(self, path: Path) -> None:
-        """Case: an exception is raised."""
+    async def test__awaitify__exception(self, file: Path) -> None:
+        """Case: exception raised."""
+        with file.open(mode="w") as fd:
+            json.dump(JSON, fd)
+
         aload = awaitify(tomllib.load)
+        with file.open(mode="rb") as fd, pytest.raises(TOMLDecodeError):
+            await aload(fd)
 
-        with path.open(mode="rb") as file, pytest.raises(TOMLDecodeError):
-            await aload(file)
+    async def test__awaitify__executor(self, file: Path) -> None:
+        """Case: `executor` provided."""
+        file.touch(exist_ok=True)
 
-    async def test__awaitify__executor(self, path: Path) -> None:
-        """Case: executor provided."""
-        executor = CallerThreadExecutor()
-        aexists = awaitify(path.exists, executor=executor)
-
+        aexists = awaitify(file.exists, executor=CallerThreadExecutor())
         exists_flg = await aexists()
 
         assert exists_flg

@@ -6,7 +6,7 @@ import pytest
 
 
 @pytest.fixture
-def tempdir() -> Path:
+def directory() -> Path:
     """Path to the temporary directory."""
     path = Path(gettempdir()) / "aioplus" / str(uuid4())
     path.mkdir(parents=True, exist_ok=True)
@@ -14,8 +14,8 @@ def tempdir() -> Path:
 
 
 @pytest.fixture
-def tempfile(tempdir: Path) -> Path:
+def file(directory: Path) -> Path:
     """Path to the temporary file."""
-    path = tempdir / str(uuid4())
+    path = directory / str(uuid4())
     path.touch()
     return path
