@@ -1,37 +1,48 @@
+import pytest
+
 from aioplus import aall, acount, arange
 
 
-class TestAall:
-    """Tests for `aioplus.aall`."""
+class TestParameters:
+    """Parameter tests."""
+
+    async def test__aiterable(self) -> None:
+        """Case: non-iterable."""
+        with pytest.raises(TypeError):
+            await aall(None)
+
+
+class TestFunction:
+    """Function tests."""
 
     async def test__aall__true(self) -> None:
         """Case: return `True`."""
-        aiterator = (num >= 0 async for num in arange(0, 2304, 2))
+        aiterable = (num > 0 async for num in arange(4, 23))
 
-        flg = await aall(aiterator)
+        flg = await aall(aiterable)
 
         assert flg
 
     async def test__aall__false(self) -> None:
         """Case: return `False`."""
-        aiterator = (num <= 0 async for num in arange(0, 2304, 2))
+        aiterable = (num < 0 async for num in arange(4, 23))
 
-        flg = await aall(aiterator)
+        flg = await aall(aiterable)
 
         assert not flg
 
     async def test__aall__empty(self) -> None:
-        """Case: return `True` if empty."""
-        aiterator = arange(0)
+        """Case: empty iterable."""
+        aiterable = arange(0)
 
-        flg = await aall(aiterator)
+        flg = await aall(aiterable)
 
         assert flg
 
-    async def test__aall__infinite(self) -> None:
-        """Case: early return for infinite iterators."""
-        aiterator = (num < 0 async for num in acount())
+    async def test__aall__short_circuit(self) -> None:
+        """Case: short-circuit evaluation."""
+        aiterable = (num < 0 async for num in acount())
 
-        flg = await aall(aiterator)
+        flg = await aall(aiterable)
 
         assert not flg

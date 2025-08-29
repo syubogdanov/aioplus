@@ -1,22 +1,30 @@
+import pytest
+
 from aioplus import alen, arange
 
 
-POSITIVE_INTEGER = 2304
+class TestParameters:
+    """Parameter tests."""
+
+    async def test__aiterable(self) -> None:
+        """Case: non-iterable."""
+        with pytest.raises(TypeError):
+            await alen(None)
 
 
-class TestAlen:
-    """Tests for `aioplus.alen`."""
+class TestFunction:
+    """Function tests."""
 
     async def test__alen(self) -> None:
         """Case: default behavior."""
-        aiterator = arange(POSITIVE_INTEGER)
+        aiterator = arange(23)
 
         length = await alen(aiterator)
 
-        assert length == POSITIVE_INTEGER
+        assert length == 23
 
     async def test__alen__empty(self) -> None:
-        """Case: return `0` if empty."""
+        """Case: `len(...) == 0."""
         aiterator = arange(0)
 
         length = await alen(aiterator)
