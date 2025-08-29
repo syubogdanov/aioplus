@@ -9,12 +9,12 @@ class TestParameters:
     async def test__aiterable(self) -> None:
         """Case: non-iterable."""
         with pytest.raises(TypeError):
-            await aenumerate(None)
+            aenumerate(None)
 
     async def test__start(self) -> None:
         """Case: non-integer."""
         with pytest.raises(TypeError):
-            await aenumerate(arange(23), start="4")
+            aenumerate(arange(23), start="4")
 
 
 class TestFunction:

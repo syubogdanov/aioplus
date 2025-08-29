@@ -18,6 +18,13 @@ class TestParameters:
         with pytest.raises(TypeError):
             await anth(arange(23), n="4")
 
+    async def test__n__negative(self) -> None:
+        """Case: `n < 0`."""
+        aiterable = arange(4)
+
+        with pytest.raises(ValueError, match="'n' must be non-negative"):
+            await anth(aiterable, n=-1)
+
 
 class TestFunction:
     """Function tests."""
@@ -44,10 +51,3 @@ class TestFunction:
         value = await anth(aiterable, n=23, default=42)
 
         assert value == 42
-
-    async def test__anth__negative(self) -> None:
-        """Case: `n < 0`."""
-        aiterable = arange(4)
-
-        with pytest.raises(ValueError, match="'n' must be non-negative"):
-            await anth(aiterable, n=-1)
