@@ -6,47 +6,47 @@ from aioplus import aislice, arange
 class TestParameters:
     """Parameter tests."""
 
-    async def test__aiterable(self) -> None:
+    def test__aiterable(self) -> None:
         """Case: non-iterable."""
         with pytest.raises(TypeError):
             aislice(None, 23)
 
-    async def test__stop(self) -> None:
+    def test__stop(self) -> None:
         """Case: non-integer."""
         with pytest.raises(TypeError):
             aislice(arange(2304), "23")
 
-    async def test__start(self) -> None:
+    def test__start(self) -> None:
         """Case: non-integer."""
         with pytest.raises(TypeError):
             aislice(arange(10), 23, "4")
 
-    async def test__step(self) -> None:
+    def test__step(self) -> None:
         """Case: non-integer."""
         with pytest.raises(TypeError):
             aislice(arange(10), 0, 4, "23")
 
-    async def test__stop__negative(self) -> None:
+    def test__stop__negative(self) -> None:
         """Case: `stop < 0`."""
         with pytest.raises(ValueError, match="'stop' must be non-negative"):
             aislice(arange(23), -4)
 
-    async def test__start__negative(self) -> None:
+    def test__start__negative(self) -> None:
         """Case: `start < 0`."""
         with pytest.raises(ValueError, match="'start' must be non-negative"):
             aislice(arange(23), -4, 23)
 
-    async def test__aislice__negative_step(self) -> None:
+    def test__aislice__negative_step(self) -> None:
         """Case: `step < 0`."""
         with pytest.raises(ValueError, match="'step' must be positive"):
             aislice(arange(23), 4, 23, -1)
 
-    async def test__aislice__zero_step(self) -> None:
+    def test__aislice__zero_step(self) -> None:
         """Case: `step == 0`."""
         with pytest.raises(ValueError, match="'step' must be positive"):
             aislice(arange(23), 4, 23, 0)
 
-    async def test__aislice__step_without_stop(self) -> None:
+    def test__aislice__step_without_stop(self) -> None:
         """Case: `step` without `stop`."""
         with pytest.raises(ValueError, match="'step' is not specified but 'stop' is"):
             aislice(arange(23), 4, None, 23)

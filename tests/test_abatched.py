@@ -8,27 +8,27 @@ from aioplus import abatched, arange
 class TestParameters:
     """Parameter tests."""
 
-    async def test__aiterable(self) -> None:
+    def test__aiterable(self) -> None:
         """Case: non-iterable."""
         with pytest.raises(TypeError):
             abatched(None, n=23)
 
-    async def test__n(self) -> None:
+    def test__n(self) -> None:
         """Case: non-integer."""
         with pytest.raises(TypeError):
             abatched(arange(0), n=None)
 
-    async def test__n__zero(self) -> None:
+    def test__n__zero(self) -> None:
         """Case: zero batch size."""
         with pytest.raises(ValueError, match="'n' must be positive"):
             abatched(arange(0), n=0)
 
-    async def test__n__negative(self) -> None:
+    def test__n__negative(self) -> None:
         """Case: negative batch size."""
         with pytest.raises(ValueError, match="'n' must be positive"):
             abatched(arange(0), n=-1)
 
-    async def test__strict(self) -> None:
+    def test__strict(self) -> None:
         """Case: non-boolean."""
         with pytest.raises(TypeError):
             abatched(arange(0), n=23, strict=None)

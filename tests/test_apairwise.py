@@ -6,7 +6,7 @@ from aioplus import apairwise, arange
 class TestParameters:
     """Parameter tests."""
 
-    async def test__aiterable(self) -> None:
+    def test__aiterable(self) -> None:
         """Case: non-iterable."""
         with pytest.raises(TypeError):
             apairwise(None)

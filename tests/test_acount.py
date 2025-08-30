@@ -6,12 +6,12 @@ from aioplus import acount, ahead
 class TestParameters:
     """Parameter tests."""
 
-    async def test__start(self) -> None:
+    def test__start(self) -> None:
         """Case: non-integer."""
         with pytest.raises(TypeError):
             acount("23")
 
-    async def test__step(self) -> None:
+    def test__step(self) -> None:
         """Case: non-integer."""
         with pytest.raises(TypeError):
             acount(4, "23")

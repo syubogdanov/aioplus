@@ -6,17 +6,17 @@ from aioplus import arange, atail
 class TestParameters:
     """Parameter tests."""
 
-    async def test__aiterable(self) -> None:
+    def test__aiterable(self) -> None:
         """Case: non-iterable."""
         with pytest.raises(TypeError):
             atail(None)
 
-    async def test__n(self) -> None:
+    def test__n(self) -> None:
         """Case: non-integer."""
         with pytest.raises(TypeError):
             atail(arange(23), n="4")
 
-    async def test__n__negative(self) -> None:
+    def test__n__negative(self) -> None:
         """Case: `n < 0`."""
         with pytest.raises(ValueError, match="'n' must be non-negative"):
             atail(arange(23), n=-4)

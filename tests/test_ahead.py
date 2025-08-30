@@ -6,12 +6,12 @@ from aioplus import ahead, arange
 class TestParameters:
     """Parameter tests."""
 
-    async def test__aiterable(self) -> None:
+    def test__aiterable(self) -> None:
         """Case: non-iterable."""
         with pytest.raises(TypeError):
             ahead(None)
 
-    async def test__n__negative(self) -> None:
+    def test__n__negative(self) -> None:
         """Case: `n < 0`."""
         with pytest.raises(ValueError, match="'n' must be non-negative"):
             ahead(arange(23), n=-4)

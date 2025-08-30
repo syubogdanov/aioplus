@@ -6,12 +6,12 @@ from aioplus import aenumerate, arange
 class TestParameters:
     """Parameter tests."""
 
-    async def test__aiterable(self) -> None:
+    def test__aiterable(self) -> None:
         """Case: non-iterable."""
         with pytest.raises(TypeError):
             aenumerate(None)
 
-    async def test__start(self) -> None:
+    def test__start(self) -> None:
         """Case: non-integer."""
         with pytest.raises(TypeError):
             aenumerate(arange(23), start="4")

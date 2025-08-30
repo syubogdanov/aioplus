@@ -6,25 +6,25 @@ from aioplus import arange, awindowed
 class TestParameters:
     """Parameter tests."""
 
-    async def test__aiterable(self) -> None:
+    def test__aiterable(self) -> None:
         """Case: non-iterable."""
         with pytest.raises(TypeError):
             awindowed(None)
 
-    async def test__n(self) -> None:
+    def test__n(self) -> None:
         """Case: non-integer 'n'."""
         with pytest.raises(TypeError):
             awindowed(arange(23), n="4")
 
-    async def test__n__negative(self) -> None:
+    def test__n__negative(self) -> None:
         """Case: `n < 0`."""
         with pytest.raises(ValueError, match="'n' must be positive"):
-            [window async for window in awindowed(arange(23), n=-4)]
+            awindowed(arange(23), n=-4)
 
-    async def test__n__zero(self) -> None:
+    def test__n__zero(self) -> None:
         """Case: `n == 0`."""
         with pytest.raises(ValueError, match="'n' must be positive"):
-            [window async for window in awindowed(arange(23), n=0)]
+            awindowed(arange(23), n=0)
 
 
 class TestFunction:

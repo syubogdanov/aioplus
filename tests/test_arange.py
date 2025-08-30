@@ -6,32 +6,32 @@ from aioplus import arange
 class TestParameters:
     """Parameter tests."""
 
-    async def test__aiterable(self) -> None:
+    def test__aiterable(self) -> None:
         """Case: non-iterable."""
         with pytest.raises(TypeError):
             arange(None)
 
-    async def test__start(self) -> None:
+    def test__start(self) -> None:
         """Case: non-integer."""
         with pytest.raises(TypeError):
             arange("0")
 
-    async def test__stop(self) -> None:
+    def test__stop(self) -> None:
         """Case: non-integer."""
         with pytest.raises(TypeError):
             arange(0, "4")
 
-    async def test__step(self) -> None:
+    def test__step(self) -> None:
         """Case: non-integer."""
         with pytest.raises(TypeError):
             arange(0, 4, "23")
 
-    async def test__step__zero(self) -> None:
+    def test__step__zero(self) -> None:
         """Case: `step == 0`."""
         with pytest.raises(ValueError, match="'step' must not be zero"):
             arange(4, 23, 0)
 
-    async def test__arange__step_without_stop(self) -> None:
+    def test__arange__step_without_stop(self) -> None:
         """Case: `step` without `stop`."""
         with pytest.raises(ValueError, match="'step' is not specified but 'stop' is"):
             arange(4, None, 23)

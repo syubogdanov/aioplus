@@ -15,12 +15,12 @@ JSON = {"aioplus": "awaitify"}
 class TestParameters:
     """Parameter tests."""
 
-    async def test__func(self) -> None:
+    def test__func(self) -> None:
         """Case: non-callable."""
         with pytest.raises(TypeError):
             awaitify(None)
 
-    async def test__executor(self) -> None:
+    def test__executor(self) -> None:
         """Case: non-executor."""
         with pytest.raises(TypeError):
             awaitify(print, executor=23)

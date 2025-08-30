@@ -8,12 +8,12 @@ from aioplus import CallerThreadExecutor, anextify
 class TestParameters:
     """Parameter tests."""
 
-    async def test__iterable(self) -> None:
+    def test__iterable(self) -> None:
         """Case: non-iterable."""
         with pytest.raises(TypeError):
             anextify(None)
 
-    async def test__executor(self) -> None:
+    def test__executor(self) -> None:
         """Case: non-executor."""
         with pytest.raises(TypeError):
             anextify([4], executor=23)

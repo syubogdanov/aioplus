@@ -6,12 +6,12 @@ from aioplus import ahead, arepeat
 class TestParameters:
     """Parameter tests."""
 
-    async def test__times(self) -> None:
+    def test__times(self) -> None:
         """Case: non-integer."""
         with pytest.raises(TypeError):
             arepeat(4, times="23")
 
-    async def test__times__negative(self) -> None:
+    def test__times__negative(self) -> None:
         """Case: `times < 0`."""
         with pytest.raises(ValueError, match="'times' must be non-negative"):
             arepeat(23, times=-4)
