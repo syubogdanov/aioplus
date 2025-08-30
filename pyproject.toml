@@ -19,6 +19,7 @@ keywords = [
     "builtins",
     "concurrency",
     "concurrent",
+    "executor",
     "futures",
     "iteration",
     "iterator",
