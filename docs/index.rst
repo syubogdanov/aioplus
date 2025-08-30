@@ -91,6 +91,17 @@ For more, see the :doc:`documentation <acycle>`.
     >>> [num async for num in acycle(aiterable)]
     [0, 1, ..., 22, 23, 0, 1, ..., 22, 23, ...]
 
+aempty
+------
+
+For more, see the :doc:`documentation <aempty>`.
+
+.. code-block:: python
+
+    >>> aiterable = arange(23)
+    >>> await aempty(aiterable)
+    False
+
 aenumerate
 ----------
 
@@ -321,6 +332,7 @@ For more, see the :doc:`documentation <awindowed>`.
     abatched
     acount
     acycle
+    aempty
     aenumerate
     afirst
     ahead

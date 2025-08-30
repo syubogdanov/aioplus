@@ -3,6 +3,7 @@ from aioplus.internal.aany import aany
 from aioplus.internal.abatched import abatched
 from aioplus.internal.acount import acount
 from aioplus.internal.acycle import acycle
+from aioplus.internal.aempty import aempty
 from aioplus.internal.aenumerate import aenumerate
 from aioplus.internal.afirst import afirst
 from aioplus.internal.ahead import ahead
@@ -27,7 +28,7 @@ from aioplus.internal.caller_thread_executor import CallerThreadExecutor
 
 
 __author__ = "Sergei Y. Bogdanov <syubogdanov@outlook.com>"
-__version__ = "0.5.0"
+__version__ = "0.6.0"
 
 __all__: list[str] = [
     "CallerThreadExecutor",
@@ -36,6 +37,7 @@ __all__: list[str] = [
     "abatched",
     "acount",
     "acycle",
+    "aempty",
     "aenumerate",
     "afirst",
     "ahead",
@@ -65,6 +67,7 @@ aany.__module__ = "aioplus"
 abatched.__module__ = "aioplus"
 acount.__module__ = "aioplus"
 acycle.__module__ = "aioplus"
+aempty.__module__ = "aioplus"
 aenumerate.__module__ = "aioplus"
 afirst.__module__ = "aioplus"
 ahead.__module__ = "aioplus"

@@ -83,6 +83,16 @@ For more, see the [documentation][docs/aioplus/acycle].
 [0, 1, ..., 22, 23, 0, 1, ..., 22, 23, ...]
 ```
 
+#### *aempty*
+
+For more, see the [documentation][docs/aioplus/aempty].
+
+```python
+>>> aiterable = arange(23)
+>>> await aempty(aiterable)
+False
+```
+
 #### *aenumerate*
 
 For more, see the [documentation][docs/aioplus/aenumerate].
@@ -295,6 +305,7 @@ MIT License, Copyright (c) 2025 Sergei Y. Bogdanov. See [LICENSE][github/license
 [docs/aioplus/abatched]: https://aioplus.readthedocs.io/en/latest/abatched.html
 [docs/aioplus/acount]: https://aioplus.readthedocs.io/en/latest/acount.html
 [docs/aioplus/acycle]: https://aioplus.readthedocs.io/en/latest/acycle.html
+[docs/aioplus/aempty]: https://aioplus.readthedocs.io/en/latest/aempty.html
 [docs/aioplus/aenumerate]: https://aioplus.readthedocs.io/en/latest/aenumerate.html
 [docs/aioplus/afirst]: https://aioplus.readthedocs.io/en/latest/afirst.html
 [docs/aioplus/ahead]: https://aioplus.readthedocs.io/en/latest/ahead.html
