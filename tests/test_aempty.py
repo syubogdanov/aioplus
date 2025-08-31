@@ -17,16 +17,16 @@ class TestFunction:
 
     async def test__aempty(self) -> None:
         """Case: default usage."""
-        aiterator = arange(23)
+        aiterable = arange(23)
 
-        empty_flg = await aempty(aiterator)
+        empty_flg = await aempty(aiterable)
 
         assert not empty_flg
 
     async def test__alen__empty(self) -> None:
         """Case: `len(...) == 0."""
-        aiterator = arange(0)
+        aiterable = arange(0)
 
-        empty_flg = await aempty(aiterator)
+        empty_flg = await aempty(aiterable)
 
         assert empty_flg
