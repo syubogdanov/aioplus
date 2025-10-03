@@ -284,8 +284,8 @@ For more, see the :doc:`documentation <atabulate>`.
 
 .. code-block:: python
 
-    >>> asquare = awaitify(lambda x: x * x)
-    >>> [num async for num in atabulate(asquare)]
+    >>> afunc = awaitify(lambda x: x * x)
+    >>> [num async for num in atabulate(afunc)]
     [0, 1, 4, 9, 16, 25, 36, 49, ...]
 
 atail

@@ -22,8 +22,8 @@ def atabulate(func: Callable[[int], Awaitable[R]], /, *, start: int = 0) -> Asyn
 
     Examples
     --------
-    >>> asquare = awaitify(lambda x: x * x)
-    >>> [num async for num in atabulate(asquare)]
+    >>> afunc = awaitify(lambda x: x * x)
+    >>> [num async for num in atabulate(afunc)]
     [0, 1, 4, 9, 16, 25, 36, 49, ...]
     """
     if not callable(func):

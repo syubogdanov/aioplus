@@ -257,8 +257,8 @@ For more, see the [documentation][docs/aioplus/asum].
 For more, see the [documentation][docs/aioplus/atabulate].
 
 ```python
->>> asquare = awaitify(lambda x: x * x)
->>> [num async for num in atabulate(asquare)]
+>>> afunc = awaitify(lambda x: x * x)
+>>> [num async for num in atabulate(afunc)]
 [0, 1, 4, 9, 16, 25, 36, 49, ...]
 ```
 
