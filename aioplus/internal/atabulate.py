@@ -19,6 +19,12 @@ def atabulate(func: Callable[[int], Awaitable[R]], /, *, start: int = 0) -> Asyn
     -------
     AsyncIterable[R]
         The result of applying ``func`` to each integer.
+
+    Examples
+    --------
+    >>> asquare = awaitify(lambda x: x * x)
+    >>> [num async for num in atabulate(asquare)]
+    [0, 1, 4, 9, 16, 25, 36, 49, ...]
     """
     if not callable(func):
         detail = "'func' must be 'Callable'"
