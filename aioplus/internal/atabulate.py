@@ -12,13 +12,13 @@ def atabulate(func: Callable[[int], Awaitable[R]], /, *, start: int = 0) -> Asyn
 
     Parameters
     ----------
-    func : Callable[[int], R] or Callable[[int], Awaitable[R]]
-        The function to apply to each integer.
+    func : Callable[[int], Awaitable[R]]
+        The function to be applied.
 
     Returns
     -------
     AsyncIterable[R]
-        The result of applying ``func`` to each integer.
+        An asynchronous iterable.
 
     Examples
     --------
