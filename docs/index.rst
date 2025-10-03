@@ -277,6 +277,17 @@ For more, see the :doc:`documentation <asum>`.
     >>> await asum(aiterable)
     253
 
+atabulate
+---------
+
+For more, see the :doc:`documentation <atabulate>`.
+
+.. code-block:: python
+
+    >>> asquare = awaitify(lambda x: x * x)
+    >>> [num async for num in atabulate(asquare)]
+    [0, 1, 4, 9, 16, 25, 36, 49, ...]
+
 atail
 -----
 
@@ -350,6 +361,7 @@ For more, see the :doc:`documentation <awindowed>`.
     areversed
     asum
     atail
+    atabulate
     atriplewise
     awaitify
     awindowed

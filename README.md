@@ -252,6 +252,16 @@ For more, see the [documentation][docs/aioplus/asum].
 253
 ```
 
+#### *atabulate*
+
+For more, see the [documentation][docs/aioplus/atabulate].
+
+```python
+>>> asquare = awaitify(lambda x: x * x)
+>>> [num async for num in atabulate(asquare)]
+[0, 1, 4, 9, 16, 25, 36, 49, ...]
+```
+
 #### *atail*
 
 For more, see the [documentation][docs/aioplus/atail].
@@ -322,6 +332,7 @@ MIT License, Copyright (c) 2025 Sergei Y. Bogdanov. See [LICENSE][github/license
 [docs/aioplus/arepeat]: https://aioplus.readthedocs.io/en/latest/arepeat.html
 [docs/aioplus/areversed]: https://aioplus.readthedocs.io/en/latest/areversed.html
 [docs/aioplus/asum]: https://aioplus.readthedocs.io/en/latest/asum.html
+[docs/aioplus/atabulate]: https://aioplus.readthedocs.io/en/latest/atabulate.html
 [docs/aioplus/atail]: https://aioplus.readthedocs.io/en/latest/atail.html
 [docs/aioplus/atriplewise]: https://aioplus.readthedocs.io/en/latest/atriplewise.html
 [docs/aioplus/awaitify]: https://aioplus.readthedocs.io/en/latest/awaitify.html

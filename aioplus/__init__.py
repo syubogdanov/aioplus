@@ -20,6 +20,7 @@ from aioplus.internal.arange import arange
 from aioplus.internal.arepeat import arepeat
 from aioplus.internal.areversed import areversed
 from aioplus.internal.asum import asum
+from aioplus.internal.atabulate import atabulate
 from aioplus.internal.atail import atail
 from aioplus.internal.atriplewise import atriplewise
 from aioplus.internal.awaitify import awaitify
@@ -28,7 +29,7 @@ from aioplus.internal.caller_thread_executor import CallerThreadExecutor
 
 
 __author__ = "Sergei Y. Bogdanov <syubogdanov@outlook.com>"
-__version__ = "0.6.0"
+__version__ = "0.7.0"
 
 __all__: list[str] = [
     "CallerThreadExecutor",
@@ -54,6 +55,7 @@ __all__: list[str] = [
     "arepeat",
     "areversed",
     "asum",
+    "atabulate",
     "atail",
     "atriplewise",
     "awaitify",
@@ -84,6 +86,7 @@ arange.__module__ = "aioplus"
 arepeat.__module__ = "aioplus"
 areversed.__module__ = "aioplus"
 asum.__module__ = "aioplus"
+atabulate.__module__ = "aioplus"
 atail.__module__ = "aioplus"
 atriplewise.__module__ = "aioplus"
 awaitify.__module__ = "aioplus"
