@@ -20,7 +20,7 @@ def atabulate(func: Callable[[int], Awaitable[R]], /, *, start: int = 0) -> Asyn
     AsyncIterable[R]
         The result of applying ``func`` to each integer.
     """
-    if not isinstance(func, Callable):
+    if not callable(func):
         detail = "'func' must be 'Callable'"
         raise TypeError(detail)
 
