@@ -6,16 +6,16 @@ from functools import partial, wraps
 from typing import ParamSpec, TypeVar
 
 
-ReturnT = TypeVar("ReturnT")
-ParamsT = ParamSpec("ParamsT")
+P = ParamSpec("P")
+R = TypeVar("R")
 
 
 def awaitify(
-    func: Callable[ParamsT, ReturnT],
+    func: Callable[P, R],
     /,
     *,
     executor: ThreadPoolExecutor | None = None,
-) -> Callable[ParamsT, Awaitable[ReturnT]]:
+) -> Callable[P, Awaitable[R]]:
     """Make a function asynchronous.
 
     Parameters
@@ -51,7 +51,7 @@ def awaitify(
         raise TypeError(detail)
 
     @wraps(func)
-    async def afunc(*args: ParamsT.args, **kwargs: ParamsT.kwargs) -> ReturnT:
+    async def afunc(*args: P.args, **kwargs: P.kwargs) -> R:
         """Run the function asynchronously."""
         loop = get_running_loop()
         context = copy_context()
