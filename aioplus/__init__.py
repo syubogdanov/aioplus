@@ -25,6 +25,7 @@ from aioplus.internal.atail import atail
 from aioplus.internal.atriplewise import atriplewise
 from aioplus.internal.awaitify import awaitify
 from aioplus.internal.awindowed import awindowed
+from aioplus.internal.azip import azip
 from aioplus.internal.caller_thread_executor import CallerThreadExecutor
 
 
@@ -60,6 +61,7 @@ __all__: list[str] = [
     "atriplewise",
     "awaitify",
     "awindowed",
+    "azip",
 ]
 
 
@@ -91,3 +93,4 @@ atail.__module__ = "aioplus"
 atriplewise.__module__ = "aioplus"
 awaitify.__module__ = "aioplus"
 awindowed.__module__ = "aioplus"
+azip.__module__ = "aioplus"

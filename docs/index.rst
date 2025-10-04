@@ -332,6 +332,18 @@ For more, see the :doc:`documentation <awindowed>`.
     >>> [window async for window in awindowed(aiterable, n=3)]
     [(0, 1, 2), (1, 2, 3), ..., (19, 20, 21), (20, 21, 22)]
 
+azip
+----
+
+For more, see the :doc:`documentation <azip>`.
+
+.. code-block:: python
+
+    >>> xs = arange(42)
+    >>> ys = arange(4, 23)
+    >>> [(x, y) async for x, y in azip(xs, ys)]
+    [(0, 4), (1, 5), (2, 6), ..., (18, 22)]
+
 .. toctree::
     :caption: API Reference
     :hidden:
@@ -365,6 +377,7 @@ For more, see the :doc:`documentation <awindowed>`.
     atriplewise
     awaitify
     awindowed
+    azip
 
 License
 -------

@@ -272,7 +272,7 @@ For more, see the [documentation][docs/aioplus/atail].
 [19, 20, 21, 22]
 ```
 
-#### atriplewise
+#### *atriplewise*
 
 For more, see the [documentation][docs/aioplus/atriplewise].
 
@@ -292,7 +292,7 @@ For more, see the [documentation][docs/aioplus/awaitify].
 4 -> 23
 ```
 
-#### awindowed
+#### *awindowed*
 
 For more, see the [documentation][docs/aioplus/awindowed].
 
@@ -300,6 +300,17 @@ For more, see the [documentation][docs/aioplus/awindowed].
 >>> aiterable = arange(23)
 >>> [window async for window in awindowed(aiterable, n=3)]
 [(0, 1, 2), (1, 2, 3), ..., (19, 20, 21), (20, 21, 22)]
+```
+
+#### *azip*
+
+For more, see the [documentation][docs/aioplus/azip].
+
+```python
+>>> xs = arange(42)
+>>> ys = arange(4, 23)
+>>> [(x, y) async for x, y in azip(xs, ys)]
+[(0, 4), (1, 5), (2, 6), ..., (18, 22)]
 ```
 
 ## License
@@ -337,6 +348,7 @@ MIT License, Copyright (c) 2025 Sergei Y. Bogdanov. See [LICENSE][github/license
 [docs/aioplus/atriplewise]: https://aioplus.readthedocs.io/en/latest/atriplewise.html
 [docs/aioplus/awaitify]: https://aioplus.readthedocs.io/en/latest/awaitify.html
 [docs/aioplus/awindowed]: https://aioplus.readthedocs.io/en/latest/awindowed.html
+[docs/aioplus/azip]: https://aioplus.readthedocs.io/en/latest/azip.html
 
 [github/license]: https://github.com/syubogdanov/aioplus/tree/main/LICENSE
 
