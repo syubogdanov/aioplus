@@ -4,19 +4,18 @@ from aioplus.internal.typing import SupportsBool
 
 
 async def aall(aiterable: AsyncIterable[SupportsBool], /) -> bool:
-    """
-    Return :obj:`True` if all elements of the async iterable evaluate to :obj:`True`.
+    """Return :obj:`True` if all items of ``aiterable`` evaluate to :obj:`True`.
 
     Parameters
     ----------
-    aiterable : AsyncIterable of SupportsBool
-        An asynchronous iterable of objects supporting :meth:`object.__bool__`.
+    aiterable : AsyncIterable[SupportsBool]
+        The asynchronous iterable.
 
     Returns
     -------
     :class:`bool`
-        :obj:`True` if all elements evaluate to :obj:`True`, or if the iterable is empty.
-        :obj:`False` if any element evaluates to :obj:`False`.
+        :obj:`True` if all items evaluate to :obj:`True`, or if the iterable is empty.
+        :obj:`False` otherwise.
 
     Examples
     --------
@@ -26,7 +25,7 @@ async def aall(aiterable: AsyncIterable[SupportsBool], /) -> bool:
 
     Notes
     -----
-    - Short-circuits on the first object that evaluates to :obj:`False`.
+    * Short-circuits on the first item that evaluates to :obj:`False`.
 
     See Also
     --------

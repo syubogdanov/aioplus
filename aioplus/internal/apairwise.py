@@ -8,17 +8,17 @@ T = TypeVar("T")
 
 
 def apairwise(aiterable: AsyncIterable[T], /) -> AsyncIterable[tuple[T, T]]:
-    """Return successive overlapping pairs taken from the input ``aiterable``.
+    """Return a sliding window of width ``n=2`` over ``aiterable``.
 
     Parameters
     ----------
-    aiterable : AsyncIterable of T
-        An asynchronous iterable of elements to be paired.
+    aiterable : AsyncIterable[T]
+        The asynchronous iterable.
 
     Returns
     -------
-    AsyncIterable of tuple[T, T]
-        An asynchronous iterable yielding pairs of elements.
+    AsyncIterable[tuple[T, T]]
+        The asynchronous iterable.
 
     Examples
     --------

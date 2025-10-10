@@ -3,17 +3,17 @@ from typing import Any
 
 
 async def alen(aiterable: AsyncIterable[Any], /) -> int:
-    """Return length of the iterable.
+    """Return length of ``aiterable``.
 
     Parameters
     ----------
     aiterable : AsyncIterable[Any]
-        An asynchronous iterable of objects.
+        The asynchronous iterable.
 
     Returns
     -------
     :class:`int`
-        Length of the iterable.
+        The length.
 
     Examples
     --------

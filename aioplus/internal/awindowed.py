@@ -25,17 +25,20 @@ def awindowed(aiterable: AsyncIterable[T], /, *, n: int) -> AsyncIterable[tuple[
 
 
 def awindowed(aiterable: AsyncIterable[T], /, *, n: int) -> AsyncIterable[tuple[T, ...]]:
-    """Return a sliding window of width ``n`` over the given ``aiterable``.
+    """Return a sliding window of width ``n`` over ``aiterable``.
 
     Parameters
     ----------
-    aiterable : AsyncIterable of T
-        An asynchronous iterable of elements to be windowed.
+    aiterable : AsyncIterable[T]
+        The asynchronous iterable.
+
+    n : int
+        The width.
 
     Returns
     -------
-    AsyncIterable of tuple[T, ...]
-        An asynchronous iterable yielding windows of elements.
+    AsyncIterable[tuple[T, ...]]
+        The asynchronous iterable.
 
     Examples
     --------
@@ -58,9 +61,9 @@ def awindowed(aiterable: AsyncIterable[T], /, *, n: int) -> AsyncIterable[tuple[
     return AwindowedIterable(aiterable, n=n)
 
 
-@dataclass
+@dataclass(repr=False)
 class AwindowedIterable(AsyncIterable[tuple[T, ...]]):
-    """An asynchronous iterable that windows data."""
+    """An asynchronous iterable."""
 
     aiterable: AsyncIterable[T]
     n: int
@@ -71,18 +74,17 @@ class AwindowedIterable(AsyncIterable[tuple[T, ...]]):
         return AwindowedIterator(aiterator, self.n)
 
 
-@dataclass
+@dataclass(repr=False)
 class AwindowedIterator(AsyncIterator[tuple[T, ...]]):
-    """An asynchronous iterator that windows data."""
+    """An asynchronous iterator."""
 
     aiterator: AsyncIterator[T]
     n: int
 
     def __post_init__(self) -> None:
         """Initialize the object."""
-        self._window: deque[T] = deque(maxlen=self.n)
-        self._prefetched_flg: bool = False
         self._finished_flg: bool = False
+        self._window: deque[T] = deque(maxlen=self.n)
 
     def __aiter__(self) -> Self:
         """Return an asynchronous iterator."""
@@ -93,8 +95,15 @@ class AwindowedIterator(AsyncIterator[tuple[T, ...]]):
         if self._finished_flg:
             raise StopAsyncIteration
 
-        if not self._prefetched_flg:
-            await self._prefetch()
+        try:
+            while len(self._window) < self.n - 1:
+                value = await anext(self.aiterator)
+                self._window.append(value)
+
+        except Exception:
+            self._finished_flg = True
+            self._window.clear()
+            raise
 
         try:
             value = await anext(self.aiterator)
@@ -106,16 +115,3 @@ class AwindowedIterator(AsyncIterator[tuple[T, ...]]):
 
         self._window.append(value)
         return tuple(self._window)
-
-    async def _prefetch(self) -> None:
-        """Prefetch the window."""
-        self._prefetched_flg = True
-        try:
-            for _ in range(self.n - 1):
-                value = await anext(self.aiterator)
-                self._window.append(value)
-
-        except Exception:
-            self._finished_flg = True
-            self._window.clear()
-            raise

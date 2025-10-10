@@ -8,17 +8,17 @@ T = TypeVar("T")
 
 
 def atriplewise(aiterable: AsyncIterable[T], /) -> AsyncIterable[tuple[T, T, T]]:
-    """Return successive overlapping triplets taken from the input ``aiterable``.
+    """Return a sliding window of width ``n=3`` over ``aiterable``.
 
     Parameters
     ----------
-    aiterable : AsyncIterable of T
-        An asynchronous iterable of elements to be triplet.
+    aiterable : AsyncIterable[T]
+        The asynchronous iterable.
 
     Returns
     -------
-    AsyncIterable of tuple[T, T, T]
-        An asynchronous iterable yielding triplets of elements.
+    AsyncIterable[tuple[T, T, T]]
+        The asynchronous iterable.
 
     Examples
     --------
