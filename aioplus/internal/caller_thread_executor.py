@@ -38,13 +38,13 @@ class CallerThreadExecutor(ThreadPoolExecutor):
 
         Parameters
         ----------
-        max_workers : int or None
+        max_workers : int, optional
             This parameter does not affect the behavior of the executor.
 
         thread_name_prefix : str
             This parameter does not affect the behavior of the executor.
 
-        initializer : Callable[..., Any] or None
+        initializer : Callable[..., Any], optional
             This parameter does not affect the behavior of the executor.
 
         initargs : tuple[Any, ...]
@@ -86,7 +86,7 @@ class CallerThreadExecutor(ThreadPoolExecutor):
         Parameters
         ----------
         fn : Callable[P, R]
-            The callable to be executed.
+            The callable.
 
         *args : P.args
             Positional arguments to pass to the callable.
@@ -97,7 +97,7 @@ class CallerThreadExecutor(ThreadPoolExecutor):
         Returns
         -------
         Future[R]
-            A future representing the execution of the callable.
+            The future.
 
         Notes
         -----
@@ -138,29 +138,29 @@ class CallerThreadExecutor(ThreadPoolExecutor):
         chunksize: int = 1,
         buffersize: int | None = None,
     ) -> Iterator[R]:
-        """Map the function to the iterables.
+        """Map the callable to the iterables.
 
         Parameters
         ----------
         fn : Callable[P, R]
-            The function to map.
+            The callable.
 
         *iterables : Iterable[P]
-            The iterables to map the function to.
+            The iterables to map the callable to.
 
-        timeout : float | None
-            The timeout for the operation.
+        timeout : float, optional
+            The timeout.
 
         chunksize : int
             This parameter does not affect the behavior of the executor.
 
-        buffersize : int | None
+        buffersize : int, optional
             This parameter does not affect the behavior of the executor.
 
         Returns
         -------
         Iterator[R]
-            An iterator over the results.
+            The iterator.
 
         Notes
         -----
@@ -232,7 +232,7 @@ class CallerThreadExecutor(ThreadPoolExecutor):
         Returns
         -------
         None
-            This method does not return a value.
+            This method does not return anything.
         """
         if not isinstance(wait, bool):
             detail = "'wait' must be 'bool'"
@@ -255,7 +255,7 @@ class CallerThreadExecutor(ThreadPoolExecutor):
         Returns
         -------
         Self
-            The executor iteself.
+            The executor.
         """
         return self
 

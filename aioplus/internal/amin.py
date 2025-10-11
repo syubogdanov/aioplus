@@ -1,7 +1,6 @@
 from collections.abc import AsyncIterable, Callable
 from typing import Any, TypeAlias, TypeVar, overload
 
-from aioplus.internal.sentinels import Sentinel
 from aioplus.internal.typing import SupportsDunderGT, SupportsDunderLT
 
 
@@ -55,25 +54,25 @@ async def amin(
     /,
     *,
     key: Callable[[Any], Any] | None = None,
-    default: Any = Sentinel.UNSET,
+    default: Any = ...,
 ) -> Any:
     """Return the smallest item in ``aiterable``.
 
     Parameters
     ----------
     aiterable : AsyncIterable[T]
-        An asynchronous iterable of objects.
+        The asynchronous iterable.
 
     key : Callable[[T], SupportsRichComparison], optional
         A function that extracts a comparison key from each element in the iterable.
 
-    default : D, optional
+    default : D, unset
         A default value to return if the iterable is empty.
 
     Returns
     -------
-    T or D
-        The smallest item in the iterable or the default value.
+    T | D
+        The smallest item.
 
     Examples
     --------
@@ -94,14 +93,14 @@ async def amin(
         raise TypeError(detail)
 
     aiterator = aiter(aiterable)
-    smallest = await anext(aiterator, Sentinel.EMPTY)
+    smallest = await anext(aiterator, ...)
 
-    if smallest is not Sentinel.EMPTY:
+    if smallest is not ...:
         async for value in aiterator:
             smallest = min(smallest, value, key=key)
         return smallest
 
-    if default is not Sentinel.UNSET:
+    if default is not ...:
         return default
 
     detail = "amin(): empty iterable"

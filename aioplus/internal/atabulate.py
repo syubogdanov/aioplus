@@ -7,18 +7,18 @@ from typing import Self, TypeVar
 R = TypeVar("R")
 
 
-def atabulate(func: Callable[[int], Awaitable[R]], /, *, start: int = 0) -> AsyncIterable[R]:
-    """Return ``await func(0)``, ``await func(1)``, etc.
+def atabulate(afunc: Callable[[int], Awaitable[R]], /, *, start: int = 0) -> AsyncIterable[R]:
+    """Return ``await afunc(0)``, ``await afunc(1)``, ``await afunc(2)``, etc.
 
     Parameters
     ----------
-    func : Callable[[int], Awaitable[R]]
-        The function to be applied.
+    afunc : Callable[[int], Awaitable[R]]
+        The callable.
 
     Returns
     -------
     AsyncIterable[R]
-        An asynchronous iterable.
+        The asynchronous iterable.
 
     Examples
     --------
@@ -26,11 +26,11 @@ def atabulate(func: Callable[[int], Awaitable[R]], /, *, start: int = 0) -> Asyn
     >>> [num async for num in atabulate(afunc)]
     [0, 1, 4, 9, 16, 25, 36, 49, ...]
     """
-    if not callable(func):
+    if not callable(afunc):
         detail = "'func' must be 'Callable'"
         raise TypeError(detail)
 
-    if not iscoroutinefunction(func):
+    if not iscoroutinefunction(afunc):
         detail = "'func' must be a coroutine function"
         raise TypeError(detail)
 
@@ -38,26 +38,26 @@ def atabulate(func: Callable[[int], Awaitable[R]], /, *, start: int = 0) -> Asyn
         detail = "'start' must be 'int'"
         raise TypeError(detail)
 
-    return AtabulateIterable(func, start)
+    return AtabulateIterable(afunc, start)
 
 
 @dataclass
 class AtabulateIterable(AsyncIterable[R]):
     """An asynchronous iterable."""
 
-    func: Callable[[int], Awaitable[R]]
+    afunc: Callable[[int], Awaitable[R]]
     start: int
 
     def __aiter__(self) -> AsyncIterator[R]:
         """Return an asynchronous iterator."""
-        return AtabulateIterator(self.func, self.start)
+        return AtabulateIterator(self.afunc, self.start)
 
 
 @dataclass
 class AtabulateIterator(AsyncIterator[R]):
     """An asynchronous iterator."""
 
-    func: Callable[[int], Awaitable[R]]
+    afunc: Callable[[int], Awaitable[R]]
     next: int
 
     def __post_init__(self) -> None:
@@ -74,7 +74,7 @@ class AtabulateIterator(AsyncIterator[R]):
             raise StopAsyncIteration
 
         try:
-            value = await self.func(self.next)
+            value = await self.afunc(self.next)
 
         except Exception:
             self._finished_flg = True

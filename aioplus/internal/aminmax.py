@@ -1,7 +1,6 @@
 from collections.abc import AsyncIterable, Callable
 from typing import Any, TypeAlias, TypeVar, overload
 
-from aioplus.internal.sentinels import Sentinel
 from aioplus.internal.typing import SupportsDunderGT, SupportsDunderLT
 
 
@@ -57,25 +56,25 @@ async def aminmax(
     /,
     *,
     key: Callable[[Any], Any] | None = None,
-    default: Any = Sentinel.UNSET,
+    default: Any = ...,
 ) -> tuple[Any, Any]:
     """Return the smallest and the largest items in ``aiterable``.
 
     Parameters
     ----------
     aiterable : AsyncIterable[T]
-        An asynchronous iterable of objects.
+        The asynchronous iterable.
 
     key : Callable[[T], SupportsRichComparison], optional
         A function that extracts a comparison key from each element in the iterable.
 
-    default : tuple[D1, D2], optional
-        The default values to return if the iterable is empty.
+    default : tuple[D1, D2], unset
+        Default values to return if the iterable is empty.
 
     Returns
     -------
     tuple[T | D1, T | D2]
-        The smallest and the largest item in the iterable or the default values.
+        The smallest and the largest items.
 
     Examples
     --------
@@ -100,24 +99,24 @@ async def aminmax(
         detail = "'key' must be 'Callable' or 'None'"
         raise TypeError(detail)
 
-    if default is not Sentinel.UNSET and not isinstance(default, tuple):
+    if default is not ... and not isinstance(default, tuple):
         detail = "'default' must be 'tuple'"
         raise TypeError(detail)
 
-    if default is not Sentinel.UNSET and len(default) != 2:
+    if default is not ... and len(default) != 2:
         detail = "'len(default)' must be a '2'"
         raise ValueError(detail)
 
     aiterator = aiter(aiterable)
-    smallest = largest = await anext(aiterator, Sentinel.EMPTY)
+    smallest = largest = await anext(aiterator, ...)
 
-    if smallest is not Sentinel.EMPTY:
+    if smallest is not ...:
         async for value in aiterator:
             smallest = min(smallest, value, key=key)
             largest = max(largest, value, key=key)
         return (smallest, largest)
 
-    if default is Sentinel.UNSET:
+    if default is ...:
         detail = "aminmax(): empty iterable"
         raise ValueError(detail) from None
 
