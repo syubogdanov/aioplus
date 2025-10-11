@@ -8,12 +8,12 @@ async def aempty(aiterable: AsyncIterable[Any], /) -> bool:
     Parameters
     ----------
     aiterable : AsyncIterable[Any]
-        An asynchronous iterable of objects.
+        The asynchronous iterable.
 
     Returns
     -------
     :class:`bool`
-        :obj:`True` if ``aiterable`` is empty, :obj:`False` otherwise.
+        The emptiness.
 
     Examples
     --------
@@ -23,7 +23,7 @@ async def aempty(aiterable: AsyncIterable[Any], /) -> bool:
 
     Notes
     -----
-    - Short-circuits on the first object.
+    * Short-circuits on the first item.
     """
     if not isinstance(aiterable, AsyncIterable):
         detail = "'aiterable' must be 'AsyncIterable'"

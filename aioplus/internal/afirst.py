@@ -1,7 +1,6 @@
 from collections.abc import AsyncIterable
-from typing import Any, TypeVar, overload
-
-from aioplus.internal.sentinels import Sentinel
+from types import EllipsisType
+from typing import TypeVar, overload
 
 
 T = TypeVar("T")
@@ -16,22 +15,22 @@ async def afirst(aiterable: AsyncIterable[T], /) -> T: ...
 async def afirst(aiterable: AsyncIterable[T], /, *, default: D) -> T | D: ...
 
 
-async def afirst(aiterable: AsyncIterable[Any], /, *, default: Any = Sentinel.UNSET) -> Any:
-    """Return the first item of the ``aiterable``.
+async def afirst(aiterable: AsyncIterable[T], /, *, default: D | EllipsisType = ...) -> T | D:
+    """Return the first item of ``aiterable``.
 
     Parameters
     ----------
     aiterable : AsyncIterable[T]
-        An asynchronous iterable to retrieve the item from.
+        The asynchronous iterable.
 
-    default : D, optional
+    default : D, unset
         A default value to return if the iterable is empty.
-        If not provided, :obj:`IndexError` will be raised if the iterable is empty.
+        Otherwise, :obj:`IndexError` will be raised.
 
     Returns
     -------
-    T or D
-        The first item of ``aiterable`` or the default value.
+    T | D
+        The first item.
 
     Examples
     --------
@@ -46,7 +45,7 @@ async def afirst(aiterable: AsyncIterable[Any], /, *, default: Any = Sentinel.UN
     aiterator = aiter(aiterable)
     value = await anext(aiterator, default)
 
-    if value is Sentinel.UNSET:
+    if value is ...:
         detail = "afirst(): empty iterable"
         raise IndexError(detail) from None
 

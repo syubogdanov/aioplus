@@ -1,8 +1,8 @@
 from collections.abc import AsyncIterable
-from typing import Any, TypeVar, overload
+from types import EllipsisType
+from typing import TypeVar, overload
 
 from aioplus.internal.atail import atail
-from aioplus.internal.sentinels import Sentinel
 
 
 T = TypeVar("T")
@@ -17,22 +17,22 @@ async def alast(aiterable: AsyncIterable[T], /) -> T: ...
 async def alast(aiterable: AsyncIterable[T], /, *, default: D) -> T | D: ...
 
 
-async def alast(aiterable: AsyncIterable[Any], /, *, default: Any = Sentinel.UNSET) -> Any:
-    """Return the last item of the ``aiterable``.
+async def alast(aiterable: AsyncIterable[T], /, *, default: D | EllipsisType = ...) -> T | D:
+    """Return the last item of ``aiterable``.
 
     Parameters
     ----------
     aiterable : AsyncIterable[T]
-        An asynchronous iterable to retrieve the item from.
+        The asynchronous iterable.
 
-    default : D, optional
+    default : D, unset
         A default value to return if the iterable is empty.
-        If not provided, :obj:`IndexError` will be raised if the iterable is empty.
+        Otherwise, :obj:`IndexError` will be raised.
 
     Returns
     -------
-    T or D
-        The last item of ``aiterable`` or the default value.
+    T | D
+        The last item.
 
     Examples
     --------
@@ -47,7 +47,7 @@ async def alast(aiterable: AsyncIterable[Any], /, *, default: Any = Sentinel.UNS
     aiterator = aiter(atail(aiterable, n=1))
     value = await anext(aiterator, default)
 
-    if value is Sentinel.UNSET:
+    if value is ...:
         detail = "alast(): empty iterable"
         raise IndexError(detail) from None
 
