@@ -16,12 +16,12 @@ def awaitify(
     *,
     executor: ThreadPoolExecutor | None = None,
 ) -> Callable[P, Awaitable[R]]:
-    """Make a function asynchronous.
+    """Make ``func`` asynchronous.
 
     Parameters
     ----------
-    func : Callable
-        A callable to be wrapped for asynchronous execution.
+    func : Callable[P, R]
+        The synchronous callable.
 
     executor : ThreadPoolExecutor, optional
         An optional :class:`concurrent.futures.ThreadPoolExecutor` to run the function in. If
@@ -30,7 +30,7 @@ def awaitify(
     Returns
     -------
     Callable
-        An asynchronous callable that, when awaited, runs the original function in the executor.
+        The asynchronous callable.
 
     Examples
     --------

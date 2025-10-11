@@ -4,7 +4,6 @@ from dataclasses import dataclass
 from typing import Self, TypeVar
 
 from aioplus.internal.awaitify import awaitify
-from aioplus.internal.sentinels import Sentinel
 
 
 T = TypeVar("T")
@@ -16,21 +15,21 @@ def anextify(
     *,
     executor: ThreadPoolExecutor | None = None,
 ) -> AsyncIterable[T]:
-    """Make an iterable asynchronous.
+    """Make ``iterable`` asynchronous.
 
     Parameters
     ----------
     iterable : Iterable[T]
-        An iterable to be wrapped for asynchronous execution.
+        The synchronous iterable.
 
     executor : ThreadPoolExecutor, optional
-        An optional :class:`concurrent.futures.ThreadPoolExecutor` to run the function in. If
+        An optional :class:`concurrent.futures.ThreadPoolExecutor` to run the iterable in. If
         :obj:`None`, the default executor is used.
 
     Returns
     -------
     AsyncIterable[T]
-        An asynchronous iterable that, when awaited, calls :meth:`object.__next__` in the executor.
+        The asynchronous iterable.
 
     Examples
     --------
@@ -54,7 +53,7 @@ def anextify(
     return AnextifyIterable(iterable, executor)
 
 
-@dataclass
+@dataclass(repr=False)
 class AnextifyIterable(AsyncIterable[T]):
     """An asynchronous iterable."""
 
@@ -67,7 +66,7 @@ class AnextifyIterable(AsyncIterable[T]):
         return AnextifyIterator(iterator, self.executor)
 
 
-@dataclass
+@dataclass(repr=False)
 class AnextifyIterator(AsyncIterator[T]):
     """An asynchronous iterator."""
 
@@ -87,18 +86,18 @@ class AnextifyIterator(AsyncIterator[T]):
         if self._finished_flg:
             raise StopAsyncIteration
 
-        # Use `next`, not `__next__`. See the comment below
-        awaitified = awaitify(next, executor=self.executor)
+        # `iterator.__next__` cannot be awaitified due to `RuntimeError` being immediately raised:
+        # '`StopIteration` interacts badly with generators and cannot be raised into a `Future`'
 
+        afunc = awaitify(next, executor=self.executor)
         try:
-            # Use the default value because `StopIteration` cannot be raised into a `Future`!
-            value = await awaitified(self.iterator, Sentinel.EMPTY)  # type: ignore[call-arg]
+            value = await afunc(self.iterator, ...)  # type: ignore[call-arg]
 
         except Exception:
             self._finished_flg = True
             raise
 
-        if value is Sentinel.EMPTY:
+        if value is ...:
             self._finished_flg = True
             raise StopAsyncIteration
 
