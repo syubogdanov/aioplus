@@ -1,10 +1,9 @@
 import asyncio
 
+from asyncio import create_task
 from collections.abc import AsyncIterable, AsyncIterator
 from dataclasses import dataclass
-from typing import Any, Literal, Self, TypeVar, overload
-
-from aioplus.internal.sentinels import Sentinel
+from typing import Any, Self, TypeVar, overload
 
 
 T = TypeVar("T")
@@ -108,6 +107,10 @@ def azip(*aiterables: AsyncIterable[Any], strict: bool = False) -> AsyncIterable
     >>> [(x, y) async for x, y in azip(xs, ys)]
     [(0, 4), (1, 5), (2, 6), ..., (18, 22)]
     """
+    if not aiterables:
+        detail = "'*aiterables' must be non-empty"
+        raise ValueError(detail)
+
     for aiterable in aiterables:
         if not isinstance(aiterable, AsyncIterable):
             detail = "'*aiterables' must be 'AsyncIterable'"
@@ -153,50 +156,44 @@ class AzipIterator(AsyncIterator[tuple[T, ...]]):
         if self._finished_flg:
             raise StopAsyncIteration
 
-        coroutines = [self._next_or_sentinel(aiterator) for aiterator in self.aiterators]
-        maybes = await asyncio.gather(*coroutines)
+        coroutines = [anext(aiterator, ...) for aiterator in self.aiterators]
+        tasks = [create_task(coroutine) for coroutine in coroutines]
 
-        values: list[T] = []
-        exceptions: list[Exception] = []
+        await asyncio.gather(*tasks)
 
-        for maybe_value, maybe_exception in maybes:
-            if maybe_value is not Sentinel.EMPTY:
-                values.append(maybe_value)
-            elif maybe_exception is not Sentinel.UNSET:
-                exceptions.append(maybe_exception)
+        base_exceptions = [base_exception for task in tasks if (base_exception := task.exception())]
+        exceptions = [
+            exception for exception in base_exceptions if isinstance(exception, Exception)
+        ]
 
         if exceptions:
             self._finished_flg = True
             detail = "azip(): exception(-s) occurred"
             raise ExceptionGroup(detail, exceptions)
 
-        if not values:
+        if base_exceptions:
+            self._finished_flg = True
+            detail = "azip(): base exception(-s) occurred"
+            raise BaseExceptionGroup(detail, exceptions)
+
+        results: list[T] = []
+
+        for task in tasks:
+            result = task.result()
+            if result is not ...:
+                results.append(result)
+
+        if not results:
             self._finished_flg = True
             raise StopAsyncIteration
 
-        if self.strict and len(values) < len(maybes):
+        if self.strict and len(results) < len(self.aiterators):
             self._finished_flg = True
-            detail = "azip(): len(aiterable) differ"
+            detail = "azip(): len(*aiterables) differ"
             raise ValueError(detail)
 
-        if len(values) < len(maybes):
+        if len(results) < len(self.aiterators):
             self._finished_flg = True
             raise StopAsyncIteration
 
-        return tuple(values)
-
-    async def _next_or_sentinel(
-        self,
-        aiterator: AsyncIterator[T],
-    ) -> tuple[T | Literal[Sentinel.EMPTY], Exception | Literal[Sentinel.UNSET]]:
-        """Return the next value or a sentinel."""
-        try:
-            value = await anext(aiterator)
-
-        except StopAsyncIteration:
-            return (Sentinel.EMPTY, Sentinel.UNSET)
-
-        except Exception as exception:
-            return (Sentinel.EMPTY, exception)
-
-        return (value, Sentinel.UNSET)
+        return tuple(results)

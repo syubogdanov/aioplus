@@ -18,6 +18,11 @@ class TestParameters:
         with pytest.raises(TypeError):
             azip(None, strict=23)
 
+    async def test__azip__empty(self) -> None:
+        """Case: empty call."""
+        with pytest.raises(ValueError, match="'*aiterables' must be non-empty"):
+            azip()
+
 
 class TestFunction:
     """Function tests."""
@@ -34,11 +39,5 @@ class TestFunction:
         """Case: `strict=True`."""
         aiterables = [arange(4), arange(100, 104), arange(200, 205)]
 
-        with pytest.raises(ValueError, match=re.escape("azip(): len(aiterable) differ")):
+        with pytest.raises(ValueError, match=re.escape("azip(): len(*aiterables) differ")):
             [triplet async for triplet in azip(*aiterables, strict=True)]
-
-    async def test__azip__empty(self) -> None:
-        """Case: `len(...) == 0`."""
-        results = [triplet async for triplet in azip()]
-
-        assert not results

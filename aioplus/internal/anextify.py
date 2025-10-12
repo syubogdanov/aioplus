@@ -1,6 +1,7 @@
 from collections.abc import AsyncIterable, AsyncIterator, Iterable, Iterator
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
+from functools import partial
 from typing import Self, TypeVar
 
 from aioplus.internal.awaitify import awaitify
@@ -86,12 +87,11 @@ class AnextifyIterator(AsyncIterator[T]):
         if self._finished_flg:
             raise StopAsyncIteration
 
-        # `iterator.__next__` cannot be awaitified due to `RuntimeError` being immediately raised:
-        # '`StopIteration` interacts badly with generators and cannot be raised into a `Future`'
+        func = partial(next, self.iterator, ...)
+        afunc = awaitify(func, executor=self.executor)
 
-        afunc = awaitify(next, executor=self.executor)
         try:
-            item = await afunc(self.iterator, ...)  # type: ignore[call-arg]
+            item = await afunc()
 
         except Exception:
             self._finished_flg = True
