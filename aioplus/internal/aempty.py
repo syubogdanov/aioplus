@@ -20,10 +20,6 @@ async def aempty(aiterable: AsyncIterable[Any], /) -> bool:
     >>> aiterable = arange(23)
     >>> await aempty(aiterable)
     False
-
-    Notes
-    -----
-    * Short-circuits on the first item.
     """
     if not isinstance(aiterable, AsyncIterable):
         detail = "'aiterable' must be 'AsyncIterable'"

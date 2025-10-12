@@ -23,10 +23,6 @@ async def aall(aiterable: AsyncIterable[SupportsBool], /) -> bool:
     >>> await aall(aiterable)
     False
 
-    Notes
-    -----
-    * Short-circuits on the first item that evaluates to :obj:`False`.
-
     See Also
     --------
     :func:`all`

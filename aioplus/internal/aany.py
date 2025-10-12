@@ -23,10 +23,6 @@ async def aany(aiterable: AsyncIterable[SupportsBool], /) -> bool:
     >>> await aany(aiterable)
     True
 
-    Notes
-    -----
-    * Short-circuits on the first item that evaluates to :obj:`True`.
-
     See Also
     --------
     :func:`any`

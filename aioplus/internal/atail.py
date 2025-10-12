@@ -30,11 +30,6 @@ def atail(aiterable: AsyncIterable[T], /, *, n: int) -> AsyncIterable[T]:
     >>> aiterable = arange(23)
     >>> [num async for num in atail(aiterable, n=4)]
     [19, 20, 21, 22]
-
-    Notes
-    -----
-    - The last ``n`` items are buffered in memory before yielding;
-    - Yields control to the event loop before producing each value.
     """
     if not isinstance(aiterable, AsyncIterable):
         detail = "'aiterable' must be 'AsyncIterable'"
