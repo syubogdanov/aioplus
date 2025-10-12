@@ -47,7 +47,7 @@ def acount(start: int = 0, step: int = 1) -> AsyncIterable[int]:
     return AcountIterable(start, step)
 
 
-@dataclass
+@dataclass(repr=False)
 class AcountIterable(AsyncIterable[int]):
     """An asynchronous iterable."""
 
@@ -59,7 +59,7 @@ class AcountIterable(AsyncIterable[int]):
         return AcountIterator(self.start, self.step)
 
 
-@dataclass
+@dataclass(repr=False)
 class AcountIterator(AsyncIterator[int]):
     """An asynchronous iterator."""
 

@@ -31,15 +31,15 @@ def aislice(  # noqa: C901
     step: int | None = None,
     /,
 ) -> AsyncIterable[T]:
-    """Return selected elements from the iterable.
+    """Return selected items from ``aiterable``.
 
     Parameters
     ----------
-    aiterable : AsyncIterable of T
-        An asynchronous iterable of objects to slice.
+    aiterable : AsyncIterable[T]
+        The asynchronous iterable.
 
     start : int
-        The index of the first object to include. If ``stop`` is :obj:`None`, treated as the end
+        The index of the first item to include. If ``stop`` is :obj:`None`, treated as the end
         index, and slicing starts from ``0``.
 
     stop : int, optional
@@ -51,8 +51,8 @@ def aislice(  # noqa: C901
 
     Returns
     -------
-    AsyncIterable of T
-        An asynchronous iterable yielding selected objects according to the slice parameters.
+    AsyncIterable[T]
+        The asynchronous iterable.
 
     Examples
     --------
@@ -107,7 +107,7 @@ def aislice(  # noqa: C901
     return AisliceIterable(aiterable, start, stop, step)
 
 
-@dataclass
+@dataclass(repr=False)
 class AisliceIterable(AsyncIterable[T]):
     """An asynchronous slice iterable."""
 
@@ -122,7 +122,7 @@ class AisliceIterable(AsyncIterable[T]):
         return AisliceIterator(aiterator, self.start, self.stop, self.step)
 
 
-@dataclass
+@dataclass(repr=False)
 class AisliceIterator(AsyncIterator[T]):
     """An asynchronous slice iterator."""
 

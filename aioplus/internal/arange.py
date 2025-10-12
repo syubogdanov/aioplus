@@ -41,17 +41,13 @@ def arange(
 
     Returns
     -------
-    AsyncIterable of int
-        An asynchronous iterable yielding values from ``start`` to ``stop``, separated by ``step``.
+    AsyncIterable[int]
+        The asynchronous iterable.
 
     Examples
     --------
     >>> [num async for num in arange(23)]
     [0, 1, 2, 3, 4, ..., 19, 20, 21, 22]
-
-    Notes
-    -----
-    - Yields control to the event loop before producing each value.
 
     See Also
     --------
@@ -88,7 +84,7 @@ def arange(
     return ArangeIterable(start, stop, step)
 
 
-@dataclass
+@dataclass(repr=False)
 class ArangeIterable(AsyncIterable[int]):
     """An asynchronous range iterable."""
 
@@ -101,7 +97,7 @@ class ArangeIterable(AsyncIterable[int]):
         return ArangeIterator(self.start, self.stop, self.step)
 
 
-@dataclass
+@dataclass(repr=False)
 class ArangeIterator(AsyncIterator[int]):
     """An asynchronous range iterator."""
 

@@ -41,7 +41,7 @@ def atabulate(afunc: Callable[[int], Awaitable[R]], /, *, start: int = 0) -> Asy
     return AtabulateIterable(afunc, start)
 
 
-@dataclass
+@dataclass(repr=False)
 class AtabulateIterable(AsyncIterable[R]):
     """An asynchronous iterable."""
 
@@ -53,7 +53,7 @@ class AtabulateIterable(AsyncIterable[R]):
         return AtabulateIterator(self.afunc, self.start)
 
 
-@dataclass
+@dataclass(repr=False)
 class AtabulateIterator(AsyncIterator[R]):
     """An asynchronous iterator."""
 

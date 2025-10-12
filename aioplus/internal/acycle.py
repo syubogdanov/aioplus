@@ -10,28 +10,23 @@ T = TypeVar("T")
 
 
 def acycle(aiterable: AsyncIterable[T], /) -> AsyncIterable[T]:
-    """Make an iterator returning elements from the ``aiterable`` and saving a copy of each.
+    """Make ``aiterable`` looped.
 
     Parameters
     ----------
-    aiterable : AsyncIterable of T
-        An asynchronous iterable of elements to be cycled.
+    aiterable : AsyncIterable[T]
+        The asynchronous iterable.
 
     Returns
     -------
-    AsyncIterable of T
-        An asynchronous iterable yielding elements from the input iterable.
+    AsyncIterable[T]
+        The asynchronous iterable.
 
     Examples
     --------
     >>> aiterable = arange(23)
     >>> [num async for num in acycle(aiterable)]
     [0, 1, ..., 22, 23, 0, 1, ..., 22, 23, ...]
-
-    Notes
-    -----
-    - Entire iterable is buffered in memory before yielding results;
-    - Yields control to the event loop before producing each value.
 
     See Also
     --------
@@ -44,9 +39,9 @@ def acycle(aiterable: AsyncIterable[T], /) -> AsyncIterable[T]:
     return AcycleIterable(aiterable)
 
 
-@dataclass
+@dataclass(repr=False)
 class AcycleIterable(AsyncIterable[T]):
-    """An asynchronous iterable that cycles data."""
+    """An asynchronous iterable."""
 
     aiterable: AsyncIterable[T]
 
@@ -56,16 +51,16 @@ class AcycleIterable(AsyncIterable[T]):
         return AcycleIterator(aiterator)
 
 
-@dataclass
+@dataclass(repr=False)
 class AcycleIterator(AsyncIterator[T]):
-    """An asynchronous iterator that cycles data."""
+    """An asynchronous iterator."""
 
     aiterator: AsyncIterator[T]
 
     def __post_init__(self) -> None:
         """Initialize the object."""
         self._deque: deque[T] = deque()
-        self._prefetched_flg: bool = False
+        self._initialized_flg: bool = False
         self._finished_flg: bool = False
 
     def __aiter__(self) -> Self:
@@ -77,36 +72,27 @@ class AcycleIterator(AsyncIterator[T]):
         if self._finished_flg:
             raise StopAsyncIteration
 
-        if self._prefetched_flg:
-            value = self._rotate()
-
-            # Move to the next coroutine!
-            await asyncio.sleep(0)
-
-            return value
-
-        try:
-            value = await anext(self.aiterator)
-
-        except StopAsyncIteration:
-            self._prefetched_flg = True
-
-            if not self._deque:
+        if not self._initialized_flg:
+            try:
+                item = await anext(self.aiterator)
+            except StopAsyncIteration:
+                self._initialized_flg = True
+            except Exception:
                 self._finished_flg = True
+                self._deque.clear()
                 raise
+            else:
+                self._deque.append(item)
+                return item
 
-            return self._rotate()
-
-        except Exception:
+        if not self._deque:
             self._finished_flg = True
-            self._deque.clear()
-            raise
+            raise StopAsyncIteration
 
-        self._deque.append(value)
-        return value
-
-    def _rotate(self) -> T:
-        """Rotate the deque."""
         value = self._deque.popleft()
         self._deque.append(value)
+
+        # Move to the next coroutine!
+        await asyncio.sleep(0.0)
+
         return value
