@@ -86,20 +86,20 @@ def azip(*aiterables: AsyncIterable[T], strict: bool = False) -> AsyncIterable[t
 
 
 def azip(*aiterables: AsyncIterable[Any], strict: bool = False) -> AsyncIterable[tuple[Any, ...]]:
-    """Iterate over several iterables in parallel.
+    """Iterate over ``*aiterables`` in parallel.
 
     Parameters
     ----------
     *aiterables : AsyncIterable[T]
-        Asynchronous iterables.
+        The asynchronous iterables.
 
-    strict : bool, default=False
-        If ``True``, raise ``ValueError`` when lengths of ``*aiterables`` differ.
+    strict : bool, default False
+        If :obj:`True`, raise :obj:`ValueError` when lengths of ``*aiterables`` differ.
 
     Returns
     -------
-    AsyncIterator[tuple[T, ...]]
-        An asynchronous iterable.
+    AsyncIterable[tuple[T, ...]]
+        The asynchronous iterable.
 
     Examples
     --------
@@ -120,7 +120,7 @@ def azip(*aiterables: AsyncIterable[Any], strict: bool = False) -> AsyncIterable
     return AzipIterable(aiterables, strict)
 
 
-@dataclass
+@dataclass(repr=False)
 class AzipIterable(AsyncIterable[tuple[T, ...]]):
     """An asynchronous iterable."""
 
@@ -133,7 +133,7 @@ class AzipIterable(AsyncIterable[tuple[T, ...]]):
         return AzipIterator(aiterators, self.strict)
 
 
-@dataclass
+@dataclass(repr=False)
 class AzipIterator(AsyncIterator[tuple[T, ...]]):
     """An asynchronous iterator."""
 

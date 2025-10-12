@@ -68,7 +68,7 @@ class AcycleIterator(AsyncIterator[T]):
         return self
 
     async def __anext__(self) -> T:
-        """Return the next value."""
+        """Return the next item."""
         if self._finished_flg:
             raise StopAsyncIteration
 
@@ -89,10 +89,10 @@ class AcycleIterator(AsyncIterator[T]):
             self._finished_flg = True
             raise StopAsyncIteration
 
-        value = self._deque.popleft()
-        self._deque.append(value)
+        item = self._deque.popleft()
+        self._deque.append(item)
 
         # Move to the next coroutine!
         await asyncio.sleep(0.0)
 
-        return value
+        return item

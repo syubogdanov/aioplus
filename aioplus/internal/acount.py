@@ -6,31 +6,25 @@ from typing import Self
 
 
 def acount(start: int = 0, step: int = 1) -> AsyncIterable[int]:
-    """Return evenly spaced values beginning with ``start``.
+    """Return evenly spaced integers.
 
     Parameters
     ----------
     start : int, default 0
-        The initial value. Must be an object supporting :meth:`object.__index__`.
+        The initial value.
 
     step : int, default 1
-        The difference between consecutive values. Must be an object supporting
-        :meth:`object.__index__`.
+        The difference between consecutives.
 
     Returns
     -------
-    AsyncIterable of int
-        An infinite asynchronous iterable yielding integers, starting from ``start``
-        and incremented by ``step``.
+    AsyncIterable[int]
+        The asynchronous iterable.
 
     Examples
     --------
     >>> [num async for num in acount(start=23, step=4)]
     [23, 27, 31, 35, 39, 43, 47, ...]
-
-    Notes
-    -----
-    - Yields control to the event loop before producing each value.
 
     See Also
     --------
@@ -75,7 +69,7 @@ class AcountIterator(AsyncIterator[int]):
         return self
 
     async def __anext__(self) -> int:
-        """Return the next value."""
+        """Return the next item."""
         value = self._next_value
         self._next_value += self.step
 

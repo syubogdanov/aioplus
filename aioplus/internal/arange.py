@@ -86,7 +86,7 @@ def arange(
 
 @dataclass(repr=False)
 class ArangeIterable(AsyncIterable[int]):
-    """An asynchronous range iterable."""
+    """An asynchronous iterable."""
 
     start: int
     stop: int
@@ -99,7 +99,7 @@ class ArangeIterable(AsyncIterable[int]):
 
 @dataclass(repr=False)
 class ArangeIterator(AsyncIterator[int]):
-    """An asynchronous range iterator."""
+    """An asynchronous iterator."""
 
     start: int
     stop: int
@@ -114,7 +114,7 @@ class ArangeIterator(AsyncIterator[int]):
         return self
 
     async def __anext__(self) -> int:
-        """Return the next value."""
+        """Return the next item."""
         if self.step > 0 and self._next_value >= self.stop:
             raise StopAsyncIteration
 

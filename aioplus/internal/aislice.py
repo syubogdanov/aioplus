@@ -47,7 +47,7 @@ def aislice(  # noqa: C901
         as ``stop``, and slicing starts from ``0``.
 
     step : int, optional
-        The difference between consecutive values. Defaults to ``1``.
+        The step between consecutives. Defaults to ``1``.
 
     Returns
     -------
@@ -142,7 +142,7 @@ class AisliceIterator(AsyncIterator[T]):
         return self
 
     async def __anext__(self) -> T:
-        """Return the next value."""
+        """Return the next item."""
         if self._finished_flg:
             raise StopAsyncIteration
 
@@ -150,12 +150,12 @@ class AisliceIterator(AsyncIterator[T]):
             self._finished_flg = True
             raise StopAsyncIteration
 
-        # Skip values until reaching the yield index
+        # Skip items until reaching the yield index
         count = self._yield_index - self._next_index
 
         try:
             for _ in range(count + 1):
-                value = await anext(self.aiterator)
+                item = await anext(self.aiterator)
                 self._next_index += 1
 
         except StopAsyncIteration:
@@ -164,4 +164,4 @@ class AisliceIterator(AsyncIterator[T]):
 
         self._yield_index += self.step
 
-        return value
+        return item
