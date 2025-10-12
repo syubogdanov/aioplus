@@ -36,20 +36,20 @@ async def asum(
 
 
 async def asum(aiterable: AsyncIterable[Any], /, *, start: Any = 0) -> Any:
-    """Sum ``start`` and items of ``aiterable`` from left to right and return the total.
+    """Sum items of ``aiterable`` from left to right.
 
     Parameters
     ----------
     aiterable : AsyncIterable[T]
-        An asynchronous iterable.
+        The asynchronous iterable.
 
     start : T
-        The initial value to start the summation from.
+        The initial value.
 
     Returns
     -------
     T
-        The total sum of the items in the asynchronous iterable.
+        The sum.
 
     Examples
     --------

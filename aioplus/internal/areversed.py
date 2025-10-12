@@ -9,28 +9,23 @@ T = TypeVar("T")
 
 
 def areversed(aiterable: AsyncIterable[T], /) -> AsyncIterable[T]:
-    """Return a reverse iterator.
+    """Return reversed ``aiterable``.
 
     Parameters
     ----------
-    aiterable : AsyncIterable of T
-        An asynchronous iterable to be reversed.
+    aiterable : AsyncIterable[T]
+        The asynchronous iterable.
 
     Returns
     -------
     AsyncIterable of T
-        An asynchronous iterable yielding the objects in reverse order.
+        The asynchronous iterable.
 
     Examples
     --------
     >>> aiterable = arange(23)
     >>> [num async for num in areversed(aiterable)]
     [22, 21, 20, 19, 18, ..., 4, 3, 2, 1, 0]
-
-    Notes
-    -----
-    - Entire iterable is buffered in memory before yielding results;
-    - Yields control to the event loop before producing each value.
 
     See Also
     --------
@@ -43,9 +38,9 @@ def areversed(aiterable: AsyncIterable[T], /) -> AsyncIterable[T]:
     return AreversedIterable(aiterable)
 
 
-@dataclass
+@dataclass(repr=False)
 class AreversedIterable(AsyncIterable[T]):
-    """A reversed asynchronous iterable."""
+    """A asynchronous iterable."""
 
     aiterable: AsyncIterable[T]
 
@@ -55,15 +50,15 @@ class AreversedIterable(AsyncIterable[T]):
         return AreversedIterator(aiterator)
 
 
-@dataclass
+@dataclass(repr=False)
 class AreversedIterator(AsyncIterator[T]):
-    """A reversed asynchronous iterator."""
+    """A asynchronous iterator."""
 
     aiterator: AsyncIterator[T]
 
     def __post_init__(self) -> None:
         """Initialize the object."""
-        self._prefetched_flg: bool = False
+        self._started_flg: bool = False
         self._finished_flg: bool = False
         self._stack: list[T] = []
 
@@ -76,8 +71,15 @@ class AreversedIterator(AsyncIterator[T]):
         if self._finished_flg:
             raise StopAsyncIteration
 
-        if not self._prefetched_flg:
-            await self._prefetch()
+        try:
+            if not self._started_flg:
+                self._started_flg = True
+                async for value in self.aiterator:
+                    self._stack.append(value)
+
+        except Exception:
+            self._finished_flg = True
+            raise
 
         if not self._stack:
             self._finished_flg = True
@@ -89,15 +91,3 @@ class AreversedIterator(AsyncIterator[T]):
         await asyncio.sleep(0.0)
 
         return value
-
-    async def _prefetch(self) -> None:
-        """Initialize the stack."""
-        self._prefetched_flg = True
-        try:
-            async for value in self.aiterator:
-                self._stack.append(value)
-
-        except Exception:
-            self._finished_flg = True
-            self._stack.clear()
-            raise

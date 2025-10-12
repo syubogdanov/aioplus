@@ -9,21 +9,20 @@ T = TypeVar("T")
 
 
 def arepeat(obj: T, /, *, times: int | None = None) -> AsyncIterable[T]:
-    """Yield the same object repeatedly, either infinitely or a fixed number of times.
+    """Return the same object repeatedly.
 
     Parameters
     ----------
     obj : T
-        The object to yield repeatedly.
+        The object.
 
     times : int, optional
-        Number of repetitions. Must be an object supporting :meth:`object.__index__`.
-        If :obj:`None`, the object is yielded indefinitely.
+        The number of repetitions. If :obj:`None`, then the iterable will be infinite.
 
     Returns
     -------
-    AsyncIterable of T
-        An asynchronous iterable yielding the same object multiple times.
+    AsyncIterable[T]
+        The asynchronous iterable.
 
     Examples
     --------
@@ -45,9 +44,9 @@ def arepeat(obj: T, /, *, times: int | None = None) -> AsyncIterable[T]:
     return ArepeatIterable(obj, times)
 
 
-@dataclass
+@dataclass(repr=False)
 class ArepeatIterable(AsyncIterable[T]):
-    """An repeated asynchronous iterable."""
+    """An asynchronous iterable."""
 
     obj: T
     times: int | None
@@ -57,9 +56,9 @@ class ArepeatIterable(AsyncIterable[T]):
         return ArepeatIterator(self.obj, self.times)
 
 
-@dataclass
+@dataclass(repr=False)
 class ArepeatIterator(AsyncIterator[T]):
-    """An repeated asynchronous iterator."""
+    """An asynchronous iterator."""
 
     obj: T
     times: int | None

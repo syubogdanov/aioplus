@@ -81,10 +81,15 @@ class AtailIterator(AsyncIterator[T]):
         if self._finished_flg:
             raise StopAsyncIteration
 
-        if not self._started_flg:
-            self._started_flg = True
-            async for value in self.aiterator:
-                self._deque.append(value)
+        try:
+            if not self._started_flg:
+                self._started_flg = True
+                async for value in self.aiterator:
+                    self._deque.append(value)
+
+        except Exception:
+            self._finished_flg = True
+            raise
 
         if not self._deque:
             self._finished_flg = True
