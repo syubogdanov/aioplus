@@ -31,8 +31,8 @@ async def aall(aiterable: AsyncIterable[SupportsBool], /) -> bool:
         detail = "'aiterable' must be 'AsyncIterable'"
         raise TypeError(detail)
 
-    async for value in aiterable:
-        if not value:
+    async for item in aiterable:
+        if not item:
             return False
 
     return True

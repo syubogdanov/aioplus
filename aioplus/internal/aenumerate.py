@@ -73,12 +73,12 @@ class AenumerateIterator(AsyncIterator[tuple[int, T]]):
         return self
 
     async def __anext__(self) -> tuple[int, T]:
-        """Return the next value."""
+        """Return the next item."""
         if self._finished_flg:
             raise StopAsyncIteration
 
         try:
-            value = await anext(self.aiterator)
+            item = await anext(self.aiterator)
 
         except Exception:
             self._finished_flg = True
@@ -87,4 +87,4 @@ class AenumerateIterator(AsyncIterator[tuple[int, T]]):
         index = self._next_index
         self._next_index += 1
 
-        return (index, value)
+        return (index, item)

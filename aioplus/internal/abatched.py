@@ -94,12 +94,12 @@ class AbatchedIterator(AsyncIterator[tuple[T, ...]]):
         return self
 
     async def __anext__(self) -> tuple[T, ...]:
-        """Return the next value."""
+        """Return the next item."""
         if self._finished_flg:
             raise StopAsyncIteration
 
         try:
-            batch = [value async for value in aislice(self.aiterator, self.n)]
+            batch = [item async for item in aislice(self.aiterator, self.n)]
 
         except Exception:
             self._finished_flg = True

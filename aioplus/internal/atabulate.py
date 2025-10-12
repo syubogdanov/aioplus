@@ -69,16 +69,16 @@ class AtabulateIterator(AsyncIterator[R]):
         return self
 
     async def __anext__(self) -> R:
-        """Return the next value."""
+        """Return the next item."""
         if self._finished_flg:
             raise StopAsyncIteration
 
         try:
-            value = await self.afunc(self.next)
+            item = await self.afunc(self.next)
 
         except Exception:
             self._finished_flg = True
             raise
 
         self.next += 1
-        return value
+        return item

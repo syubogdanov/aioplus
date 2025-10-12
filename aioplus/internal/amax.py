@@ -96,8 +96,8 @@ async def amax(
     largest = await anext(aiterator, ...)
 
     if largest is not ...:
-        async for value in aiterator:
-            largest = max(largest, value, key=key)
+        async for item in aiterator:
+            largest = max(largest, item, key=key)
         return largest
 
     if default is not ...:

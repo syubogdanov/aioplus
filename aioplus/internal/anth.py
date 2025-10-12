@@ -55,9 +55,9 @@ async def anth(aiterable: AsyncIterable[T], /, *, n: int, default: D | EllipsisT
         detail = "'n' must be non-negative"
         raise ValueError(detail)
 
-    async for index, value in aenumerate(aiterable):
+    async for index, item in aenumerate(aiterable):
         if index == n:
-            return value
+            return item
 
     if default is ...:
         detail = "'aiterable[n]' does not exist"

@@ -111,9 +111,9 @@ async def aminmax(
     smallest = largest = await anext(aiterator, ...)
 
     if smallest is not ...:
-        async for value in aiterator:
-            smallest = min(smallest, value, key=key)
-            largest = max(largest, value, key=key)
+        async for item in aiterator:
+            smallest = min(smallest, item, key=key)
+            largest = max(largest, item, key=key)
         return (smallest, largest)
 
     if default is ...:

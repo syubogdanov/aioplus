@@ -96,8 +96,8 @@ async def amin(
     smallest = await anext(aiterator, ...)
 
     if smallest is not ...:
-        async for value in aiterator:
-            smallest = min(smallest, value, key=key)
+        async for item in aiterator:
+            smallest = min(smallest, item, key=key)
         return smallest
 
     if default is not ...:

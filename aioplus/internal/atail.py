@@ -77,27 +77,28 @@ class AtailIterator(AsyncIterator[T]):
         return self
 
     async def __anext__(self) -> T:
-        """Return the next value."""
+        """Return the next item."""
         if self._finished_flg:
             raise StopAsyncIteration
 
         try:
             if not self._started_flg:
                 self._started_flg = True
-                async for value in self.aiterator:
-                    self._deque.append(value)
+                async for item in self.aiterator:
+                    self._deque.append(item)
 
         except Exception:
             self._finished_flg = True
+            self._deque.clear()
             raise
 
         if not self._deque:
             self._finished_flg = True
             raise StopAsyncIteration
 
-        value = self._deque.popleft()
+        item = self._deque.popleft()
 
         # Move to the next coroutine!
         await asyncio.sleep(0.0)
 
-        return value
+        return item

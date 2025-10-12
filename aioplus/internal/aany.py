@@ -31,8 +31,8 @@ async def aany(aiterable: AsyncIterable[SupportsBool], /) -> bool:
         detail = "'aiterable' must be 'AsyncIterable'"
         raise TypeError(detail)
 
-    async for value in aiterable:
-        if value:
+    async for item in aiterable:
+        if item:
             return True
 
     return False

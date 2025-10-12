@@ -72,7 +72,7 @@ class ArepeatIterator(AsyncIterator[T]):
         return self
 
     async def __anext__(self) -> T:
-        """Return the next value."""
+        """Return the next item."""
         if self.times is not None and self._count >= self.times:
             raise StopAsyncIteration
 

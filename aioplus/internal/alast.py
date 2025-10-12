@@ -45,10 +45,10 @@ async def alast(aiterable: AsyncIterable[T], /, *, default: D | EllipsisType = .
         raise TypeError(detail)
 
     aiterator = aiter(atail(aiterable, n=1))
-    value = await anext(aiterator, default)
+    item = await anext(aiterator, default)
 
-    if value is ...:
+    if item is ...:
         detail = "alast(): empty iterable"
         raise IndexError(detail) from None
 
-    return value
+    return item

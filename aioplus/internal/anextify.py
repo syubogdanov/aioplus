@@ -82,7 +82,7 @@ class AnextifyIterator(AsyncIterator[T]):
         return self
 
     async def __anext__(self) -> T:
-        """Return the next value."""
+        """Return the next item."""
         if self._finished_flg:
             raise StopAsyncIteration
 
@@ -91,14 +91,14 @@ class AnextifyIterator(AsyncIterator[T]):
 
         afunc = awaitify(next, executor=self.executor)
         try:
-            value = await afunc(self.iterator, ...)  # type: ignore[call-arg]
+            item = await afunc(self.iterator, ...)  # type: ignore[call-arg]
 
         except Exception:
             self._finished_flg = True
             raise
 
-        if value is ...:
+        if item is ...:
             self._finished_flg = True
             raise StopAsyncIteration
 
-        return value
+        return item

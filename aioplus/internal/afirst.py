@@ -43,10 +43,10 @@ async def afirst(aiterable: AsyncIterable[T], /, *, default: D | EllipsisType = 
         raise TypeError(detail)
 
     aiterator = aiter(aiterable)
-    value = await anext(aiterator, default)
+    item = await anext(aiterator, default)
 
-    if value is ...:
+    if item is ...:
         detail = "afirst(): empty iterable"
         raise IndexError(detail) from None
 
-    return value
+    return item

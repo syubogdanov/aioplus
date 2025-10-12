@@ -67,27 +67,28 @@ class AreversedIterator(AsyncIterator[T]):
         return self
 
     async def __anext__(self) -> T:
-        """Return the next value."""
+        """Return the next item."""
         if self._finished_flg:
             raise StopAsyncIteration
 
         try:
             if not self._started_flg:
                 self._started_flg = True
-                async for value in self.aiterator:
-                    self._stack.append(value)
+                async for item in self.aiterator:
+                    self._stack.append(item)
 
         except Exception:
             self._finished_flg = True
+            self._stack.clear()
             raise
 
         if not self._stack:
             self._finished_flg = True
             raise StopAsyncIteration
 
-        value = self._stack.pop()
+        item = self._stack.pop()
 
         # Move to the next coroutine!
         await asyncio.sleep(0.0)
 
-        return value
+        return item

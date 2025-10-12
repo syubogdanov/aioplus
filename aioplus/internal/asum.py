@@ -66,7 +66,7 @@ async def asum(aiterable: AsyncIterable[Any], /, *, start: Any = 0) -> Any:
         raise TypeError(detail)
 
     total = start
-    async for value in aiterable:
-        total += value
+    async for item in aiterable:
+        total += item
 
     return total

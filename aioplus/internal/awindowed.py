@@ -91,14 +91,14 @@ class AwindowedIterator(AsyncIterator[tuple[T, ...]]):
         return self
 
     async def __anext__(self) -> tuple[T, ...]:
-        """Return the next value."""
+        """Return the next item."""
         if self._finished_flg:
             raise StopAsyncIteration
 
         try:
             while len(self._window) < self.n - 1:
-                value = await anext(self.aiterator)
-                self._window.append(value)
+                item = await anext(self.aiterator)
+                self._window.append(item)
 
         except Exception:
             self._finished_flg = True
@@ -106,12 +106,12 @@ class AwindowedIterator(AsyncIterator[tuple[T, ...]]):
             raise
 
         try:
-            value = await anext(self.aiterator)
+            item = await anext(self.aiterator)
 
         except Exception:
             self._finished_flg = True
             self._window.clear()
             raise
 
-        self._window.append(value)
+        self._window.append(item)
         return tuple(self._window)
