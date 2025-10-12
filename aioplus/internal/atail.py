@@ -15,15 +15,15 @@ def atail(aiterable: AsyncIterable[T], /, *, n: int) -> AsyncIterable[T]:
     Parameters
     ----------
     aiterable : AsyncIterable[T]
-        An asynchronous iterable to retrieve items from.
+        The asynchronous iterable.
 
     n : int
-        The number of items to retrieve from the end.
+        The number of items.
 
     Returns
     -------
     AsyncIterable[T]
-        An asynchronous iterable yielding the last ``n`` items of the ``aiterable``.
+        The asynchronous iterable.
 
     Examples
     --------
@@ -51,7 +51,7 @@ def atail(aiterable: AsyncIterable[T], /, *, n: int) -> AsyncIterable[T]:
     return AtailIterable(aiterable, n)
 
 
-@dataclass
+@dataclass(repr=False)
 class AtailIterable(AsyncIterable[T]):
     """An asynchronous iterable."""
 
@@ -64,7 +64,7 @@ class AtailIterable(AsyncIterable[T]):
         return AtailIterator(aiterator, self.n)
 
 
-@dataclass
+@dataclass(repr=False)
 class AtailIterator(AsyncIterator[T]):
     """An asynchronous iterator."""
 
@@ -73,7 +73,7 @@ class AtailIterator(AsyncIterator[T]):
 
     def __post_init__(self) -> None:
         """Initialize the object."""
-        self._prefetched_flg: bool = False
+        self._started_flg: bool = False
         self._finished_flg: bool = False
         self._deque: deque[T] = deque(maxlen=self.n)
 
@@ -86,8 +86,10 @@ class AtailIterator(AsyncIterator[T]):
         if self._finished_flg:
             raise StopAsyncIteration
 
-        if not self._prefetched_flg:
-            await self._prefetch()
+        if not self._started_flg:
+            self._started_flg = True
+            async for value in self.aiterator:
+                self._deque.append(value)
 
         if not self._deque:
             self._finished_flg = True
@@ -99,15 +101,3 @@ class AtailIterator(AsyncIterator[T]):
         await asyncio.sleep(0.0)
 
         return value
-
-    async def _prefetch(self) -> None:
-        """Prefetch the deque."""
-        self._prefetched_flg = True
-        try:
-            async for value in self.aiterator:
-                self._deque.append(value)
-
-        except Exception:
-            self._finished_flg = True
-            self._deque.clear()
-            raise

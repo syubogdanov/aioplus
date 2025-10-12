@@ -15,34 +15,30 @@ def abatched(
     n: int,
     strict: bool = False,
 ) -> AsyncIterable[tuple[T, ...]]:
-    """Batch data from the `aiterable` into tuples of length ``n``.
+    """Iterate over ``aiterable`` by batches of length ``n``.
 
     Parameters
     ----------
-    aiterable : AsyncIterable of T
-        An asynchronous iterable of elements to be grouped into batches.
+    aiterable : AsyncIterable[T]
+        The asynchronous iterable.
 
     n : int
-        The batch size. Each tuple will contain up to ``n`` elements.
+        The batch size.
 
     strict : bool, default False
-        If :obj:`True`, raises a :exc:`ValueError` if the total number of objects is not divisible
+        If :obj:`True`, raises :exc:`ValueError` if the total number of objects is not divisible
         by ``n``. If :obj:`False`, the last batch may be shorter than ``n``.
 
     Returns
     -------
-    AsyncIterable of tuple[T, ...]
-        An asynchronous iterable yielding tuples of at most ``n`` elements.
+    AsyncIterable[tuple[T, ...]]
+        The asynchronous iterable.
 
     Examples
     --------
     >>> aiterable = arange(23)
     >>> [batch async for batch in abatched(aiterable, n=3)]
     [(0, 1, 2), (3, 4, 5), ..., (18, 19, 20), (21, 22)]
-
-    Notes
-    -----
-    - The final batch may be shorter than ``n``, unless ``strict`` is set to :obj:`True`.
 
     See Also
     --------
@@ -67,9 +63,9 @@ def abatched(
     return AbatchedIterable(aiterable, n, strict)
 
 
-@dataclass
+@dataclass(repr=False)
 class AbatchedIterable(AsyncIterable[tuple[T, ...]]):
-    """An asynchronous iterable that batches data."""
+    """An asynchronous iterable."""
 
     aiterable: AsyncIterable[T]
     n: int
@@ -81,9 +77,9 @@ class AbatchedIterable(AsyncIterable[tuple[T, ...]]):
         return AbatchedIterator(aiterator, self.n, self.strict)
 
 
-@dataclass
+@dataclass(repr=False)
 class AbatchedIterator(AsyncIterator[tuple[T, ...]]):
-    """An asynchronous iterator that batches data."""
+    """An asynchronous iterator."""
 
     aiterator: AsyncIterator[T]
     n: int

@@ -7,20 +7,20 @@ T = TypeVar("T")
 
 
 def aenumerate(aiterable: AsyncIterable[T], /, start: int = 0) -> AsyncIterable[tuple[int, T]]:
-    """Return an enumerated iterator.
+    """Enumerate ``aiterable``.
 
     Parameters
     ----------
-    aiterable : AsyncIterable of T
-        An asynchronous iterable of objects to enumerate.
+    aiterable : AsyncIterable[T]
+        The asynchronous iterable.
 
     start : int, default 0
-        The starting index. Must be an object supporting :meth:`object.__index__`.
+        The starting index.
 
     Returns
     -------
-    AsyncIterable of tuple[int, T]
-        An asynchronous iterable yielding pairs of the form ``(index, object)``.
+    AsyncIterable[tuple[int, T]]
+        The asynchronous iterable.
 
     Examples
     --------
@@ -43,9 +43,9 @@ def aenumerate(aiterable: AsyncIterable[T], /, start: int = 0) -> AsyncIterable[
     return AenumerateIterable(aiterable, start)
 
 
-@dataclass
+@dataclass(repr=False)
 class AenumerateIterable(AsyncIterable[tuple[int, T]]):
-    """An enumerated asynchronous iterable."""
+    """An asynchronous iterable."""
 
     aiterable: AsyncIterable[T]
     start: int
@@ -56,16 +56,16 @@ class AenumerateIterable(AsyncIterable[tuple[int, T]]):
         return AenumerateIterator(aiterator, self.start)
 
 
-@dataclass
+@dataclass(repr=False)
 class AenumerateIterator(AsyncIterator[tuple[int, T]]):
-    """An enumerated asynchronous iterator."""
+    """An asynchronous iterator."""
 
     aiterator: AsyncIterator[T]
     start: int
 
     def __post_init__(self) -> None:
         """Initialize the object."""
-        self._next_count: int = self.start
+        self._next_index: int = self.start
         self._finished_flg: bool = False
 
     def __aiter__(self) -> Self:
@@ -84,7 +84,7 @@ class AenumerateIterator(AsyncIterator[tuple[int, T]]):
             self._finished_flg = True
             raise
 
-        count = self._next_count
-        self._next_count += 1
+        index = self._next_index
+        self._next_index += 1
 
-        return (count, value)
+        return (index, value)

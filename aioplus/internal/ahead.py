@@ -8,20 +8,20 @@ T = TypeVar("T")
 
 
 def ahead(aiterable: AsyncIterable[T], /, *, n: int) -> AsyncIterable[T]:
-    """Return the first ``n`` items of the ``aiterable``.
+    """Return the first ``n`` items of ``aiterable``.
 
     Parameters
     ----------
     aiterable : AsyncIterable[T]
-        An asynchronous iterable to retrieve items from.
+        The asynchronous iterable.
 
     n : int
-        The number of items to retrieve from the start.
+        The number of items.
 
     Returns
     -------
     AsyncIterable[T]
-        An asynchronous iterable yielding the first ``n`` items of the ``aiterable``.
+        The asynchronous iterable.
 
     Examples
     --------

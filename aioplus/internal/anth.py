@@ -1,8 +1,8 @@
 from collections.abc import AsyncIterable
-from typing import Any, TypeVar, overload
+from types import EllipsisType
+from typing import TypeVar, overload
 
 from aioplus.internal.aenumerate import aenumerate
-from aioplus.internal.sentinels import Sentinel
 
 
 T = TypeVar("T")
@@ -17,25 +17,25 @@ async def anth(aiterable: AsyncIterable[T], /, *, n: int) -> T: ...
 async def anth(aiterable: AsyncIterable[T], /, *, n: int, default: D) -> T | D: ...
 
 
-async def anth(aiterable: AsyncIterable[Any], /, *, n: int, default: Any = Sentinel.UNSET) -> Any:
-    """Return the nth item or a default value.
+async def anth(aiterable: AsyncIterable[T], /, *, n: int, default: D | EllipsisType = ...) -> T | D:
+    """Return the nth item of ``aiterable``.
 
     Parameters
     ----------
     aiterable : AsyncIterable[T]
-        An asynchronous iterable to retrieve the nth item from.
+        The asynchronous iterable.
 
     n : int
-        The index of the item to retrieve, starting from 0.
+        The index.
 
-    default : D, optional
-        A default value to return if the nth item does not exist.
-        If not provided, :obj:`IndexError` will be raised if the nth item is not found.
+    default : D, unset
+        A default value to return if the nth item does not exist. Otherwise, :obj:`IndexError` will
+        be raised.
 
     Returns
     -------
-    T or D
-        The nth item or the default value.
+    T | D
+        The nth item.
 
     Examples
     --------
@@ -59,7 +59,7 @@ async def anth(aiterable: AsyncIterable[Any], /, *, n: int, default: Any = Senti
         if index == n:
             return value
 
-    if default is Sentinel.UNSET:
+    if default is ...:
         detail = "'aiterable[n]' does not exist"
         raise IndexError(detail)
 
