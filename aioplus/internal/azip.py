@@ -166,7 +166,7 @@ class AzipIterator(AsyncIterator[tuple[T, ...]]):
             exception for exception in base_exceptions if isinstance(exception, Exception)
         ]
 
-        if exceptions:
+        if exceptions and len(exceptions) == len(base_exceptions):
             self._finished_flg = True
             detail = "azip(): exception(-s) occurred"
             raise ExceptionGroup(detail, exceptions)
