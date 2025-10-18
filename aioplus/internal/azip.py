@@ -1,6 +1,6 @@
 import asyncio
 
-from asyncio import create_task
+from asyncio import Task, create_task
 from collections.abc import AsyncIterable, AsyncIterator
 from dataclasses import dataclass
 from typing import Any, Self, TypeVar, overload
@@ -156,32 +156,21 @@ class AzipIterator(AsyncIterator[tuple[T, ...]]):
         if self._finished_flg:
             raise StopAsyncIteration
 
-        coroutines = [anext(aiterator, ...) for aiterator in self.aiterators]
-        tasks = [create_task(coroutine) for coroutine in coroutines]
+        coroutines = [anext(aiterator) for aiterator in self.aiterators]
+        tasks = [create_task(coroutine) for coroutine in coroutines]  # type: ignore[arg-type, var-annotated]
 
         await asyncio.gather(*tasks, return_exceptions=True)
-
-        base_exceptions = [base_exception for task in tasks if (base_exception := task.exception())]
-        exceptions = [
-            exception for exception in base_exceptions if isinstance(exception, Exception)
-        ]
-
-        if exceptions and len(exceptions) == len(base_exceptions):
-            self._finished_flg = True
-            detail = "azip(): exception(-s) occurred"
-            raise ExceptionGroup(detail, exceptions)
+        results, exceptions, base_exceptions = self._unpack(tasks)
 
         if base_exceptions:
             self._finished_flg = True
             detail = "azip(): base exception(-s) occurred"
-            raise BaseExceptionGroup(detail, exceptions)
+            raise BaseExceptionGroup(detail, [*base_exceptions, *exceptions])
 
-        results: list[T] = []
-
-        for task in tasks:
-            result = task.result()
-            if result is not ...:
-                results.append(result)
+        if exceptions:
+            self._finished_flg = True
+            detail = "azip(): exception(-s) occurred"
+            raise ExceptionGroup(detail, exceptions)
 
         if not results:
             self._finished_flg = True
@@ -197,3 +186,38 @@ class AzipIterator(AsyncIterator[tuple[T, ...]]):
             raise StopAsyncIteration
 
         return tuple(results)
+
+    @classmethod
+    def _unpack(cls, tasks: list[Task[T]]) -> tuple[list[T], list[Exception], list[BaseException]]:
+        """Unpack the tasks.
+
+        Notes
+        -----
+        * ``StopAsyncIteration`` is ignored.
+        """
+        results: list[T] = []
+
+        exceptions: list[Exception] = []
+        base_exceptions: list[BaseException] = []
+
+        for task in tasks:
+            try:
+                result = task.result()
+
+            except StopAsyncIteration:
+                continue
+
+            except Exception as exception:
+                exceptions.append(exception)
+            except BaseException as exception:
+                base_exceptions.append(exception)
+
+            except ExceptionGroup as group:
+                exceptions.extend(group.exceptions)
+            except BaseExceptionGroup as group:
+                base_exceptions.extend(group.exceptions)
+
+            else:
+                results.append(result)
+
+        return (results, exceptions, base_exceptions)

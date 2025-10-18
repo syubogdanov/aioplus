@@ -51,9 +51,9 @@ python = ">=3.11"
 optional = true
 
 [tool.poetry.group.lint.dependencies]
-black = "^25.1"
-mypy = "^1.16"
-ruff = "^0.12"
+black = "^25.9"
+mypy = "^1.18"
+ruff = "^0.14"
 
 [tool.poetry.group.test]
 optional = true
