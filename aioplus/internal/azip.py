@@ -3,6 +3,7 @@ import asyncio
 from asyncio import Task, create_task
 from collections.abc import AsyncIterable, AsyncIterator
 from dataclasses import dataclass
+from types import EllipsisType
 from typing import Any, Self, TypeVar, overload
 
 
@@ -156,8 +157,8 @@ class AzipIterator(AsyncIterator[tuple[T, ...]]):
         if self._finished_flg:
             raise StopAsyncIteration
 
-        coroutines = [anext(aiterator) for aiterator in self.aiterators]
-        tasks = [create_task(coroutine) for coroutine in coroutines]  # type: ignore[arg-type, var-annotated]
+        coroutines = [anext(aiterator, ...) for aiterator in self.aiterators]
+        tasks = [create_task(coroutine) for coroutine in coroutines]
 
         await asyncio.gather(*tasks, return_exceptions=True)
         results, exceptions, base_exceptions = self._unpack(tasks)
@@ -188,7 +189,10 @@ class AzipIterator(AsyncIterator[tuple[T, ...]]):
         return tuple(results)
 
     @classmethod
-    def _unpack(cls, tasks: list[Task[T]]) -> tuple[list[T], list[Exception], list[BaseException]]:
+    def _unpack(
+        cls,
+        tasks: list[Task[T | EllipsisType]],
+    ) -> tuple[list[T], list[Exception], list[BaseException]]:
         """Unpack the tasks.
 
         Notes
@@ -202,10 +206,7 @@ class AzipIterator(AsyncIterator[tuple[T, ...]]):
 
         for task in tasks:
             try:
-                result = task.result()
-
-            except StopAsyncIteration:
-                continue
+                maybe_result = task.result()
 
             except Exception as exception:
                 exceptions.append(exception)
@@ -218,6 +219,7 @@ class AzipIterator(AsyncIterator[tuple[T, ...]]):
                 base_exceptions.extend(group.exceptions)
 
             else:
-                results.append(result)
+                if maybe_result is not ...:
+                    results.append(maybe_result)
 
         return (results, exceptions, base_exceptions)
