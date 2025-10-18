@@ -198,7 +198,7 @@ class CallerThreadExecutor(ThreadPoolExecutor):
             raise ValueError(detail)
 
         def iterator() -> Iterator[R]:
-            """Iterate over the results."""
+            """Iterate the results."""
             if timeout is not None:
                 time.sleep(timeout)
                 raise TimeoutError

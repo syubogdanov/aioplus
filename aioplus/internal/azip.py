@@ -86,7 +86,7 @@ def azip(*aiterables: AsyncIterable[T], strict: bool = False) -> AsyncIterable[t
 
 
 def azip(*aiterables: AsyncIterable[Any], strict: bool = False) -> AsyncIterable[tuple[Any, ...]]:
-    """Iterate over ``*aiterables`` in parallel.
+    """Iterate ``*aiterables`` in parallel.
 
     Parameters
     ----------

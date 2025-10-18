@@ -23,7 +23,7 @@ def arange(
     step: int | None = None,
     /,
 ) -> AsyncIterable[int]:
-    """Iterate over a range of integers.
+    """Iterate a range of integers.
 
     Parameters
     ----------

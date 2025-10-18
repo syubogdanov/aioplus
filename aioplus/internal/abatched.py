@@ -15,7 +15,7 @@ def abatched(
     n: int,
     strict: bool = False,
 ) -> AsyncIterable[tuple[T, ...]]:
-    """Iterate over ``aiterable`` by batches of length ``n``.
+    """Iterate ``aiterable`` by batches of length ``n``.
 
     Parameters
     ----------
