@@ -159,7 +159,7 @@ class AzipIterator(AsyncIterator[tuple[T, ...]]):
         coroutines = [anext(aiterator, ...) for aiterator in self.aiterators]
         tasks = [create_task(coroutine) for coroutine in coroutines]
 
-        await asyncio.gather(*tasks)
+        await asyncio.gather(*tasks, return_exceptions=True)
 
         base_exceptions = [base_exception for task in tasks if (base_exception := task.exception())]
         exceptions = [

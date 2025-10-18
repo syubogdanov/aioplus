@@ -100,11 +100,11 @@ async def aminmax(
         raise TypeError(detail)
 
     if default is not ... and not isinstance(default, tuple):
-        detail = "'default' must be 'tuple'"
+        detail = "'default' must be 'tuple[D1, D2]'"
         raise TypeError(detail)
 
     if default is not ... and len(default) != 2:
-        detail = "'len(default)' must be a '2'"
+        detail = "'len(default)' must be '2'"
         raise ValueError(detail)
 
     aiterator = aiter(aiterable)
