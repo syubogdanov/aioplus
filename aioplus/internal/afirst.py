@@ -1,6 +1,5 @@
 from collections.abc import AsyncIterable
-from types import EllipsisType
-from typing import TypeVar, overload
+from typing import Any, TypeVar, overload
 
 
 T = TypeVar("T")
@@ -15,7 +14,7 @@ async def afirst(aiterable: AsyncIterable[T], /) -> T: ...
 async def afirst(aiterable: AsyncIterable[T], /, *, default: D) -> T | D: ...
 
 
-async def afirst(aiterable: AsyncIterable[T], /, *, default: D | EllipsisType = ...) -> T | D:
+async def afirst(aiterable: AsyncIterable[Any], /, *, default: Any = ...) -> Any:
     """Return the first item of ``aiterable``.
 
     Parameters

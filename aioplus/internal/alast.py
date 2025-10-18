@@ -1,6 +1,5 @@
 from collections.abc import AsyncIterable
-from types import EllipsisType
-from typing import TypeVar, overload
+from typing import Any, TypeVar, overload
 
 from aioplus.internal.atail import atail
 
@@ -17,7 +16,7 @@ async def alast(aiterable: AsyncIterable[T], /) -> T: ...
 async def alast(aiterable: AsyncIterable[T], /, *, default: D) -> T | D: ...
 
 
-async def alast(aiterable: AsyncIterable[T], /, *, default: D | EllipsisType = ...) -> T | D:
+async def alast(aiterable: AsyncIterable[Any], /, *, default: Any = ...) -> Any:
     """Return the last item of ``aiterable``.
 
     Parameters

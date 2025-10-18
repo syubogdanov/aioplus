@@ -1,6 +1,5 @@
 from collections.abc import AsyncIterable
-from types import EllipsisType
-from typing import TypeVar, overload
+from typing import Any, TypeVar, overload
 
 from aioplus.internal.aenumerate import aenumerate
 
@@ -17,7 +16,7 @@ async def anth(aiterable: AsyncIterable[T], /, *, n: int) -> T: ...
 async def anth(aiterable: AsyncIterable[T], /, *, n: int, default: D) -> T | D: ...
 
 
-async def anth(aiterable: AsyncIterable[T], /, *, n: int, default: D | EllipsisType = ...) -> T | D:
+async def anth(aiterable: AsyncIterable[Any], /, *, n: int, default: Any = ...) -> Any:
     """Return the nth item of ``aiterable``.
 
     Parameters
