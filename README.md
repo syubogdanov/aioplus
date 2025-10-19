@@ -214,6 +214,18 @@ For more, see the [documentation][docs/aioplus/apairwise].
 [(0, 1), (1, 2), (2, 3), ..., (20, 21), (21, 22)]
 ```
 
+#### *arace*
+
+For more, see the [documentation][docs/aioplus/arace].
+
+```python
+>>> nums1 = arange(0, 3)
+>>> nums2 = arange(3, 6)
+>>> nums3 = arange(6, 9)
+>>> [num async for num in arace(nums1, nums2, nums3)]
+[0, 6, 3, 1, 4, 7, 5, 2, 8]
+```
+
 #### *arange*
 
 For more, see the [documentation][docs/aioplus/arange].
@@ -339,6 +351,7 @@ MIT License, Copyright (c) 2025 Sergei Y. Bogdanov. See [LICENSE][github/license
 [docs/aioplus/anextify]: https://aioplus.readthedocs.io/en/latest/anextify.html
 [docs/aioplus/anth]: https://aioplus.readthedocs.io/en/latest/anth.html
 [docs/aioplus/apairwise]: https://aioplus.readthedocs.io/en/latest/apairwise.html
+[docs/aioplus/arace]: https://aioplus.readthedocs.io/en/latest/arace.html
 [docs/aioplus/arange]: https://aioplus.readthedocs.io/en/latest/arange.html
 [docs/aioplus/arepeat]: https://aioplus.readthedocs.io/en/latest/arepeat.html
 [docs/aioplus/areversed]: https://aioplus.readthedocs.io/en/latest/areversed.html

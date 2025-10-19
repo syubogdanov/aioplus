@@ -16,6 +16,7 @@ from aioplus.internal.aminmax import aminmax
 from aioplus.internal.anextify import anextify
 from aioplus.internal.anth import anth
 from aioplus.internal.apairwise import apairwise
+from aioplus.internal.arace import arace
 from aioplus.internal.arange import arange
 from aioplus.internal.arepeat import arepeat
 from aioplus.internal.areversed import areversed
@@ -52,6 +53,7 @@ __all__: list[str] = [
     "anextify",
     "anth",
     "apairwise",
+    "arace",
     "arange",
     "arepeat",
     "areversed",
@@ -84,6 +86,7 @@ aminmax.__module__ = "aioplus"
 anextify.__module__ = "aioplus"
 anth.__module__ = "aioplus"
 apairwise.__module__ = "aioplus"
+arace.__module__ = "aioplus"
 arange.__module__ = "aioplus"
 arepeat.__module__ = "aioplus"
 areversed.__module__ = "aioplus"

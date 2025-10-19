@@ -235,6 +235,19 @@ For more, see the :doc:`documentation <apairwise>`.
     >>> [pair async for pair in apairwise(aiterable)]
     [(0, 1), (1, 2), (2, 3), ..., (20, 21), (21, 22)]
 
+arace
+-----
+
+For more, see the :doc:`documentation <arace>`.
+
+.. code-block:: python
+
+    >>> nums1 = arange(0, 3)
+    >>> nums2 = arange(3, 6)
+    >>> nums3 = arange(6, 9)
+    >>> [num async for num in arace(nums1, nums2, nums3)]
+    [0, 6, 3, 1, 4, 7, 5, 2, 8]
+
 arange
 ------
 
@@ -368,6 +381,7 @@ For more, see the :doc:`documentation <azip>`.
     anextify
     anth
     apairwise
+    arace
     arange
     arepeat
     areversed

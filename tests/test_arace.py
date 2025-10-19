@@ -5,7 +5,7 @@ from contextlib import aclosing
 
 import pytest
 
-from aioplus import arange, azip
+from aioplus import arace, arange
 
 
 class TestParameters:
@@ -14,36 +14,29 @@ class TestParameters:
     def test__aiterables(self) -> None:
         """Case: non-iterable."""
         with pytest.raises(TypeError):
-            azip(None)
+            arace(None)
 
     def test__aiterables__strict(self) -> None:
         """Case: non-iterable."""
         with pytest.raises(TypeError):
-            azip(None, strict=23)
+            arace(None, strict=23)
 
-    async def test__azip__empty(self) -> None:
+    async def test__arace__empty(self) -> None:
         """Case: empty call."""
         with pytest.raises(ValueError, match=re.escape("'*aiterables' must be non-empty")):
-            azip()
+            arace()
 
 
 class TestFunction:
     """Function tests."""
 
-    async def test__azip(self) -> None:
+    async def test__arace(self) -> None:
         """Case: default usage."""
-        aiterables = [arange(4), arange(100, 104), arange(200, 204)]
+        aiterables = [arange(0, 3), arange(3, 6), arange(6, 9)]
 
-        triplets = [triplet async for triplet in azip(*aiterables)]
+        nums = [num async for num in arace(*aiterables)]
 
-        assert triplets == [(0, 100, 200), (1, 101, 201), (2, 102, 202), (3, 103, 203)]
-
-    async def test__azip__strict(self) -> None:
-        """Case: `strict=True`."""
-        aiterables = [arange(4), arange(100, 104), arange(200, 205)]
-
-        with pytest.raises(ValueError, match=re.escape("azip(): len(*aiterables) differ")):
-            [triplet async for triplet in azip(*aiterables, strict=True)]
+        assert sorted(nums) == [0, 1, 2, 3, 4, 5, 6, 7, 8]
 
     async def test__azip__one_exception(self) -> None:
         """Case: one exception."""
@@ -58,7 +51,7 @@ class TestFunction:
 
         async with aclosing(gen1()) as nums1, aclosing(gen2()) as nums2:
             with pytest.raises(ExceptionGroup) as group:
-                [(num1, num2) async for num1, num2 in azip(nums1, nums2)]
+                [num async for num in arace(nums1, nums2)]
 
         assert len(group.value.exceptions) == 1
 
@@ -77,6 +70,6 @@ class TestFunction:
 
         async with aclosing(gen1()) as nums1, aclosing(gen2()) as nums2:
             with pytest.raises(ExceptionGroup) as group:
-                [(num1, num2) async for num1, num2 in azip(nums1, nums2)]
+                [num async for num in arace(nums1, nums2)]
 
         assert len(group.value.exceptions) == 2
