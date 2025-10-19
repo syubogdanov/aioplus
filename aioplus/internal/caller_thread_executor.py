@@ -112,12 +112,10 @@ class CallerThreadExecutor(ThreadPoolExecutor):
                 detail = "cannot schedule new futures after shutdown"
                 raise RuntimeError(detail)
 
-            future: Future[R] = Future()
-            future.set_running_or_notify_cancel()
-
             with self._futures_lock:
                 self._futures_count += 1
 
+        future: Future[R] = Future()
         try:
             result = fn(*args, **kwargs)
         except BaseException as exception:

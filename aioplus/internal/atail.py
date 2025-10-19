@@ -87,7 +87,7 @@ class AtailIterator(AsyncIterator[T]):
                 async for item in self.aiterator:
                     self._deque.append(item)
 
-        except Exception:
+        except BaseException:
             self._finished_flg = True
             self._deque.clear()
             raise

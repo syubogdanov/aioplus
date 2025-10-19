@@ -100,7 +100,7 @@ class AwindowedIterator(AsyncIterator[tuple[T, ...]]):
                 item = await anext(self.aiterator)
                 self._window.append(item)
 
-        except Exception:
+        except (StopAsyncIteration, BaseException):
             self._finished_flg = True
             self._window.clear()
             raise
@@ -108,7 +108,7 @@ class AwindowedIterator(AsyncIterator[tuple[T, ...]]):
         try:
             item = await anext(self.aiterator)
 
-        except Exception:
+        except (StopAsyncIteration, BaseException):
             self._finished_flg = True
             self._window.clear()
             raise

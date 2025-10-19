@@ -77,7 +77,7 @@ class AreversedIterator(AsyncIterator[T]):
                 async for item in self.aiterator:
                     self._stack.append(item)
 
-        except Exception:
+        except BaseException:
             self._finished_flg = True
             self._stack.clear()
             raise

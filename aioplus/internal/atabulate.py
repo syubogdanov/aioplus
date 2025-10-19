@@ -76,7 +76,7 @@ class AtabulateIterator(AsyncIterator[R]):
         try:
             item = await self.afunc(self.next)
 
-        except Exception:
+        except BaseException:
             self._finished_flg = True
             raise
 

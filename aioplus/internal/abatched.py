@@ -101,7 +101,7 @@ class AbatchedIterator(AsyncIterator[tuple[T, ...]]):
         try:
             batch = [item async for item in aislice(self.aiterator, self.n)]
 
-        except Exception:
+        except BaseException:
             self._finished_flg = True
             raise
 

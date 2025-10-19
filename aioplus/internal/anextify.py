@@ -93,7 +93,7 @@ class AnextifyIterator(AsyncIterator[T]):
         try:
             item = await afunc()
 
-        except Exception:
+        except (StopAsyncIteration, BaseException):
             self._finished_flg = True
             raise
 

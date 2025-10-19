@@ -208,15 +208,15 @@ class AzipIterator(AsyncIterator[tuple[T, ...]]):
             try:
                 maybe_result = task.result()
 
-            except Exception as exception:
-                exceptions.append(exception)
-            except BaseException as exception:
-                base_exceptions.append(exception)
-
             except ExceptionGroup as group:
                 exceptions.extend(group.exceptions)
             except BaseExceptionGroup as group:
                 base_exceptions.extend(group.exceptions)
+
+            except Exception as exception:
+                exceptions.append(exception)
+            except BaseException as exception:
+                base_exceptions.append(exception)
 
             else:
                 if maybe_result is not ...:

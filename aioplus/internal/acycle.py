@@ -77,7 +77,7 @@ class AcycleIterator(AsyncIterator[T]):
                 item = await anext(self.aiterator)
             except StopAsyncIteration:
                 self._initialized_flg = True
-            except Exception:
+            except BaseException:
                 self._finished_flg = True
                 self._deque.clear()
                 raise

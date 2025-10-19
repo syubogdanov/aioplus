@@ -158,7 +158,7 @@ class AisliceIterator(AsyncIterator[T]):
                 item = await anext(self.aiterator)
                 self._next_index += 1
 
-        except StopAsyncIteration:
+        except (StopAsyncIteration, BaseException):
             self._finished_flg = True
             raise
 
