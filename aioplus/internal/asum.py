@@ -1,7 +1,7 @@
 from collections.abc import AsyncIterable
 from typing import Any, Literal, Protocol, TypeVar, overload
 
-from aioplus.internal.typing import SupportsAdd, SupportsRAdd
+from aioplus.internal.utils.typing import SupportsAdd, SupportsRAdd
 
 
 AddableT1 = TypeVar("AddableT1", bound=SupportsAdd[Any, Any])

@@ -1,7 +1,7 @@
 from collections.abc import AsyncIterable, Callable
 from typing import Any, TypeAlias, TypeVar, overload
 
-from aioplus.internal.typing import SupportsDunderGT, SupportsDunderLT
+from aioplus.internal.utils.typing import SupportsDunderGT, SupportsDunderLT
 
 
 T = TypeVar("T")

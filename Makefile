@@ -1,28 +1,25 @@
-VENV = poetry run
-
-LIBRARY = aioplus
-TESTS = tests
+PYTHON = python -m
 
 
 # Formatters
 format: black
 
 black:
-	$(VENV) black ./$(LIBRARY)/ ./$(TESTS)/
+	$(PYTHON) black aioplus/ tests/
 
 
 # Linters
 lint: ruff mypy
 
 mypy:
-	$(VENV) mypy ./$(LIBRARY)/
+	$(PYTHON) mypy aioplus/
 
 ruff:
-	$(VENV) ruff check ./$(LIBRARY)/ ./$(TESTS)/
+	$(PYTHON) ruff check aioplus/ tests/
 
 
 # Tests
 test: unit-tests
 
 unit-tests:
-	$(VENV) pytest ./$(TESTS)/
+	$(PYTHON) pytest tests/
