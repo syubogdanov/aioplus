@@ -1,5 +1,4 @@
-from collections.abc import AsyncIterator
-from typing import Protocol, TypeVar, runtime_checkable
+from typing import Protocol, Self, TypeVar, runtime_checkable
 
 
 T_co = TypeVar("T_co", covariant=True)
@@ -55,5 +54,14 @@ class SupportsAclose(Protocol):
 
 
 @runtime_checkable
-class AcloseableIterator(AsyncIterator[T_co], SupportsAclose, Protocol[T_co]):
+class AcloseableIterator(Protocol[T_co]):
     """An ABC that implements three abstract methods: `__aiter__`, `__anext__` and `aclose`."""
+
+    def __aiter__(self) -> Self:
+        """Return self."""
+
+    async def __anext__(self) -> T_co:
+        """Return the next item."""
+
+    async def aclose(self) -> object:
+        """Close the object."""

@@ -34,7 +34,8 @@ class TestFunction:
         """Case: default usage."""
         aiterables = [arange(0, 3), arange(3, 6), arange(6, 9)]
 
-        nums = [num async for num in arace(*aiterables)]
+        async with aclosing(arace(*aiterables)) as aiterator:
+            nums = [num async for num in aiterator]
 
         assert sorted(nums) == [0, 1, 2, 3, 4, 5, 6, 7, 8]
 
@@ -49,9 +50,13 @@ class TestFunction:
         async def gen2() -> AsyncGenerator[int]:
             yield 2
 
-        async with aclosing(gen1()) as nums1, aclosing(gen2()) as nums2:
+        async with (
+            aclosing(gen1()) as nums1,
+            aclosing(gen2()) as nums2,
+            aclosing(arace(nums1, nums2)) as aiterator,
+        ):
             with pytest.raises(ExceptionGroup) as group:
-                [num async for num in arace(nums1, nums2)]
+                [num async for num in aiterator]
 
         assert len(group.value.exceptions) == 1
 
@@ -68,8 +73,12 @@ class TestFunction:
                 raise RuntimeError(2)
             yield 2
 
-        async with aclosing(gen1()) as nums1, aclosing(gen2()) as nums2:
+        async with (
+            aclosing(gen1()) as nums1,
+            aclosing(gen2()) as nums2,
+            aclosing(arace(nums1, nums2)) as aiterator,
+        ):
             with pytest.raises(ExceptionGroup) as group:
-                [num async for num in arace(nums1, nums2)]
+                [num async for num in aiterator]
 
         assert len(group.value.exceptions) == 2

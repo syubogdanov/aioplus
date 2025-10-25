@@ -137,7 +137,7 @@ class AraceIterator(AcloseableIterator[T]):
         return self
 
     async def __anext__(self) -> T:
-        """Return the next value."""
+        """Return the next item."""
         if not self._started_flg:
             self._started_flg = True
             self._schedule_all()
