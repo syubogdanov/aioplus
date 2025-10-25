@@ -6,6 +6,8 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING, Self, TypeVar, overload
 from warnings import warn
 
+from aioplus.internal.utils.typing import AcloseableIterator
+
 
 if TYPE_CHECKING:
     from types import EllipsisType
@@ -22,7 +24,7 @@ T6 = TypeVar("T6")
 
 
 @overload
-def arace(aiterable: AsyncIterable[T], /) -> AsyncIterator[T]: ...
+def arace(aiterable: AsyncIterable[T], /) -> AcloseableIterator[T]: ...
 
 
 @overload
@@ -30,7 +32,7 @@ def arace(
     aiterable1: AsyncIterable[T1],
     aiterable2: AsyncIterable[T2],
     /,
-) -> AsyncIterator[T1 | T2]: ...
+) -> AcloseableIterator[T1 | T2]: ...
 
 
 @overload
@@ -39,7 +41,7 @@ def arace(
     aiterable2: AsyncIterable[T2],
     aiterable3: AsyncIterable[T3],
     /,
-) -> AsyncIterator[T1 | T2 | T3]: ...
+) -> AcloseableIterator[T1 | T2 | T3]: ...
 
 
 @overload
@@ -49,7 +51,7 @@ def arace(
     aiterable3: AsyncIterable[T3],
     aiterable4: AsyncIterable[T4],
     /,
-) -> AsyncIterator[T1 | T2 | T3 | T4]: ...
+) -> AcloseableIterator[T1 | T2 | T3 | T4]: ...
 
 
 @overload
@@ -60,7 +62,7 @@ def arace(
     aiterable4: AsyncIterable[T4],
     aiterable5: AsyncIterable[T5],
     /,
-) -> AsyncIterator[T1 | T2 | T3 | T4 | T5]: ...
+) -> AcloseableIterator[T1 | T2 | T3 | T4 | T5]: ...
 
 
 @overload
@@ -72,14 +74,14 @@ def arace(
     aiterable5: AsyncIterable[T5],
     aiterable6: AsyncIterable[T6],
     /,
-) -> AsyncIterator[T1 | T2 | T3 | T4 | T5 | T6]: ...
+) -> AcloseableIterator[T1 | T2 | T3 | T4 | T5 | T6]: ...
 
 
 @overload
-def arace(*aiterables: AsyncIterable[T]) -> AsyncIterator[T]: ...
+def arace(*aiterables: AsyncIterable[T]) -> AcloseableIterator[T]: ...
 
 
-def arace(*aiterables: AsyncIterable[T]) -> AsyncIterator[T]:
+def arace(*aiterables: AsyncIterable[T]) -> AcloseableIterator[T]:
     """Iterate ``*aiterables``, returning values as they become available.
 
     Parameters
@@ -183,13 +185,25 @@ class AraceIterator(AsyncIterator[T]):
 
     def __del__(self) -> None:
         """Call the destructor."""
+        self.close()
+
+    async def aclose(self) -> None:
+        """Close the iterator."""
+        if self._pending:
+            self._cancel_all()
+            await self._wait_all()
+
+        self.close()
+
+    def close(self) -> None:
+        """Close the iterator."""
         for task in list(self._pending):
             if task.done():
                 index = self._pending.pop(task)
                 self._done[task] = index
 
         if tasks := list(self._pending):
-            detail = f"arace().__del__(): task(-s) will never be awaited: {tasks!r}"
+            detail = f"arace.close(): task(-s) will never be awaited: {tasks!r}"
             warn(detail, RuntimeWarning, stacklevel=2)
 
         base_exceptions: list[BaseException] = []
@@ -206,8 +220,11 @@ class AraceIterator(AsyncIterator[T]):
                 base_exceptions.append(exception)
 
         if base_exceptions:
-            detail = f"arace().__del__(): base exception(-s) occurred: {base_exceptions!r}"
+            detail = f"arace.close(): base exception(-s) occurred: {base_exceptions!r}"
             warn(detail, RuntimeWarning, stacklevel=2)
+
+        self._pending.clear()
+        self._done.clear()
 
     def _cancel_all(self) -> None:
         """Cancel all pending tasks."""
