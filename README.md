@@ -225,6 +225,24 @@ For more, see the [documentation][docs/aioplus/apairwise].
 [(0, 1), (1, 2), (2, 3), ..., (20, 21), (21, 22)]
 ```
 
+#### *apostpend*
+
+For more, see the [documentation][docs/aioplus/apostpend].
+
+```python
+>>> [num async for num in apostpend(arange(4), 4)]
+[0, 1, 2, 3, 4]
+```
+
+#### *aprepend*
+
+For more, see the [documentation][docs/aioplus/aprepend].
+
+```python
+>>> [num async for num in aprepend(0, arange(1, 5))]
+[0, 1, 2, 3, 4]
+```
+
 #### *arace*
 
 For more, see the [documentation][docs/aioplus/arace].
@@ -363,6 +381,8 @@ MIT License, Copyright (c) 2025 Sergei Y. Bogdanov. See [LICENSE][github/license
 [docs/aioplus/anextify]: https://aioplus.readthedocs.io/en/latest/anextify.html
 [docs/aioplus/anth]: https://aioplus.readthedocs.io/en/latest/anth.html
 [docs/aioplus/apairwise]: https://aioplus.readthedocs.io/en/latest/apairwise.html
+[docs/aioplus/apostpend]: https://aioplus.readthedocs.io/en/latest/apostpend.html
+[docs/aioplus/aprepend]: https://aioplus.readthedocs.io/en/latest/aprepend.html
 [docs/aioplus/arace]: https://aioplus.readthedocs.io/en/latest/arace.html
 [docs/aioplus/arange]: https://aioplus.readthedocs.io/en/latest/arange.html
 [docs/aioplus/arepeat]: https://aioplus.readthedocs.io/en/latest/arepeat.html

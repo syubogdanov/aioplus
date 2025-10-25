@@ -91,7 +91,7 @@ def arace(*aiterables: AsyncIterable[T]) -> AcloseableIterator[T]:
 
     Returns
     -------
-    AsyncIterator[T]
+    AcloseableIterator[T]
         The asynchronous iterator.
 
     Examples
@@ -101,6 +101,11 @@ def arace(*aiterables: AsyncIterable[T]) -> AcloseableIterator[T]:
     >>> nums3 = arange(6, 9)
     >>> [num async for num in arace(nums1, nums2, nums3)]
     [0, 6, 3, 1, 4, 7, 5, 2, 8]
+
+    Notes
+    -----
+    * It is recommended to explicitly close this iterator using ``aclose()``. Otherwise, warnings
+      about unawaited tasks may be emitted.
     """
     if not aiterables:
         detail = "'*aiterables' must be non-empty"

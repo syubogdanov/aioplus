@@ -247,6 +247,26 @@ For more, see the :doc:`documentation <apairwise>`.
     >>> [pair async for pair in apairwise(aiterable)]
     [(0, 1), (1, 2), (2, 3), ..., (20, 21), (21, 22)]
 
+apostpend
+---------
+
+For more, see the :doc:`documentation <apostpend>`.
+
+.. code-block:: python
+
+    >>> [num async for num in apostpend(arange(4), 4)]
+    [0, 1, 2, 3, 4]
+
+aprepend
+---------
+
+For more, see the :doc:`documentation <aprepend>`.
+
+.. code-block:: python
+
+    >>> [num async for num in aprepend(0, arange(1, 5))]
+    [0, 1, 2, 3, 4]
+
 arace
 -----
 
@@ -394,6 +414,8 @@ For more, see the :doc:`documentation <azip>`.
     anextify
     anth
     apairwise
+    apostpend
+    aprepend
     arace
     arange
     arepeat
