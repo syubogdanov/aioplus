@@ -1,6 +1,7 @@
 from aioplus.internal.aall import aall
 from aioplus.internal.aany import aany
 from aioplus.internal.abatched import abatched
+from aioplus.internal.achain import achain
 from aioplus.internal.acount import acount
 from aioplus.internal.acycle import acycle
 from aioplus.internal.aempty import aempty
@@ -38,6 +39,7 @@ __all__: list[str] = [
     "aall",
     "aany",
     "abatched",
+    "achain",
     "acount",
     "acycle",
     "aempty",
@@ -71,6 +73,7 @@ CallerThreadExecutor.__module__ = "aioplus"
 aall.__module__ = "aioplus"
 aany.__module__ = "aioplus"
 abatched.__module__ = "aioplus"
+achain.__module__ = "aioplus"
 acount.__module__ = "aioplus"
 acycle.__module__ = "aioplus"
 aempty.__module__ = "aioplus"

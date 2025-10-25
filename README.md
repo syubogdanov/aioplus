@@ -64,6 +64,17 @@ For more, see the [documentation][docs/aioplus/abatched].
 [(0, 1, 2), (3, 4, 5), ..., (18, 19, 20), (21, 22)]
 ```
 
+#### *achain*
+
+For more, see the [documentation][docs/aioplus/achain].
+
+```python
+>>> nums1 = arange(0, 3)
+>>> nums2 = arange(3, 6)
+>>> [num async for num in achain(nums1, nums2)]
+[0, 1, 2, 3, 4, 5]
+```
+
 #### *acount*
 
 For more, see the [documentation][docs/aioplus/acount].
@@ -336,6 +347,7 @@ MIT License, Copyright (c) 2025 Sergei Y. Bogdanov. See [LICENSE][github/license
 [docs/aioplus/aall]: https://aioplus.readthedocs.io/en/latest/aall.html
 [docs/aioplus/aany]: https://aioplus.readthedocs.io/en/latest/aany.html
 [docs/aioplus/abatched]: https://aioplus.readthedocs.io/en/latest/abatched.html
+[docs/aioplus/achain]: https://aioplus.readthedocs.io/en/latest/achain.html
 [docs/aioplus/acount]: https://aioplus.readthedocs.io/en/latest/acount.html
 [docs/aioplus/acycle]: https://aioplus.readthedocs.io/en/latest/acycle.html
 [docs/aioplus/aempty]: https://aioplus.readthedocs.io/en/latest/aempty.html

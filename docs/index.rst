@@ -70,6 +70,18 @@ For more, see the :doc:`documentation <abatched>`.
     >>> [batch async for batch in abatched(aiterable, n=3)]
     [(0, 1, 2), (3, 4, 5), ..., (18, 19, 20), (21, 22)]
 
+achain
+--------
+
+For more, see the :doc:`documentation <achain>`.
+
+.. code-block:: python
+
+    >>> nums1 = arange(0, 3)
+    >>> nums2 = arange(3, 6)
+    >>> [num async for num in achain(nums1, nums2)]
+    [0, 1, 2, 3, 4, 5]
+
 acount
 ------
 
@@ -366,6 +378,7 @@ For more, see the :doc:`documentation <azip>`.
     aall
     aany
     abatched
+    achain
     acount
     acycle
     aempty
