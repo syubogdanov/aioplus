@@ -1,5 +1,5 @@
 from asyncio import iscoroutinefunction
-from collections.abc import AsyncIterable, AsyncIterator, Awaitable, Callable
+from collections.abc import AsyncIterator, Awaitable, Callable
 from dataclasses import dataclass
 from typing import Self, TypeVar
 
@@ -7,7 +7,7 @@ from typing import Self, TypeVar
 R = TypeVar("R")
 
 
-def atabulate(afunc: Callable[[int], Awaitable[R]], /, *, start: int = 0) -> AsyncIterable[R]:
+def atabulate(afunc: Callable[[int], Awaitable[R]], /, *, start: int = 0) -> AsyncIterator[R]:
     """Return ``await afunc(0)``, ``await afunc(1)``, ``await afunc(2)``, etc.
 
     Parameters
@@ -17,8 +17,8 @@ def atabulate(afunc: Callable[[int], Awaitable[R]], /, *, start: int = 0) -> Asy
 
     Returns
     -------
-    AsyncIterable[R]
-        The asynchronous iterable.
+    AsyncIterator[R]
+        The asynchronous iterator.
 
     Examples
     --------
@@ -38,19 +38,7 @@ def atabulate(afunc: Callable[[int], Awaitable[R]], /, *, start: int = 0) -> Asy
         detail = "'start' must be 'int'"
         raise TypeError(detail)
 
-    return AtabulateIterable(afunc, start)
-
-
-@dataclass(repr=False)
-class AtabulateIterable(AsyncIterable[R]):
-    """An asynchronous iterable."""
-
-    afunc: Callable[[int], Awaitable[R]]
-    start: int
-
-    def __aiter__(self) -> AsyncIterator[R]:
-        """Return an asynchronous iterator."""
-        return AtabulateIterator(self.afunc, self.start)
+    return AtabulateIterator(afunc, start)
 
 
 @dataclass(repr=False)

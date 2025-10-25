@@ -7,11 +7,11 @@ T = TypeVar("T")
 
 
 @overload
-def aislice(aiterable: AsyncIterable[T], stop: int, /) -> AsyncIterable[T]: ...
+def aislice(aiterable: AsyncIterable[T], stop: int, /) -> AsyncIterator[T]: ...
 
 
 @overload
-def aislice(aiterable: AsyncIterable[T], start: int, stop: int, /) -> AsyncIterable[T]: ...
+def aislice(aiterable: AsyncIterable[T], start: int, stop: int, /) -> AsyncIterator[T]: ...
 
 
 @overload
@@ -21,7 +21,7 @@ def aislice(
     stop: int,
     step: int,
     /,
-) -> AsyncIterable[T]: ...
+) -> AsyncIterator[T]: ...
 
 
 def aislice(
@@ -30,7 +30,7 @@ def aislice(
     stop: int | None = None,
     step: int | None = None,
     /,
-) -> AsyncIterable[T]:
+) -> AsyncIterator[T]:
     """Return selected items from ``aiterable``.
 
     Parameters
@@ -51,8 +51,8 @@ def aislice(
 
     Returns
     -------
-    AsyncIterable[T]
-        The asynchronous iterable.
+    AsyncIterator[T]
+        The asynchronous iterator.
 
     Examples
     --------
@@ -104,22 +104,8 @@ def aislice(
         detail = "'step' must be positive"
         raise ValueError(detail)
 
-    return AisliceIterable(aiterable, start, stop, step)
-
-
-@dataclass(repr=False)
-class AisliceIterable(AsyncIterable[T]):
-    """An asynchronous slice iterable."""
-
-    aiterable: AsyncIterable[T]
-    start: int
-    stop: int
-    step: int
-
-    def __aiter__(self) -> AsyncIterator[T]:
-        """Return an asynchronous iterator."""
-        aiterator = aiter(self.aiterable)
-        return AisliceIterator(aiterator, self.start, self.stop, self.step)
+    aiterator = aiter(aiterable)
+    return AisliceIterator(aiterator, start, stop, step)
 
 
 @dataclass(repr=False)

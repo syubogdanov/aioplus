@@ -1,4 +1,4 @@
-from collections.abc import AsyncIterable
+from collections.abc import AsyncIterable, AsyncIterator
 from typing import TypeVar
 
 from aioplus.internal.aislice import aislice
@@ -7,7 +7,7 @@ from aioplus.internal.aislice import aislice
 T = TypeVar("T")
 
 
-def ahead(aiterable: AsyncIterable[T], /, *, n: int) -> AsyncIterable[T]:
+def ahead(aiterable: AsyncIterable[T], /, *, n: int) -> AsyncIterator[T]:
     """Return the first ``n`` items of ``aiterable``.
 
     Parameters
@@ -20,8 +20,8 @@ def ahead(aiterable: AsyncIterable[T], /, *, n: int) -> AsyncIterable[T]:
 
     Returns
     -------
-    AsyncIterable[T]
-        The asynchronous iterable.
+    AsyncIterator[T]
+        The asynchronous iterator.
 
     Examples
     --------

@@ -8,7 +8,7 @@ T = TypeVar("T")
 
 
 @overload
-def awindowed(aiterable: AsyncIterable[T], /, *, n: Literal[2]) -> AsyncIterable[tuple[T, T]]: ...
+def awindowed(aiterable: AsyncIterable[T], /, *, n: Literal[2]) -> AsyncIterator[tuple[T, T]]: ...
 
 
 @overload
@@ -17,14 +17,14 @@ def awindowed(
     /,
     *,
     n: Literal[3],
-) -> AsyncIterable[tuple[T, T, T]]: ...
+) -> AsyncIterator[tuple[T, T, T]]: ...
 
 
 @overload
-def awindowed(aiterable: AsyncIterable[T], /, *, n: int) -> AsyncIterable[tuple[T, ...]]: ...
+def awindowed(aiterable: AsyncIterable[T], /, *, n: int) -> AsyncIterator[tuple[T, ...]]: ...
 
 
-def awindowed(aiterable: AsyncIterable[T], /, *, n: int) -> AsyncIterable[tuple[T, ...]]:
+def awindowed(aiterable: AsyncIterable[T], /, *, n: int) -> AsyncIterator[tuple[T, ...]]:
     """Return a sliding window of width ``n`` over ``aiterable``.
 
     Parameters
@@ -37,8 +37,8 @@ def awindowed(aiterable: AsyncIterable[T], /, *, n: int) -> AsyncIterable[tuple[
 
     Returns
     -------
-    AsyncIterable[tuple[T, ...]]
-        The asynchronous iterable.
+    AsyncIterator[tuple[T, ...]]
+        The asynchronous iterator.
 
     Examples
     --------
@@ -58,20 +58,8 @@ def awindowed(aiterable: AsyncIterable[T], /, *, n: int) -> AsyncIterable[tuple[
         detail = "'n' must be positive"
         raise ValueError(detail)
 
-    return AwindowedIterable(aiterable, n=n)
-
-
-@dataclass(repr=False)
-class AwindowedIterable(AsyncIterable[tuple[T, ...]]):
-    """An asynchronous iterable."""
-
-    aiterable: AsyncIterable[T]
-    n: int
-
-    def __aiter__(self) -> AsyncIterator[tuple[T, ...]]:
-        """Return an asynchronous iterator."""
-        aiterator = aiter(self.aiterable)
-        return AwindowedIterator(aiterator, self.n)
+    aiterator = aiter(aiterable)
+    return AwindowedIterator(aiterator, n)
 
 
 @dataclass(repr=False)

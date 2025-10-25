@@ -1,4 +1,4 @@
-from collections.abc import AsyncIterable
+from collections.abc import AsyncIterable, AsyncIterator
 from typing import TypeVar
 
 from aioplus.internal.awindowed import awindowed
@@ -7,7 +7,7 @@ from aioplus.internal.awindowed import awindowed
 T = TypeVar("T")
 
 
-def apairwise(aiterable: AsyncIterable[T], /) -> AsyncIterable[tuple[T, T]]:
+def apairwise(aiterable: AsyncIterable[T], /) -> AsyncIterator[tuple[T, T]]:
     """Return a sliding window of width ``n=2`` over ``aiterable``.
 
     Parameters
@@ -17,8 +17,8 @@ def apairwise(aiterable: AsyncIterable[T], /) -> AsyncIterable[tuple[T, T]]:
 
     Returns
     -------
-    AsyncIterable[tuple[T, T]]
-        The asynchronous iterable.
+    AsyncIterator[tuple[T, T]]
+        The asynchronous iterator.
 
     Examples
     --------

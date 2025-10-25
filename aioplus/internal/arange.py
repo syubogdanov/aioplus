@@ -1,20 +1,20 @@
 import asyncio
 
-from collections.abc import AsyncIterable, AsyncIterator
+from collections.abc import AsyncIterator
 from dataclasses import dataclass
 from typing import Self, overload
 
 
 @overload
-def arange(stop: int, /) -> AsyncIterable[int]: ...
+def arange(stop: int, /) -> AsyncIterator[int]: ...
 
 
 @overload
-def arange(start: int, stop: int, /) -> AsyncIterable[int]: ...
+def arange(start: int, stop: int, /) -> AsyncIterator[int]: ...
 
 
 @overload
-def arange(start: int, stop: int, step: int, /) -> AsyncIterable[int]: ...
+def arange(start: int, stop: int, step: int, /) -> AsyncIterator[int]: ...
 
 
 def arange(
@@ -22,7 +22,7 @@ def arange(
     stop: int | None = None,
     step: int | None = None,
     /,
-) -> AsyncIterable[int]:
+) -> AsyncIterator[int]:
     """Iterate a range of integers.
 
     Parameters
@@ -41,8 +41,8 @@ def arange(
 
     Returns
     -------
-    AsyncIterable[int]
-        The asynchronous iterable.
+    AsyncIterator[int]
+        The asynchronous iterator.
 
     Examples
     --------
@@ -81,20 +81,7 @@ def arange(
         detail = "'step' must not be zero"
         raise ValueError(detail)
 
-    return ArangeIterable(start, stop, step)
-
-
-@dataclass(repr=False)
-class ArangeIterable(AsyncIterable[int]):
-    """An asynchronous iterable."""
-
-    start: int
-    stop: int
-    step: int
-
-    def __aiter__(self) -> AsyncIterator[int]:
-        """Return an asynchronous iterator."""
-        return ArangeIterator(self.start, self.stop, self.step)
+    return ArangeIterator(start, stop, step)
 
 
 @dataclass(repr=False)

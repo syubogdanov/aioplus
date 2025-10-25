@@ -6,7 +6,7 @@ from typing import Self, TypeVar
 T = TypeVar("T")
 
 
-def aenumerate(aiterable: AsyncIterable[T], /, start: int = 0) -> AsyncIterable[tuple[int, T]]:
+def aenumerate(aiterable: AsyncIterable[T], /, start: int = 0) -> AsyncIterator[tuple[int, T]]:
     """Enumerate ``aiterable``.
 
     Parameters
@@ -19,8 +19,8 @@ def aenumerate(aiterable: AsyncIterable[T], /, start: int = 0) -> AsyncIterable[
 
     Returns
     -------
-    AsyncIterable[tuple[int, T]]
-        The asynchronous iterable.
+    AsyncIterator[tuple[int, T]]
+        The asynchronous iterator.
 
     Examples
     --------
@@ -40,20 +40,8 @@ def aenumerate(aiterable: AsyncIterable[T], /, start: int = 0) -> AsyncIterable[
         detail = "'start' must be 'int'"
         raise TypeError(detail)
 
-    return AenumerateIterable(aiterable, start)
-
-
-@dataclass(repr=False)
-class AenumerateIterable(AsyncIterable[tuple[int, T]]):
-    """An asynchronous iterable."""
-
-    aiterable: AsyncIterable[T]
-    start: int
-
-    def __aiter__(self) -> AsyncIterator[tuple[int, T]]:
-        """Return an asynchronous iterator."""
-        aiterator = aiter(self.aiterable)
-        return AenumerateIterator(aiterator, self.start)
+    aiterator = aiter(aiterable)
+    return AenumerateIterator(aiterator, start)
 
 
 @dataclass(repr=False)

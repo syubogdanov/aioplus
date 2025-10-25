@@ -1,4 +1,4 @@
-from collections.abc import AsyncIterable, AsyncIterator, Iterable, Iterator
+from collections.abc import AsyncIterator, Iterable, Iterator
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
 from functools import partial
@@ -15,7 +15,7 @@ def anextify(
     /,
     *,
     executor: ThreadPoolExecutor | None = None,
-) -> AsyncIterable[T]:
+) -> AsyncIterator[T]:
     """Make ``iterable`` asynchronous.
 
     Parameters
@@ -29,8 +29,8 @@ def anextify(
 
     Returns
     -------
-    AsyncIterable[T]
-        The asynchronous iterable.
+    AsyncIterator[T]
+        The asynchronous iterator.
 
     Examples
     --------
@@ -51,20 +51,8 @@ def anextify(
         detail = "'executor' must be 'ThreadPoolExecutor' or 'None'"
         raise TypeError(detail)
 
-    return AnextifyIterable(iterable, executor)
-
-
-@dataclass(repr=False)
-class AnextifyIterable(AsyncIterable[T]):
-    """An asynchronous iterable."""
-
-    iterable: Iterable[T]
-    executor: ThreadPoolExecutor | None
-
-    def __aiter__(self) -> AsyncIterator[T]:
-        """Return an asynchronous iterator."""
-        iterator = iter(self.iterable)
-        return AnextifyIterator(iterator, self.executor)
+    iterator = iter(iterable)
+    return AnextifyIterator(iterator, executor)
 
 
 @dataclass(repr=False)

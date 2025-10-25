@@ -17,7 +17,7 @@ T6 = TypeVar("T6")
 
 
 @overload
-def azip(aiterable: AsyncIterable[T], /, *, strict: bool) -> AsyncIterable[tuple[T]]: ...
+def azip(aiterable: AsyncIterable[T], /, *, strict: bool) -> AsyncIterator[tuple[T]]: ...
 
 
 @overload
@@ -27,7 +27,7 @@ def azip(
     /,
     *,
     strict: bool = False,
-) -> AsyncIterable[tuple[T1, T2]]: ...
+) -> AsyncIterator[tuple[T1, T2]]: ...
 
 
 @overload
@@ -38,7 +38,7 @@ def azip(
     /,
     *,
     strict: bool = False,
-) -> AsyncIterable[tuple[T1, T2, T3]]: ...
+) -> AsyncIterator[tuple[T1, T2, T3]]: ...
 
 
 @overload
@@ -50,7 +50,7 @@ def azip(
     /,
     *,
     strict: bool = False,
-) -> AsyncIterable[tuple[T1, T2, T3, T4]]: ...
+) -> AsyncIterator[tuple[T1, T2, T3, T4]]: ...
 
 
 @overload
@@ -63,7 +63,7 @@ def azip(
     /,
     *,
     strict: bool = False,
-) -> AsyncIterable[tuple[T1, T2, T3, T4, T5]]: ...
+) -> AsyncIterator[tuple[T1, T2, T3, T4, T5]]: ...
 
 
 @overload
@@ -77,14 +77,14 @@ def azip(
     /,
     *,
     strict: bool = False,
-) -> AsyncIterable[tuple[T1, T2, T3, T4, T5, T6]]: ...
+) -> AsyncIterator[tuple[T1, T2, T3, T4, T5, T6]]: ...
 
 
 @overload
-def azip(*aiterables: AsyncIterable[T], strict: bool = False) -> AsyncIterable[tuple[T, ...]]: ...
+def azip(*aiterables: AsyncIterable[T], strict: bool = False) -> AsyncIterator[tuple[T, ...]]: ...
 
 
-def azip(*aiterables: AsyncIterable[Any], strict: bool = False) -> AsyncIterable[tuple[Any, ...]]:
+def azip(*aiterables: AsyncIterable[Any], strict: bool = False) -> AsyncIterator[tuple[Any, ...]]:
     """Iterate ``*aiterables`` in parallel.
 
     Parameters
@@ -97,8 +97,8 @@ def azip(*aiterables: AsyncIterable[Any], strict: bool = False) -> AsyncIterable
 
     Returns
     -------
-    AsyncIterable[tuple[T, ...]]
-        The asynchronous iterable.
+    AsyncIterator[tuple[T, ...]]
+        The asynchronous iterator.
 
     Examples
     --------
@@ -120,20 +120,8 @@ def azip(*aiterables: AsyncIterable[Any], strict: bool = False) -> AsyncIterable
         detail = "'strict' must be 'bool'"
         raise TypeError(detail)
 
-    return AzipIterable(aiterables, strict)
-
-
-@dataclass(repr=False)
-class AzipIterable(AsyncIterable[tuple[T, ...]]):
-    """An asynchronous iterable."""
-
-    aiterables: tuple[AsyncIterable[T], ...]
-    strict: bool
-
-    def __aiter__(self) -> AsyncIterator[tuple[T, ...]]:
-        """Return an asynchronous iterator."""
-        aiterators = [aiter(aiterable) for aiterable in self.aiterables]
-        return AzipIterator(aiterators, self.strict)
+    aiterators = [aiter(aiterable) for aiterable in aiterables]
+    return AzipIterator(aiterators, strict)
 
 
 @dataclass(repr=False)

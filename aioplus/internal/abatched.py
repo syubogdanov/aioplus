@@ -14,7 +14,7 @@ def abatched(
     *,
     n: int,
     strict: bool = False,
-) -> AsyncIterable[tuple[T, ...]]:
+) -> AsyncIterator[tuple[T, ...]]:
     """Iterate ``aiterable`` by batches of length ``n``.
 
     Parameters
@@ -31,8 +31,8 @@ def abatched(
 
     Returns
     -------
-    AsyncIterable[tuple[T, ...]]
-        The asynchronous iterable.
+    AsyncIterator[tuple[T, ...]]
+        The asynchronous iterator.
 
     Examples
     --------
@@ -60,21 +60,8 @@ def abatched(
         detail = "'strict' must be 'bool'"
         raise TypeError(detail)
 
-    return AbatchedIterable(aiterable, n, strict)
-
-
-@dataclass(repr=False)
-class AbatchedIterable(AsyncIterable[tuple[T, ...]]):
-    """An asynchronous iterable."""
-
-    aiterable: AsyncIterable[T]
-    n: int
-    strict: bool
-
-    def __aiter__(self) -> AsyncIterator[tuple[T, ...]]:
-        """Return an asynchronous iterator."""
-        aiterator = aiter(self.aiterable)
-        return AbatchedIterator(aiterator, self.n, self.strict)
+    aiterator = aiter(aiterable)
+    return AbatchedIterator(aiterator, n, strict)
 
 
 @dataclass(repr=False)

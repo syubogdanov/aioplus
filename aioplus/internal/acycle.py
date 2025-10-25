@@ -9,7 +9,7 @@ from typing import Self, TypeVar
 T = TypeVar("T")
 
 
-def acycle(aiterable: AsyncIterable[T], /) -> AsyncIterable[T]:
+def acycle(aiterable: AsyncIterable[T], /) -> AsyncIterator[T]:
     """Make ``aiterable`` looped.
 
     Parameters
@@ -19,8 +19,8 @@ def acycle(aiterable: AsyncIterable[T], /) -> AsyncIterable[T]:
 
     Returns
     -------
-    AsyncIterable[T]
-        The asynchronous iterable.
+    AsyncIterator[T]
+        The asynchronous iterator.
 
     Examples
     --------
@@ -36,19 +36,8 @@ def acycle(aiterable: AsyncIterable[T], /) -> AsyncIterable[T]:
         detail = "'aiterable' must be 'AsyncIterable'"
         raise TypeError(detail)
 
-    return AcycleIterable(aiterable)
-
-
-@dataclass(repr=False)
-class AcycleIterable(AsyncIterable[T]):
-    """An asynchronous iterable."""
-
-    aiterable: AsyncIterable[T]
-
-    def __aiter__(self) -> AsyncIterator[T]:
-        """Return an asynchronous iterator."""
-        aiterator = aiter(self.aiterable)
-        return AcycleIterator(aiterator)
+    aiterator = aiter(aiterable)
+    return AcycleIterator(aiterator)
 
 
 @dataclass(repr=False)

@@ -1,11 +1,11 @@
 import asyncio
 
-from collections.abc import AsyncIterable, AsyncIterator
+from collections.abc import AsyncIterator
 from dataclasses import dataclass
 from typing import Self
 
 
-def acount(start: int = 0, step: int = 1) -> AsyncIterable[int]:
+def acount(start: int = 0, step: int = 1) -> AsyncIterator[int]:
     """Return evenly spaced integers.
 
     Parameters
@@ -18,8 +18,8 @@ def acount(start: int = 0, step: int = 1) -> AsyncIterable[int]:
 
     Returns
     -------
-    AsyncIterable[int]
-        The asynchronous iterable.
+    AsyncIterator[int]
+        The asynchronous iterator.
 
     Examples
     --------
@@ -38,19 +38,7 @@ def acount(start: int = 0, step: int = 1) -> AsyncIterable[int]:
         detail = "'step' must be 'int'"
         raise TypeError(detail)
 
-    return AcountIterable(start, step)
-
-
-@dataclass(repr=False)
-class AcountIterable(AsyncIterable[int]):
-    """An asynchronous iterable."""
-
-    start: int
-    step: int
-
-    def __aiter__(self) -> AsyncIterator[int]:
-        """Return an asynchronous iterator."""
-        return AcountIterator(self.start, self.step)
+    return AcountIterator(start, step)
 
 
 @dataclass(repr=False)

@@ -1,6 +1,6 @@
 import asyncio
 
-from collections.abc import AsyncIterable, AsyncIterator
+from collections.abc import AsyncIterator
 from dataclasses import dataclass
 from typing import Self, TypeVar
 
@@ -8,7 +8,7 @@ from typing import Self, TypeVar
 T = TypeVar("T")
 
 
-def arepeat(obj: T, /, *, times: int | None = None) -> AsyncIterable[T]:
+def arepeat(obj: T, /, *, times: int | None = None) -> AsyncIterator[T]:
     """Return the same object repeatedly.
 
     Parameters
@@ -21,8 +21,8 @@ def arepeat(obj: T, /, *, times: int | None = None) -> AsyncIterable[T]:
 
     Returns
     -------
-    AsyncIterable[T]
-        The asynchronous iterable.
+    AsyncIterator[T]
+        The asynchronous iterator.
 
     Examples
     --------
@@ -41,19 +41,7 @@ def arepeat(obj: T, /, *, times: int | None = None) -> AsyncIterable[T]:
         detail = "'times' must be non-negative"
         raise ValueError(detail)
 
-    return ArepeatIterable(obj, times)
-
-
-@dataclass(repr=False)
-class ArepeatIterable(AsyncIterable[T]):
-    """An asynchronous iterable."""
-
-    obj: T
-    times: int | None
-
-    def __aiter__(self) -> AsyncIterator[T]:
-        """Return an asynchronous iterator."""
-        return ArepeatIterator(self.obj, self.times)
+    return ArepeatIterator(obj, times)
 
 
 @dataclass(repr=False)

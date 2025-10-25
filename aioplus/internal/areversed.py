@@ -8,7 +8,7 @@ from typing import Self, TypeVar
 T = TypeVar("T")
 
 
-def areversed(aiterable: AsyncIterable[T], /) -> AsyncIterable[T]:
+def areversed(aiterable: AsyncIterable[T], /) -> AsyncIterator[T]:
     """Return reversed ``aiterable``.
 
     Parameters
@@ -18,8 +18,8 @@ def areversed(aiterable: AsyncIterable[T], /) -> AsyncIterable[T]:
 
     Returns
     -------
-    AsyncIterable of T
-        The asynchronous iterable.
+    AsyncIterator[T]
+        The asynchronous iterator.
 
     Examples
     --------
@@ -35,19 +35,8 @@ def areversed(aiterable: AsyncIterable[T], /) -> AsyncIterable[T]:
         detail = "'aiterable' must be 'AsyncIterable'"
         raise TypeError(detail)
 
-    return AreversedIterable(aiterable)
-
-
-@dataclass(repr=False)
-class AreversedIterable(AsyncIterable[T]):
-    """A asynchronous iterable."""
-
-    aiterable: AsyncIterable[T]
-
-    def __aiter__(self) -> AsyncIterator[T]:
-        """Return an asynchronous iterator."""
-        aiterator = aiter(self.aiterable)
-        return AreversedIterator(aiterator)
+    aiterator = aiter(aiterable)
+    return AreversedIterator(aiterator)
 
 
 @dataclass(repr=False)

@@ -22,7 +22,7 @@ T6 = TypeVar("T6")
 
 
 @overload
-def arace(aiterable: AsyncIterable[T], /) -> AsyncIterable[T]: ...
+def arace(aiterable: AsyncIterable[T], /) -> AsyncIterator[T]: ...
 
 
 @overload
@@ -30,7 +30,7 @@ def arace(
     aiterable1: AsyncIterable[T1],
     aiterable2: AsyncIterable[T2],
     /,
-) -> AsyncIterable[T1 | T2]: ...
+) -> AsyncIterator[T1 | T2]: ...
 
 
 @overload
@@ -39,7 +39,7 @@ def arace(
     aiterable2: AsyncIterable[T2],
     aiterable3: AsyncIterable[T3],
     /,
-) -> AsyncIterable[T1 | T2 | T3]: ...
+) -> AsyncIterator[T1 | T2 | T3]: ...
 
 
 @overload
@@ -49,7 +49,7 @@ def arace(
     aiterable3: AsyncIterable[T3],
     aiterable4: AsyncIterable[T4],
     /,
-) -> AsyncIterable[T1 | T2 | T3 | T4]: ...
+) -> AsyncIterator[T1 | T2 | T3 | T4]: ...
 
 
 @overload
@@ -60,7 +60,7 @@ def arace(
     aiterable4: AsyncIterable[T4],
     aiterable5: AsyncIterable[T5],
     /,
-) -> AsyncIterable[T1 | T2 | T3 | T4 | T5]: ...
+) -> AsyncIterator[T1 | T2 | T3 | T4 | T5]: ...
 
 
 @overload
@@ -72,14 +72,14 @@ def arace(
     aiterable5: AsyncIterable[T5],
     aiterable6: AsyncIterable[T6],
     /,
-) -> AsyncIterable[T1 | T2 | T3 | T4 | T5 | T6]: ...
+) -> AsyncIterator[T1 | T2 | T3 | T4 | T5 | T6]: ...
 
 
 @overload
-def arace(*aiterables: AsyncIterable[T]) -> AsyncIterable[T]: ...
+def arace(*aiterables: AsyncIterable[T]) -> AsyncIterator[T]: ...
 
 
-def arace(*aiterables: AsyncIterable[T]) -> AsyncIterable[T]:
+def arace(*aiterables: AsyncIterable[T]) -> AsyncIterator[T]:
     """Iterate ``*aiterables``, returning values as they become available.
 
     Parameters
@@ -89,8 +89,8 @@ def arace(*aiterables: AsyncIterable[T]) -> AsyncIterable[T]:
 
     Returns
     -------
-    AsyncIterable[T]
-        The asynchronous iterable.
+    AsyncIterator[T]
+        The asynchronous iterator.
 
     Examples
     --------
@@ -109,19 +109,8 @@ def arace(*aiterables: AsyncIterable[T]) -> AsyncIterable[T]:
             detail = "'*aiterables' must be 'AsyncIterable'"
             raise TypeError(detail)
 
-    return AraceIterable(aiterables)
-
-
-@dataclass(repr=False)
-class AraceIterable(AsyncIterable[T]):
-    """An asynchronous iterable."""
-
-    aiterables: tuple[AsyncIterable[T], ...]
-
-    def __aiter__(self) -> AsyncIterator[T]:
-        """Return an asynchronous iterator."""
-        aiterators = [aiter(aiterable) for aiterable in self.aiterables]
-        return AraceIterator(aiterators)
+    aiterators = [aiter(aiterable) for aiterable in aiterables]
+    return AraceIterator(aiterators)
 
 
 @dataclass(repr=False)

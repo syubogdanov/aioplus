@@ -9,7 +9,7 @@ from typing import Self, TypeVar
 T = TypeVar("T")
 
 
-def atail(aiterable: AsyncIterable[T], /, *, n: int) -> AsyncIterable[T]:
+def atail(aiterable: AsyncIterable[T], /, *, n: int) -> AsyncIterator[T]:
     """Return the last ``n`` items of the ``aiterable``.
 
     Parameters
@@ -22,8 +22,8 @@ def atail(aiterable: AsyncIterable[T], /, *, n: int) -> AsyncIterable[T]:
 
     Returns
     -------
-    AsyncIterable[T]
-        The asynchronous iterable.
+    AsyncIterator[T]
+        The asynchronous iterator.
 
     Examples
     --------
@@ -43,20 +43,8 @@ def atail(aiterable: AsyncIterable[T], /, *, n: int) -> AsyncIterable[T]:
         detail = "'n' must be non-negative"
         raise ValueError(detail)
 
-    return AtailIterable(aiterable, n)
-
-
-@dataclass(repr=False)
-class AtailIterable(AsyncIterable[T]):
-    """An asynchronous iterable."""
-
-    aiterable: AsyncIterable[T]
-    n: int
-
-    def __aiter__(self) -> AsyncIterator[T]:
-        """Return an asynchronous iterator."""
-        aiterator = aiter(self.aiterable)
-        return AtailIterator(aiterator, self.n)
+    aiterator = aiter(aiterable)
+    return AtailIterator(aiterator, n)
 
 
 @dataclass(repr=False)
