@@ -1,9 +1,8 @@
 import asyncio
 
-from asyncio import Task, create_task
+from asyncio import create_task
 from collections.abc import AsyncIterable, AsyncIterator
 from dataclasses import dataclass
-from types import EllipsisType
 from typing import Any, Self, TypeVar, overload
 
 
@@ -161,7 +160,29 @@ class AzipIterator(AsyncIterator[tuple[T, ...]]):
         tasks = [create_task(coroutine) for coroutine in coroutines]
 
         await asyncio.gather(*tasks, return_exceptions=True)
-        results, exceptions, base_exceptions = self._unpack(tasks)
+
+        results: list[T] = []
+
+        exceptions: list[Exception] = []
+        base_exceptions: list[BaseException] = []
+
+        for task in tasks:
+            try:
+                maybe_result = task.result()
+
+            except ExceptionGroup as group:
+                exceptions.extend(group.exceptions)
+            except BaseExceptionGroup as group:
+                base_exceptions.extend(group.exceptions)
+
+            except Exception as exception:
+                exceptions.append(exception)
+            except BaseException as exception:
+                base_exceptions.append(exception)
+
+            else:
+                if maybe_result is not ...:
+                    results.append(maybe_result)
 
         if base_exceptions:
             self._finished_flg = True
@@ -187,39 +208,3 @@ class AzipIterator(AsyncIterator[tuple[T, ...]]):
             raise StopAsyncIteration
 
         return tuple(results)
-
-    @classmethod
-    def _unpack(
-        cls,
-        tasks: list[Task[T | EllipsisType]],
-    ) -> tuple[list[T], list[Exception], list[BaseException]]:
-        """Unpack the tasks.
-
-        Notes
-        -----
-        * ``StopAsyncIteration`` is ignored.
-        """
-        results: list[T] = []
-
-        exceptions: list[Exception] = []
-        base_exceptions: list[BaseException] = []
-
-        for task in tasks:
-            try:
-                maybe_result = task.result()
-
-            except ExceptionGroup as group:
-                exceptions.extend(group.exceptions)
-            except BaseExceptionGroup as group:
-                base_exceptions.extend(group.exceptions)
-
-            except Exception as exception:
-                exceptions.append(exception)
-            except BaseException as exception:
-                base_exceptions.append(exception)
-
-            else:
-                if maybe_result is not ...:
-                    results.append(maybe_result)
-
-        return (results, exceptions, base_exceptions)

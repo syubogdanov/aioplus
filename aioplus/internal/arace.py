@@ -4,6 +4,7 @@ from asyncio import FIRST_COMPLETED, Task, create_task
 from collections.abc import AsyncIterable, AsyncIterator
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, Self, TypeVar, overload
+from warnings import warn
 
 
 if TYPE_CHECKING:
@@ -88,7 +89,7 @@ def arace(*aiterables: AsyncIterable[T]) -> AsyncIterable[T]:
 
     Returns
     -------
-    AsyncIterable[tuple[T, ...]]
+    AsyncIterable[T]
         The asynchronous iterable.
 
     Examples
@@ -132,33 +133,36 @@ class AraceIterator(AsyncIterator[T]):
     def __post_init__(self) -> None:
         """Initialize the object."""
         self._started_flg: bool = False
-        self._tasks: dict[Task[T | EllipsisType], int] = {}
+        self._pending: dict[Task[T | EllipsisType], int] = {}
+        self._done: dict[Task[T | EllipsisType], int] = {}
 
     def __aiter__(self) -> Self:
         """Return an asynchronous iterator."""
         return self
 
-    async def __anext__(self) -> T:  # noqa: C901
+    async def __anext__(self) -> T:
         """Return the next value."""
         if not self._started_flg:
             self._started_flg = True
-            for serial, aiterator in enumerate(self.aiterators):
-                coroutine = anext(aiterator, ...)
-                task = create_task(coroutine)
-                self._tasks[task] = serial
+            self._schedule_all()
 
-        if not self._tasks:
-            self._finished_flg = True
+        if not (count := len(self._pending) + len(self._done)):
             raise StopAsyncIteration
 
         exceptions: list[Exception] = []
         base_exceptions: list[BaseException] = []
 
-        for _ in range(len(self._tasks)):
-            done, _ = await asyncio.wait(self._tasks, return_when=FIRST_COMPLETED)
+        for _ in range(count):
+            if (base_exceptions or exceptions) and self._pending:
+                self._cancel_all()
+                await self._wait_all()
 
-            task = done.pop()
-            index = self._tasks.pop(task)
+            if not self._done:
+                await self._wait_once()
+
+            task, index = self._done.popitem()
+            if task.cancelled():
+                continue
 
             try:
                 maybe_result = task.result()
@@ -174,19 +178,79 @@ class AraceIterator(AsyncIterator[T]):
                 base_exceptions.append(exception)
 
             else:
-                if not base_exceptions and not exceptions and maybe_result is not ...:
-                    aiterator = self.aiterators[index]
-                    coroutine = anext(aiterator, ...)
-                    task = create_task(coroutine)
-                    self._tasks[task] = index
+                if not base_exceptions and not exceptions and (maybe_result is not ...):
+                    self._schedule_once(index)
                     return maybe_result
 
         if base_exceptions:
-            detail = "azip(): base exception(-s) occurred"
+            detail = "arace(): base exception(-s) occurred"
             raise BaseExceptionGroup(detail, [*base_exceptions, *exceptions])
 
         if exceptions:
-            detail = "azip(): exception(-s) occurred"
+            detail = "arace(): exception(-s) occurred"
             raise ExceptionGroup(detail, exceptions)
 
         raise StopAsyncIteration
+
+    def __del__(self) -> None:
+        """Call the destructor."""
+        for task in list(self._pending):
+            if task.done():
+                index = self._pending.pop(task)
+                self._done[task] = index
+
+        if tasks := list(self._pending):
+            detail = f"arace().__del__(): task(-s) will never be awaited: {tasks!r}"
+            warn(detail, RuntimeWarning, stacklevel=2)
+
+        base_exceptions: list[BaseException] = []
+
+        while self._done:
+            task, _ = self._done.popitem()
+            try:
+                if not task.cancelled():
+                    task.result()
+
+            except BaseExceptionGroup as group:
+                base_exceptions.extend(group.exceptions)
+            except BaseException as exception:
+                base_exceptions.append(exception)
+
+        if base_exceptions:
+            detail = f"arace().__del__(): base exception(-s) occurred: {base_exceptions!r}"
+            warn(detail, RuntimeWarning, stacklevel=2)
+
+    def _cancel_all(self) -> None:
+        """Cancel all pending tasks."""
+        for task in self._pending:
+            if not task.done():
+                task.cancel()
+
+    def _schedule_once(self, index: int, /) -> None:
+        """Schedule the asynchronous iterator."""
+        aiterator = self.aiterators[index]
+        coroutine = anext(aiterator, ...)
+        task = create_task(coroutine)
+        self._pending[task] = index
+
+    def _schedule_all(self) -> None:
+        """Schedule all asynchronous iterators."""
+        count = len(self.aiterators)
+        for index in range(count):
+            self._schedule_once(index)
+
+    async def _wait_all(self) -> None:
+        """Wait until all tasks are done."""
+        if self._pending:
+            done, _ = await asyncio.wait(self._pending)
+            for task in done:
+                index = self._pending.pop(task)
+                self._done[task] = index
+
+    async def _wait_once(self) -> None:
+        """Wait until at least one task is done."""
+        if self._pending:
+            done, _ = await asyncio.wait(self._pending, return_when=FIRST_COMPLETED)
+            for task in done:
+                index = self._pending.pop(task)
+                self._done[task] = index

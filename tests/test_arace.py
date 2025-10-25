@@ -38,7 +38,7 @@ class TestFunction:
 
         assert sorted(nums) == [0, 1, 2, 3, 4, 5, 6, 7, 8]
 
-    async def test__azip__one_exception(self) -> None:
+    async def test__arace__one_exception(self) -> None:
         """Case: one exception."""
 
         async def gen1() -> AsyncGenerator[int]:
@@ -55,7 +55,7 @@ class TestFunction:
 
         assert len(group.value.exceptions) == 1
 
-    async def test__azip__two_exceptions(self) -> None:
+    async def test__arace__two_exceptions(self) -> None:
         """Case: two exceptions."""
 
         async def gen1() -> AsyncGenerator[int]:

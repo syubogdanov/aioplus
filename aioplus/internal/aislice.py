@@ -24,7 +24,7 @@ def aislice(
 ) -> AsyncIterable[T]: ...
 
 
-def aislice(  # noqa: C901
+def aislice(
     aiterable: AsyncIterable[T],
     start: int,
     stop: int | None = None,

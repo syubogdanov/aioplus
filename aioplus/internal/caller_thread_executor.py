@@ -128,7 +128,7 @@ class CallerThreadExecutor(ThreadPoolExecutor):
 
         return future
 
-    def map(  # noqa: C901
+    def map(
         self,
         fn: Callable[..., R],
         *iterables: Iterable[Any],
