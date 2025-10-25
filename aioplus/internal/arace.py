@@ -116,7 +116,7 @@ def arace(*aiterables: AsyncIterable[T]) -> AcloseableIterator[T]:
 
 
 @dataclass(repr=False)
-class AraceIterator(AsyncIterator[T]):
+class AraceIterator(AcloseableIterator[T]):
     """An asynchronous iterator."""
 
     aiterators: list[AsyncIterator[T]]
