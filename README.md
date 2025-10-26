@@ -4,7 +4,10 @@
 [![PyPI Downloads][shields/pypi/downloads]][pypi/homepage]
 [![License][shields/pypi/license]][github/license]
 [![Python Version][shields/python/version]][pypi/homepage]
+[![Lint][shields/github/lint]][github/homepage]
+[![Test][shields/github/test]][github/homepage]
 [![Documentation][shields/readthedocs]][docs/aioplus]
+[![Typing][shields/typing]][pypi/homepage]
 
 ## Key Features
 
@@ -395,12 +398,16 @@ MIT License, Copyright (c) 2025 Sergei Y. Bogdanov. See [LICENSE][github/license
 [docs/aioplus/awindowed]: https://aioplus.readthedocs.io/en/latest/awindowed.html
 [docs/aioplus/azip]: https://aioplus.readthedocs.io/en/latest/azip.html
 
+[github/homepage]: https://github.com/syubogdanov/aioplus
 [github/license]: https://github.com/syubogdanov/aioplus/tree/main/LICENSE
 
 [pypi/homepage]: https://pypi.org/project/aioplus/
 
+[shields/github/lint]: https://github.com/syubogdanov/aioplus/actions/workflows/lint.yaml/badge.svg?color=green
+[shields/github/test]: https://github.com/syubogdanov/aioplus/actions/workflows/test.yaml/badge.svg?color=green
 [shields/pypi/downloads]: https://img.shields.io/pypi/dm/aioplus.svg?color=green
 [shields/pypi/license]: https://img.shields.io/pypi/l/aioplus.svg?color=green
 [shields/pypi/version]: https://img.shields.io/pypi/v/aioplus.svg?color=green
 [shields/python/version]: https://img.shields.io/pypi/pyversions/aioplus.svg?color=green
 [shields/readthedocs]: https://img.shields.io/readthedocs/aioplus?style=flat&color=green
+[shields/typing]: https://img.shields.io/pypi/types/aioplus?style=flat&color=green
