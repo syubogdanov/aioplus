@@ -4,10 +4,10 @@
 [![PyPI Downloads][shields/pypi/downloads]][pypi/homepage]
 [![License][shields/pypi/license]][github/license]
 [![Python Version][shields/python/version]][pypi/homepage]
+[![Typing][shields/typing]][pypi/homepage]
+[![Documentation][shields/readthedocs]][docs/aioplus]
 [![Lint][shields/github/lint]][github/homepage]
 [![Test][shields/github/test]][github/homepage]
-[![Documentation][shields/readthedocs]][docs/aioplus]
-[![Typing][shields/typing]][pypi/homepage]
 
 ## Key Features
 

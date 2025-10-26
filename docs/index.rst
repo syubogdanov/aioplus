@@ -1,7 +1,7 @@
 aioplus
 =======
 
-|PyPI Version| |PyPI Downloads| |License| |Python Version| |Documentation|
+|PyPI Version| |PyPI Downloads| |License| |Python Version| |Typing| |Documentation| |Lint| |Test|
 
 Key Features
 ------------
@@ -442,11 +442,11 @@ MIT License, Copyright (c) 2025 Sergei Y. Bogdanov. See
    :target: https://github.com/syubogdanov/aioplus/tree/main/LICENSE
 .. |Python Version| image:: https://img.shields.io/pypi/pyversions/aioplus.svg?color=green
    :target: https://pypi.org/project/aioplus/
+.. |Typing| image:: https://img.shields.io/pypi/types/aioplus?style=flat&color=green
+   :target: https://pypi.org/project/aioplus/
+.. |Documentation| image:: https://img.shields.io/readthedocs/aioplus?style=flat&color=green
+   :target: https://aioplus.readthedocs.io/
 .. |Lint| image:: https://github.com/syubogdanov/aioplus/actions/workflows/lint.yaml/badge.svg?color=green
    :target: https://github.com/syubogdanov/aioplus
 .. |Test| image:: https://github.com/syubogdanov/aioplus/actions/workflows/test.yaml/badge.svg?color=green
    :target: https://github.com/syubogdanov/aioplus
-.. |Documentation| image:: https://img.shields.io/readthedocs/aioplus?style=flat&color=green
-   :target: https://aioplus.readthedocs.io/
-.. |Typing| image:: https://img.shields.io/pypi/types/aioplus?style=flat&color=green
-   :target: https://pypi.org/project/aioplus/
