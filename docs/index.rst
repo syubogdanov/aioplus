@@ -1,7 +1,7 @@
 aioplus
 =======
 
-|PyPI Version| |PyPI Downloads| |License| |Python Version| |Typing| |Documentation| |Lint| |Test|
+|PyPI Version| |PyPI Downloads| |License| |Python Version| |Documentation| |Lint| |Test| |Typing|
 
 Key Features
 ------------
@@ -446,7 +446,7 @@ MIT License, Copyright (c) 2025 Sergei Y. Bogdanov. See
    :target: https://pypi.org/project/aioplus/
 .. |Documentation| image:: https://img.shields.io/readthedocs/aioplus?style=flat&color=green
    :target: https://aioplus.readthedocs.io/
-.. |Lint| image:: https://github.com/syubogdanov/aioplus/actions/workflows/lint.yaml/badge.svg?color=green
+.. |Lint| image:: https://img.shields.io/github/actions/workflow/status/syubogdanov/aioplus/lint.yaml?style=flat&label=lint&color=green
    :target: https://github.com/syubogdanov/aioplus
-.. |Test| image:: https://github.com/syubogdanov/aioplus/actions/workflows/test.yaml/badge.svg?color=green
+.. |Test| image:: https://img.shields.io/github/actions/workflow/status/syubogdanov/aioplus/test.yaml?style=flat&label=test&color=green
    :target: https://github.com/syubogdanov/aioplus
