@@ -1,8 +1,9 @@
 from collections.abc import AsyncIterable, AsyncIterator
 from dataclasses import dataclass
-from typing import Self, TypeVar
+from typing import TypeVar
 
 from aioplus.internal.aislice import aislice
+from aioplus.internal.utils.abc import AioplusIterator
 
 
 T = TypeVar("T")
@@ -20,19 +21,23 @@ def abatched(
     Parameters
     ----------
     aiterable : AsyncIterable[T]
-        The asynchronous iterable.
+        Iterable.
 
     n : int
-        The batch size.
+        Batch size.
 
     strict : bool, default False
-        If :obj:`True`, raises :exc:`ValueError` if the total number of objects is not divisible
-        by ``n``. If :obj:`False`, the last batch may be shorter than ``n``.
+        Strictness.
 
     Returns
     -------
     AsyncIterator[tuple[T, ...]]
-        The asynchronous iterator.
+        Iterator.
+
+    Notes
+    -----
+    * If ``strict`` is :obj:`True` and the total number of objects is not divisible by ``n``, then
+      raises :exc:`ValueError`. If :obj:`False`, the last batch may be shorter than ``n``.
 
     Examples
     --------
@@ -64,40 +69,22 @@ def abatched(
     return AbatchedIterator(aiterator, n, strict)
 
 
-@dataclass(repr=False)
-class AbatchedIterator(AsyncIterator[tuple[T, ...]]):
+@dataclass
+class AbatchedIterator(AioplusIterator[tuple[T, ...]]):
     """An asynchronous iterator."""
 
     aiterator: AsyncIterator[T]
     n: int
     strict: bool
 
-    def __post_init__(self) -> None:
-        """Initialize the object."""
-        self._finished_flg: bool = False
-
-    def __aiter__(self) -> Self:
-        """Return an asynchronous iterator."""
-        return self
-
-    async def __anext__(self) -> tuple[T, ...]:
+    async def __aioplus__(self) -> tuple[T, ...]:
         """Return the next item."""
-        if self._finished_flg:
-            raise StopAsyncIteration
-
-        try:
-            batch = [item async for item in aislice(self.aiterator, self.n)]
-
-        except BaseException:
-            self._finished_flg = True
-            raise
+        batch = [item async for item in aislice(self.aiterator, self.n)]
 
         if not batch:
-            self._finished_flg = True
             raise StopAsyncIteration
 
         if self.strict and len(batch) < self.n:
-            self._finished_flg = True
             detail = "abatched(): incomplete batch"
             raise ValueError(detail)
 

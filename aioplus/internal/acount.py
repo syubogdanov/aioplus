@@ -1,8 +1,7 @@
-import asyncio
-
 from collections.abc import AsyncIterator
 from dataclasses import dataclass
-from typing import Self
+
+from aioplus.internal.utils.abc import AioplusIterator
 
 
 def acount(start: int = 0, step: int = 1) -> AsyncIterator[int]:
@@ -11,15 +10,15 @@ def acount(start: int = 0, step: int = 1) -> AsyncIterator[int]:
     Parameters
     ----------
     start : int, default 0
-        The initial value.
+        Initializer.
 
     step : int, default 1
-        The difference between consecutives.
+        Step.
 
     Returns
     -------
     AsyncIterator[int]
-        The asynchronous iterator.
+        Iterator.
 
     Examples
     --------
@@ -42,26 +41,14 @@ def acount(start: int = 0, step: int = 1) -> AsyncIterator[int]:
 
 
 @dataclass(repr=False)
-class AcountIterator(AsyncIterator[int]):
+class AcountIterator(AioplusIterator[int]):
     """An asynchronous iterator."""
 
-    start: int
+    next: int
     step: int
 
-    def __post_init__(self) -> None:
-        """Initialize the object."""
-        self._next_value = self.start
-
-    def __aiter__(self) -> Self:
-        """Return an asynchronous iterator."""
-        return self
-
-    async def __anext__(self) -> int:
+    async def __aioplus__(self) -> int:
         """Return the next item."""
-        value = self._next_value
-        self._next_value += self.step
-
-        # Move to the next coroutine!
-        await asyncio.sleep(0.0)
-
-        return value
+        item = self.next
+        self.next += self.step
+        return item

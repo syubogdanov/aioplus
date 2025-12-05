@@ -2,9 +2,10 @@ from collections.abc import AsyncIterator, Iterable, Iterator
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
 from functools import partial
-from typing import Self, TypeVar
+from typing import TypeVar
 
 from aioplus.internal.awaitify import awaitify
+from aioplus.internal.utils.abc import AioplusIterator
 
 
 T = TypeVar("T")
@@ -21,16 +22,19 @@ def anextify(
     Parameters
     ----------
     iterable : Iterable[T]
-        The synchronous iterable.
+        Iterable.
 
     executor : ThreadPoolExecutor, optional
-        An optional :class:`concurrent.futures.ThreadPoolExecutor` to run the iterable in. If
-        :obj:`None`, the default executor is used.
+        Executor.
 
     Returns
     -------
     AsyncIterator[T]
-        The asynchronous iterator.
+        Iterator.
+
+    Notes
+    -----
+    * If ``executor`` is :obj:`None`, then the default one is used (usually, a thread pool).
 
     Examples
     --------
@@ -56,37 +60,19 @@ def anextify(
 
 
 @dataclass(repr=False)
-class AnextifyIterator(AsyncIterator[T]):
+class AnextifyIterator(AioplusIterator[T]):
     """An asynchronous iterator."""
 
     iterator: Iterator[T]
     executor: ThreadPoolExecutor | None
 
-    def __post_init__(self) -> None:
-        """Initialize the object."""
-        self._finished_flg: bool = False
-
-    def __aiter__(self) -> Self:
-        """Return an asynchronous iterator."""
-        return self
-
-    async def __anext__(self) -> T:
+    async def __aioplus__(self) -> T:
         """Return the next item."""
-        if self._finished_flg:
-            raise StopAsyncIteration
-
         func = partial(next, self.iterator, ...)
         afunc = awaitify(func, executor=self.executor)
 
-        try:
-            item = await afunc()
-
-        except (StopAsyncIteration, BaseException):
-            self._finished_flg = True
-            raise
-
+        item = await afunc()
         if item is ...:
-            self._finished_flg = True
             raise StopAsyncIteration
 
         return item

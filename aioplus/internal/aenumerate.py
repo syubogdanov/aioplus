@@ -1,6 +1,8 @@
 from collections.abc import AsyncIterable, AsyncIterator
-from dataclasses import dataclass
-from typing import Self, TypeVar
+from typing import TypeVar
+
+from aioplus.internal.acount import acount
+from aioplus.internal.azip import azip
 
 
 T = TypeVar("T")
@@ -12,15 +14,15 @@ def aenumerate(aiterable: AsyncIterable[T], /, start: int = 0) -> AsyncIterator[
     Parameters
     ----------
     aiterable : AsyncIterable[T]
-        The asynchronous iterable.
+        Iterable.
 
     start : int, default 0
-        The starting index.
+        Start.
 
     Returns
     -------
     AsyncIterator[tuple[int, T]]
-        The asynchronous iterator.
+        Iterator.
 
     Examples
     --------
@@ -40,39 +42,4 @@ def aenumerate(aiterable: AsyncIterable[T], /, start: int = 0) -> AsyncIterator[
         detail = "'start' must be 'int'"
         raise TypeError(detail)
 
-    aiterator = aiter(aiterable)
-    return AenumerateIterator(aiterator, start)
-
-
-@dataclass(repr=False)
-class AenumerateIterator(AsyncIterator[tuple[int, T]]):
-    """An asynchronous iterator."""
-
-    aiterator: AsyncIterator[T]
-    start: int
-
-    def __post_init__(self) -> None:
-        """Initialize the object."""
-        self._next_index: int = self.start
-        self._finished_flg: bool = False
-
-    def __aiter__(self) -> Self:
-        """Return an asynchronous iterator."""
-        return self
-
-    async def __anext__(self) -> tuple[int, T]:
-        """Return the next item."""
-        if self._finished_flg:
-            raise StopAsyncIteration
-
-        try:
-            item = await anext(self.aiterator)
-
-        except (StopAsyncIteration, BaseException):
-            self._finished_flg = True
-            raise
-
-        index = self._next_index
-        self._next_index += 1
-
-        return (index, item)
+    return azip(acount(start), aiterable)

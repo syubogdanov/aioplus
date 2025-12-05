@@ -1,6 +1,9 @@
 from collections.abc import AsyncIterable, AsyncIterator
 from dataclasses import dataclass
-from typing import Self, TypeVar, overload
+from types import EllipsisType
+from typing import TypeVar, overload
+
+from aioplus.internal.utils.abc import AioplusIterator
 
 
 T = TypeVar("T")
@@ -27,8 +30,8 @@ def aislice(
 def aislice(
     aiterable: AsyncIterable[T],
     start: int,
-    stop: int | None = None,
-    step: int | None = None,
+    stop: int | EllipsisType = ...,
+    step: int | EllipsisType = ...,
     /,
 ) -> AsyncIterator[T]:
     """Return selected items from ``aiterable``.
@@ -36,23 +39,21 @@ def aislice(
     Parameters
     ----------
     aiterable : AsyncIterable[T]
-        The asynchronous iterable.
+        Iterable.
 
     start : int
-        The index of the first item to include. If ``stop`` is :obj:`None`, treated as the end
-        index, and slicing starts from ``0``.
+        Start.
 
-    stop : int, optional
-        The index at which to stop (exclusive). If not provided, ``start`` is interpreted
-        as ``stop``, and slicing starts from ``0``.
+    stop : int, unset
+        Stop.
 
-    step : int, optional
-        The step between consecutives. Defaults to ``1``.
+    step : int, unset
+        Step.
 
     Returns
     -------
     AsyncIterator[T]
-        The asynchronous iterator.
+        Iterator.
 
     Examples
     --------
@@ -72,24 +73,24 @@ def aislice(
         detail = "'start' must be 'int'"
         raise TypeError(detail)
 
-    if stop is not None and not isinstance(stop, int):
+    if (stop is not ...) and not isinstance(stop, int):
         detail = "'stop' must be 'int'"
         raise TypeError(detail)
 
-    if step is not None and not isinstance(step, int):
+    if (step is not ...) and not isinstance(step, int):
         detail = "'step' must be 'int'"
         raise TypeError(detail)
 
-    if stop is None and step is not None:
-        detail = "'step' is not specified but 'stop' is"
-        raise ValueError(detail)
+    if (stop is ...) and (step is not ...):
+        detail = "'step' must be 'int'"
+        raise TypeError(detail)
 
-    if stop is None:
+    if stop is ...:
         stop = start
         start = 0
         step = 1
 
-    if step is None:
+    if step is ...:
         step = 1
 
     if start < 0:
@@ -109,8 +110,8 @@ def aislice(
 
 
 @dataclass(repr=False)
-class AisliceIterator(AsyncIterator[T]):
-    """An asynchronous slice iterator."""
+class AisliceIterator(AioplusIterator[T]):
+    """An asynchronous iterator."""
 
     aiterator: AsyncIterator[T]
     start: int
@@ -119,35 +120,21 @@ class AisliceIterator(AsyncIterator[T]):
 
     def __post_init__(self) -> None:
         """Initialize the object."""
-        self._next_index: int = 0
-        self._yield_index: int = self.start
-        self._finished_flg: bool = False
+        self._next = 0
+        self._yield_at = self.start
 
-    def __aiter__(self) -> Self:
-        """Return an asynchronous iterator."""
-        return self
-
-    async def __anext__(self) -> T:
+    async def __aioplus__(self) -> T:
         """Return the next item."""
-        if self._finished_flg:
+        if self._yield_at >= self.stop:
             raise StopAsyncIteration
 
-        if self._yield_index >= self.stop:
-            self._finished_flg = True
-            raise StopAsyncIteration
+        for _ in range(self._yield_at - self._next):
+            await anext(self.aiterator)
+            self._next += 1
 
-        # Skip items until reaching the yield index
-        count = self._yield_index - self._next_index
+        item = await anext(self.aiterator)
 
-        try:
-            for _ in range(count + 1):
-                item = await anext(self.aiterator)
-                self._next_index += 1
-
-        except (StopAsyncIteration, BaseException):
-            self._finished_flg = True
-            raise
-
-        self._yield_index += self.step
+        self._next += 1
+        self._yield_at += self.step
 
         return item

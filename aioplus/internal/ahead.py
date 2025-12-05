@@ -13,15 +13,15 @@ def ahead(aiterable: AsyncIterable[T], /, *, n: int) -> AsyncIterator[T]:
     Parameters
     ----------
     aiterable : AsyncIterable[T]
-        The asynchronous iterable.
+        Iterable.
 
     n : int
-        The number of items.
+        Limit.
 
     Returns
     -------
     AsyncIterator[T]
-        The asynchronous iterator.
+        Iterator.
 
     Examples
     --------

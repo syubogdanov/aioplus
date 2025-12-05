@@ -1,6 +1,8 @@
 from collections.abc import AsyncIterable, AsyncIterator
 from dataclasses import dataclass
-from typing import Self, TypeVar
+from typing import TypeVar
+
+from aioplus.internal.utils.abc import AioplusIterator
 
 
 T = TypeVar("T")
@@ -8,20 +10,20 @@ V = TypeVar("V")
 
 
 def apostpend(aiterable: AsyncIterable[T], value: V, /) -> AsyncIterator[T | V]:
-    """Yield elements in ``aiterable``, followed by ``value``.
+    """Yield from ``aiterable``, then ``value``.
 
     Parameters
     ----------
     aiterable : AsyncIterable[T]
-        The asynchronous iterable.
+        Iterable.
 
     value : V
-        The value.
+        Value.
 
     Returns
     -------
     AsyncIterator[T | V]
-        The asynchronous iterator.
+        Iterator.
 
     Examples
     --------
@@ -37,7 +39,7 @@ def apostpend(aiterable: AsyncIterable[T], value: V, /) -> AsyncIterator[T | V]:
 
 
 @dataclass(repr=False)
-class ApostpendIterator(AsyncIterator[T | V]):
+class ApostpendIterator(AioplusIterator[T | V]):
     """An asynchronous iterator."""
 
     aiterator: AsyncIterator[T]
@@ -47,11 +49,7 @@ class ApostpendIterator(AsyncIterator[T | V]):
         """Initialize the object."""
         self._finished_flg: bool = False
 
-    def __aiter__(self) -> Self:
-        """Return an asynchronous iterator."""
-        return self
-
-    async def __anext__(self) -> T | V:
+    async def __aioplus__(self) -> T | V:
         """Return the next item."""
         if self._finished_flg:
             raise StopAsyncIteration
@@ -62,9 +60,5 @@ class ApostpendIterator(AsyncIterator[T | V]):
         except StopAsyncIteration:
             self._finished_flg = True
             return self.value
-
-        except BaseException:
-            self._finished_flg = True
-            raise
 
         return item

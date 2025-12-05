@@ -1,8 +1,9 @@
-import asyncio
-
 from collections.abc import AsyncIterator
 from dataclasses import dataclass
-from typing import Self, overload
+from types import EllipsisType
+from typing import overload
+
+from aioplus.internal.utils.abc import AioplusIterator
 
 
 @overload
@@ -19,30 +20,27 @@ def arange(start: int, stop: int, step: int, /) -> AsyncIterator[int]: ...
 
 def arange(
     start: int,
-    stop: int | None = None,
-    step: int | None = None,
+    stop: int | EllipsisType = ...,
+    step: int | EllipsisType = ...,
     /,
 ) -> AsyncIterator[int]:
-    """Iterate a range of integers.
+    """Return a sequence of numbers.
 
     Parameters
     ----------
     start : int
-        The starting value of the sequence (inclusive). If ``stop`` is :obj:`None`, this argument
-        is treated as the end value, and the sequence starts from ``0``.
+        Start.
 
-    stop : int, optional
-        The end value of the sequence (exclusive). If not provided, ``start`` is interpreted
-        as the end and the sequence begins from ``0``.
+    stop : int, unset
+        Stop.
 
-    step : int, optional
-        The difference between consecutive values. Defaults to ``1`` if not specified. May be
-        negative to produce a decreasing sequence.
+    step : int, unset
+        Step.
 
     Returns
     -------
     AsyncIterator[int]
-        The asynchronous iterator.
+        Iterator.
 
     Examples
     --------
@@ -57,24 +55,24 @@ def arange(
         detail = "'start' must be 'int'"
         raise TypeError(detail)
 
-    if stop is not None and not isinstance(stop, int):
+    if (stop is not ...) and not isinstance(stop, int):
         detail = "'stop' must be 'int'"
         raise TypeError(detail)
 
-    if step is not None and not isinstance(step, int):
+    if (step is not ...) and not isinstance(step, int):
         detail = "'step' must be 'int'"
         raise TypeError(detail)
 
-    if stop is None and step is not None:
-        detail = "'step' is not specified but 'stop' is"
+    if (stop is ...) and (step is not ...):
+        detail = "'stop' must be 'int'"
         raise ValueError(detail)
 
-    if stop is None:
+    if stop is ...:
         stop = start
         start = 0
         step = 1
 
-    if step is None:
+    if step is ...:
         step = 1
 
     if not step:
@@ -85,7 +83,7 @@ def arange(
 
 
 @dataclass(repr=False)
-class ArangeIterator(AsyncIterator[int]):
+class ArangeIterator(AioplusIterator[int]):
     """An asynchronous iterator."""
 
     start: int
@@ -94,24 +92,17 @@ class ArangeIterator(AsyncIterator[int]):
 
     def __post_init__(self) -> None:
         """Initialize the object."""
-        self._next_value = self.start
+        self._next = self.start
 
-    def __aiter__(self) -> Self:
-        """Return an asynchronous iterator."""
-        return self
-
-    async def __anext__(self) -> int:
+    async def __aioplus__(self) -> int:
         """Return the next item."""
-        if self.step > 0 and self._next_value >= self.stop:
+        if self.step > 0 and self._next >= self.stop:
             raise StopAsyncIteration
 
-        if self.step < 0 and self._next_value <= self.stop:
+        if self.step < 0 and self._next <= self.stop:
             raise StopAsyncIteration
 
-        value = self._next_value
-        self._next_value += self.step
-
-        # Move to the next coroutine!
-        await asyncio.sleep(0.0)
+        value = self._next
+        self._next += self.step
 
         return value

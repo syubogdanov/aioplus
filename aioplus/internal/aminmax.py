@@ -63,18 +63,22 @@ async def aminmax(
     Parameters
     ----------
     aiterable : AsyncIterable[T]
-        The asynchronous iterable.
+        Iterable.
 
     key : Callable[[T], SupportsRichComparison], optional
-        A function that extracts a comparison key from each element in the iterable.
+        Comparator.
 
     default : tuple[D1, D2], unset
-        Default values to return if the iterable is empty.
+        Default.
 
     Returns
     -------
     tuple[T | D1, T | D2]
-        The smallest and the largest items.
+        Items.
+
+    Notes
+    -----
+    * If ``aiterable`` is empty and ``default`` is unset, then :obj:`ValueError` is raised.
 
     Examples
     --------

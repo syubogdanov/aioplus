@@ -1,8 +1,8 @@
-import asyncio
-
 from collections.abc import AsyncIterator
 from dataclasses import dataclass
-from typing import Self, TypeVar
+from typing import TypeVar
+
+from aioplus.internal.utils.abc import AioplusIterator
 
 
 T = TypeVar("T")
@@ -14,15 +14,19 @@ def arepeat(obj: T, /, *, times: int | None = None) -> AsyncIterator[T]:
     Parameters
     ----------
     obj : T
-        The object.
+        Object.
 
     times : int, optional
-        The number of repetitions. If :obj:`None`, then the iterable will be infinite.
+        Count.
 
     Returns
     -------
     AsyncIterator[T]
-        The asynchronous iterator.
+        Iterator.
+
+    Notes
+    -----
+    * If ``times`` is :obj:`None`, then the iterable will be infinite.
 
     Examples
     --------
@@ -45,7 +49,7 @@ def arepeat(obj: T, /, *, times: int | None = None) -> AsyncIterator[T]:
 
 
 @dataclass(repr=False)
-class ArepeatIterator(AsyncIterator[T]):
+class ArepeatIterator(AioplusIterator[T]):
     """An asynchronous iterator."""
 
     obj: T
@@ -55,18 +59,13 @@ class ArepeatIterator(AsyncIterator[T]):
         """Initialize the object."""
         self._count: int = 0
 
-    def __aiter__(self) -> Self:
-        """Return an asynchronous iterator."""
-        return self
-
-    async def __anext__(self) -> T:
+    async def __aioplus__(self) -> T:
         """Return the next item."""
-        if self.times is not None and self._count >= self.times:
+        if self.times is None:
+            return self.obj
+
+        if self._count >= self.times:
             raise StopAsyncIteration
 
         self._count += 1
-
-        # Move to the next coroutine!
-        await asyncio.sleep(0.0)
-
         return self.obj

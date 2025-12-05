@@ -3,17 +3,17 @@ from typing import Any
 
 
 async def aempty(aiterable: AsyncIterable[Any], /) -> bool:
-    """Return :obj:`True` if ``aiterable`` is empty, :obj:`False` otherwise.
+    """Return :obj:`True` if ``aiterable`` is empty, otherwise :obj:`False`.
 
     Parameters
     ----------
     aiterable : AsyncIterable[Any]
-        The asynchronous iterable.
+        Iterable.
 
     Returns
     -------
     :class:`bool`
-        The emptiness.
+        Emptiness.
 
     Examples
     --------

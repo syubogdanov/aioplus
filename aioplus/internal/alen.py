@@ -8,12 +8,12 @@ async def alen(aiterable: AsyncIterable[Any], /) -> int:
     Parameters
     ----------
     aiterable : AsyncIterable[Any]
-        The asynchronous iterable.
+        Шterable.
 
     Returns
     -------
     :class:`int`
-        The length.
+        Length.
 
     Examples
     --------

@@ -46,14 +46,6 @@ class SupportsDunderGT(Protocol[T_contra]):
 
 
 @runtime_checkable
-class SupportsAclose(Protocol):
-    """An ABC with one abstract method `aclose`."""
-
-    async def aclose(self) -> object:
-        """Close the object."""
-
-
-@runtime_checkable
 class AcloseableIterator(Protocol[T_co]):
     """An ABC that implements three abstract methods: `__aiter__`, `__anext__` and `aclose`."""
 

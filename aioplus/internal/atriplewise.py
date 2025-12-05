@@ -13,12 +13,12 @@ def atriplewise(aiterable: AsyncIterable[T], /) -> AsyncIterator[tuple[T, T, T]]
     Parameters
     ----------
     aiterable : AsyncIterable[T]
-        The asynchronous iterable.
+        Iterable.
 
     Returns
     -------
     AsyncIterator[tuple[T, T, T]]
-        The asynchronous iterator.
+        Iterator.
 
     Examples
     --------

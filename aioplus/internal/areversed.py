@@ -1,8 +1,8 @@
-import asyncio
-
 from collections.abc import AsyncIterable, AsyncIterator
 from dataclasses import dataclass
-from typing import Self, TypeVar
+from typing import TypeVar
+
+from aioplus.internal.utils.abc import AioplusIterator
 
 
 T = TypeVar("T")
@@ -14,12 +14,12 @@ def areversed(aiterable: AsyncIterable[T], /) -> AsyncIterator[T]:
     Parameters
     ----------
     aiterable : AsyncIterable[T]
-        The asynchronous iterable.
+        Iterable.
 
     Returns
     -------
     AsyncIterator[T]
-        The asynchronous iterator.
+        Iterator.
 
     Examples
     --------
@@ -40,44 +40,23 @@ def areversed(aiterable: AsyncIterable[T], /) -> AsyncIterator[T]:
 
 
 @dataclass(repr=False)
-class AreversedIterator(AsyncIterator[T]):
-    """A asynchronous iterator."""
+class AreversedIterator(AioplusIterator[T]):
+    """An asynchronous iterator."""
 
     aiterator: AsyncIterator[T]
 
     def __post_init__(self) -> None:
         """Initialize the object."""
         self._started_flg: bool = False
-        self._finished_flg: bool = False
         self._stack: list[T] = []
 
-    def __aiter__(self) -> Self:
-        """Return an asynchronous iterator."""
-        return self
-
-    async def __anext__(self) -> T:
+    async def __aioplus__(self) -> T:
         """Return the next item."""
-        if self._finished_flg:
-            raise StopAsyncIteration
-
-        try:
-            if not self._started_flg:
-                self._started_flg = True
-                async for item in self.aiterator:
-                    self._stack.append(item)
-
-        except BaseException:
-            self._finished_flg = True
-            self._stack.clear()
-            raise
+        if not self._started_flg:
+            self._started_flg = True
+            self._stack = [item async for item in self.aiterator]
 
         if not self._stack:
-            self._finished_flg = True
             raise StopAsyncIteration
 
-        item = self._stack.pop()
-
-        # Move to the next coroutine!
-        await asyncio.sleep(0.0)
-
-        return item
+        return self._stack.pop()

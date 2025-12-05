@@ -1,7 +1,9 @@
 from asyncio import iscoroutinefunction
 from collections.abc import AsyncIterator, Awaitable, Callable
 from dataclasses import dataclass
-from typing import Self, TypeVar
+from typing import TypeVar
+
+from aioplus.internal.utils.abc import AioplusIterator
 
 
 R = TypeVar("R")
@@ -13,12 +15,12 @@ def atabulate(afunc: Callable[[int], Awaitable[R]], /, *, start: int = 0) -> Asy
     Parameters
     ----------
     afunc : Callable[[int], Awaitable[R]]
-        The callable.
+        Callable.
 
     Returns
     -------
     AsyncIterator[R]
-        The asynchronous iterator.
+        Iterator.
 
     Examples
     --------
@@ -42,31 +44,14 @@ def atabulate(afunc: Callable[[int], Awaitable[R]], /, *, start: int = 0) -> Asy
 
 
 @dataclass(repr=False)
-class AtabulateIterator(AsyncIterator[R]):
+class AtabulateIterator(AioplusIterator[R]):
     """An asynchronous iterator."""
 
     afunc: Callable[[int], Awaitable[R]]
     next: int
 
-    def __post_init__(self) -> None:
-        """Initialize the object."""
-        self._finished_flg: bool = False
-
-    def __aiter__(self) -> Self:
-        """Return an asynchronous iterator."""
-        return self
-
-    async def __anext__(self) -> R:
+    async def __aioplus__(self) -> R:
         """Return the next item."""
-        if self._finished_flg:
-            raise StopAsyncIteration
-
-        try:
-            item = await self.afunc(self.next)
-
-        except BaseException:
-            self._finished_flg = True
-            raise
-
+        item = await self.afunc(self.next)
         self.next += 1
         return item

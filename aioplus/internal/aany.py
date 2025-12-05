@@ -9,19 +9,22 @@ async def aany(aiterable: AsyncIterable[SupportsBool], /) -> bool:
     Parameters
     ----------
     aiterable : AsyncIterable[SupportsBool]
-        The asynchronous iterable.
+        Iterable.
 
     Returns
     -------
     :class:`bool`
-        :obj:`True` if any item evaluates to :obj:`True`.
-        :obj:`False` otherwise, or if the iterable is empty.
+        :obj:`True` if any item evaluates to :obj:`True`, otherwise :obj:`False`.
 
     Examples
     --------
     >>> aiterable = arange(23)
     >>> await aany(aiterable)
     True
+
+    Notes
+    -----
+    * If ``aiterable`` is empty, then :obj:`False` is returned.
 
     See Also
     --------

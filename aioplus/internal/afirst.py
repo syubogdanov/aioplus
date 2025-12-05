@@ -20,16 +20,19 @@ async def afirst(aiterable: AsyncIterable[Any], /, *, default: Any = ...) -> Any
     Parameters
     ----------
     aiterable : AsyncIterable[T]
-        The asynchronous iterable.
+        Iterable.
 
     default : D, unset
-        A default value to return if the iterable is empty.
-        Otherwise, :obj:`IndexError` will be raised.
+        Default.
 
     Returns
     -------
     T | D
-        The first item.
+        Item.
+
+    Notes
+    -----
+    * If ``aiterable`` is empty and ``default`` is unset, then :obj:`IndexError` is raised.
 
     Examples
     --------

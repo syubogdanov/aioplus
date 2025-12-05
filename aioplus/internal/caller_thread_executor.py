@@ -86,18 +86,18 @@ class CallerThreadExecutor(ThreadPoolExecutor):
         Parameters
         ----------
         fn : Callable[P, R]
-            The callable.
+            Callable.
 
         *args : P.args
-            Positional arguments to pass to the callable.
+            Positional arguments.
 
         **kwargs : P.kwargs
-            Keyword arguments to pass to the callable.
+            Keyword arguments.
 
         Returns
         -------
         Future[R]
-            The future.
+            Future.
 
         Notes
         -----
@@ -141,13 +141,13 @@ class CallerThreadExecutor(ThreadPoolExecutor):
         Parameters
         ----------
         fn : Callable[P, R]
-            The callable.
+            Callable.
 
         *iterables : Iterable[P]
-            The iterables to map the callable to.
+            Iterables to map the callable to.
 
         timeout : float, optional
-            The timeout.
+            Timeout.
 
         chunksize : int
             This parameter does not affect the behavior of the executor.
@@ -158,7 +158,7 @@ class CallerThreadExecutor(ThreadPoolExecutor):
         Returns
         -------
         Iterator[R]
-            The iterator.
+            Iterator.
 
         Notes
         -----
@@ -218,19 +218,17 @@ class CallerThreadExecutor(ThreadPoolExecutor):
         Parameters
         ----------
         wait : bool
-            If ``wait`` is :obj:`True` then this method will not return until all the pending
-            futures are done executing and the resources associated with the executor have been
-            freed. If ``wait`` is :obj:`False` then this method will return immediately and the
-            resources associated with the executor will be freed when all pending futures are done
-            executing.
+            Waiting for futures.
 
         cancel_futures : bool
             This parameter does not affect the behavior of the executor.
 
-        Returns
-        -------
-        None
-            This method does not return anything.
+        Notes
+        -----
+        * If ``wait`` is :obj:`True` then this method will not return until all the pending futures
+          are done executing and the resources associated with the executor have been freed. If
+          ``wait`` is :obj:`False` then this method will return immediately and the resources
+          associated with the executor will be freed when all pending futures are done executing.
         """
         if not isinstance(wait, bool):
             detail = "'wait' must be 'bool'"
@@ -253,7 +251,7 @@ class CallerThreadExecutor(ThreadPoolExecutor):
         Returns
         -------
         Self
-            The executor.
+            Self.
         """
         return self
 
@@ -279,7 +277,7 @@ class CallerThreadExecutor(ThreadPoolExecutor):
         Returns
         -------
         Literal[False]
-            This method always returns :obj:`False`.
+            Reraise exceptions.
         """
         self.shutdown(wait=True)
         return False

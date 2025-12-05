@@ -1,7 +1,9 @@
 from collections import deque
 from collections.abc import AsyncIterable, AsyncIterator
 from dataclasses import dataclass
-from typing import Literal, Self, TypeVar, overload
+from typing import Literal, TypeVar, overload
+
+from aioplus.internal.utils.abc import AioplusIterator
 
 
 T = TypeVar("T")
@@ -30,15 +32,15 @@ def awindowed(aiterable: AsyncIterable[T], /, *, n: int) -> AsyncIterator[tuple[
     Parameters
     ----------
     aiterable : AsyncIterable[T]
-        The asynchronous iterable.
+        Iterable.
 
     n : int
-        The width.
+        Width.
 
     Returns
     -------
     AsyncIterator[tuple[T, ...]]
-        The asynchronous iterator.
+        Iterator.
 
     Examples
     --------
@@ -63,7 +65,7 @@ def awindowed(aiterable: AsyncIterable[T], /, *, n: int) -> AsyncIterator[tuple[
 
 
 @dataclass(repr=False)
-class AwindowedIterator(AsyncIterator[tuple[T, ...]]):
+class AwindowedIterator(AioplusIterator[tuple[T, ...]]):
     """An asynchronous iterator."""
 
     aiterator: AsyncIterator[T]
@@ -71,35 +73,15 @@ class AwindowedIterator(AsyncIterator[tuple[T, ...]]):
 
     def __post_init__(self) -> None:
         """Initialize the object."""
-        self._finished_flg: bool = False
         self._window: deque[T] = deque(maxlen=self.n)
 
-    def __aiter__(self) -> Self:
-        """Return an asynchronous iterator."""
-        return self
-
-    async def __anext__(self) -> tuple[T, ...]:
+    async def __aioplus__(self) -> tuple[T, ...]:
         """Return the next item."""
-        if self._finished_flg:
-            raise StopAsyncIteration
-
-        try:
-            while len(self._window) < self.n - 1:
-                item = await anext(self.aiterator)
-                self._window.append(item)
-
-        except (StopAsyncIteration, BaseException):
-            self._finished_flg = True
-            self._window.clear()
-            raise
-
-        try:
+        while len(self._window) < self.n - 1:
             item = await anext(self.aiterator)
+            self._window.append(item)
 
-        except (StopAsyncIteration, BaseException):
-            self._finished_flg = True
-            self._window.clear()
-            raise
+        item = await anext(self.aiterator)
 
         self._window.append(item)
         return tuple(self._window)

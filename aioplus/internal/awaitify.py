@@ -21,16 +21,19 @@ def awaitify(
     Parameters
     ----------
     func : Callable[P, R]
-        The synchronous callable.
+        Callable.
 
     executor : ThreadPoolExecutor, optional
-        An optional :class:`concurrent.futures.ThreadPoolExecutor` to run the function in. If
-        :obj:`None`, the default executor is used.
+        Executor.
 
     Returns
     -------
-    Callable
-        The asynchronous callable.
+    Callable[P, Awaitable[R]]
+        Callable.
+
+    Notes
+    -----
+    * If ``executor`` is :obj:`None`, then the default one is used (usually, a thread pool).
 
     Examples
     --------

@@ -9,19 +9,22 @@ async def aall(aiterable: AsyncIterable[SupportsBool], /) -> bool:
     Parameters
     ----------
     aiterable : AsyncIterable[SupportsBool]
-        The asynchronous iterable.
+        Iterable.
 
     Returns
     -------
     :class:`bool`
-        :obj:`True` if all items evaluate to :obj:`True`, or if the iterable is empty.
-        :obj:`False` otherwise.
+        :obj:`True` if all items evaluate to :obj:`True`, otherwise :obj:`False`.
 
     Examples
     --------
     >>> aiterable = arange(23)
     >>> await aall(aiterable)
     False
+
+    Notes
+    -----
+    * If ``aiterable`` is empty, then :obj:`True` is returned.
 
     See Also
     --------

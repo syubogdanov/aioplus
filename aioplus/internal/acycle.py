@@ -1,26 +1,26 @@
-import asyncio
-
 from collections import deque
 from collections.abc import AsyncIterable, AsyncIterator
 from dataclasses import dataclass
-from typing import Self, TypeVar
+from typing import TypeVar
+
+from aioplus.internal.utils.abc import AioplusIterator
 
 
 T = TypeVar("T")
 
 
 def acycle(aiterable: AsyncIterable[T], /) -> AsyncIterator[T]:
-    """Make ``aiterable`` looped.
+    """Repeat ``aiterable`` items indefinitely.
 
     Parameters
     ----------
     aiterable : AsyncIterable[T]
-        The asynchronous iterable.
+        Iterable.
 
     Returns
     -------
     AsyncIterator[T]
-        The asynchronous iterator.
+        Iterator.
 
     Examples
     --------
@@ -41,7 +41,7 @@ def acycle(aiterable: AsyncIterable[T], /) -> AsyncIterator[T]:
 
 
 @dataclass(repr=False)
-class AcycleIterator(AsyncIterator[T]):
+class AcycleIterator(AioplusIterator[T]):
     """An asynchronous iterator."""
 
     aiterator: AsyncIterator[T]
@@ -49,39 +49,23 @@ class AcycleIterator(AsyncIterator[T]):
     def __post_init__(self) -> None:
         """Initialize the object."""
         self._deque: deque[T] = deque()
-        self._initialized_flg: bool = False
-        self._finished_flg: bool = False
+        self._initialized_flg = False
 
-    def __aiter__(self) -> Self:
-        """Return an asynchronous iterator."""
-        return self
-
-    async def __anext__(self) -> T:
+    async def __aioplus__(self) -> T:
         """Return the next item."""
-        if self._finished_flg:
-            raise StopAsyncIteration
-
         if not self._initialized_flg:
             try:
                 item = await anext(self.aiterator)
             except StopAsyncIteration:
                 self._initialized_flg = True
-            except BaseException:
-                self._finished_flg = True
-                self._deque.clear()
-                raise
             else:
                 self._deque.append(item)
                 return item
 
         if not self._deque:
-            self._finished_flg = True
             raise StopAsyncIteration
 
         item = self._deque.popleft()
         self._deque.append(item)
-
-        # Move to the next coroutine!
-        await asyncio.sleep(0.0)
 
         return item

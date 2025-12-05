@@ -17,24 +17,27 @@ async def anth(aiterable: AsyncIterable[T], /, *, n: int, default: D) -> T | D: 
 
 
 async def anth(aiterable: AsyncIterable[Any], /, *, n: int, default: Any = ...) -> Any:
-    """Return the nth item of ``aiterable``.
+    """Return the ``n``-th item of ``aiterable``.
 
     Parameters
     ----------
     aiterable : AsyncIterable[T]
-        The asynchronous iterable.
+        Iterable.
 
     n : int
-        The index.
+        Index.
 
     default : D, unset
-        A default value to return if the nth item does not exist. Otherwise, :obj:`IndexError` will
-        be raised.
+        Default.
 
     Returns
     -------
     T | D
-        The nth item.
+        Item.
+
+    Notes
+    -----
+    * If ``aiterable[n]`` does not exist and ``default`` is unset, then :obj:`IndexError` is raised.
 
     Examples
     --------

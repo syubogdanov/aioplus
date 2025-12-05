@@ -13,12 +13,12 @@ def apairwise(aiterable: AsyncIterable[T], /) -> AsyncIterator[tuple[T, T]]:
     Parameters
     ----------
     aiterable : AsyncIterable[T]
-        The asynchronous iterable.
+        Iterable.
 
     Returns
     -------
     AsyncIterator[tuple[T, T]]
-        The asynchronous iterator.
+        Iterator.
 
     Examples
     --------

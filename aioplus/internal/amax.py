@@ -61,18 +61,22 @@ async def amax(
     Parameters
     ----------
     aiterable : AsyncIterable[T]
-        The asynchronous iterable.
+        Iterable.
 
     key : Callable[[T], SupportsRichComparison], optional
-        A function that extracts a comparison key from each element in the iterable.
+        Comparator.
 
     default : D, unset
-        A default value to return if the iterable is empty.
+        Default.
 
     Returns
     -------
     T | D
-        The largest item.
+        Item.
+
+    Notes
+    -----
+    * If ``aiterable`` is empty and ``default`` is unset, then :obj:`ValueError` is raised.
 
     Examples
     --------
@@ -100,8 +104,8 @@ async def amax(
             largest = max(largest, item, key=key)
         return largest
 
-    if default is not ...:
-        return default
+    if default is ...:
+        detail = "amax(): empty iterable"
+        raise ValueError(detail) from None
 
-    detail = "amax(): empty iterable"
-    raise ValueError(detail) from None
+    return default

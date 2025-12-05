@@ -1,6 +1,8 @@
 from collections.abc import AsyncIterable, AsyncIterator
 from dataclasses import dataclass
-from typing import Self, TypeVar, overload
+from typing import TypeVar, overload
+
+from aioplus.internal.utils.abc import AioplusIterator
 
 
 T = TypeVar("T")
@@ -77,12 +79,12 @@ def achain(*aiterables: AsyncIterable[T]) -> AsyncIterator[T]:
     Parameters
     ----------
     *aiterables : AsyncIterable[T]
-        The asynchronous iterables.
+        Iterables.
 
     Returns
     -------
     AsyncIterator[T]
-        The asynchronous iterator.
+        Iterator.
 
     Examples
     --------
@@ -105,33 +107,25 @@ def achain(*aiterables: AsyncIterable[T]) -> AsyncIterator[T]:
 
 
 @dataclass(repr=False)
-class AchainIterator(AsyncIterator[T]):
+class AchainIterator(AioplusIterator[T]):
     """An asynchronous iterator."""
 
     aiterators: list[AsyncIterator[T]]
 
     def __post_init__(self) -> None:
         """Initialize the object."""
-        self._stack = list(reversed(self.aiterators))
+        self._index = 0
 
-    def __aiter__(self) -> Self:
-        """Return an asynchronous iterator."""
-        return self
-
-    async def __anext__(self) -> T:
+    async def __aioplus__(self) -> T:
         """Return the next item."""
-        while self._stack:
-            aiterator = self._stack[-1]
+        while self._index < len(self.aiterators):
+            aiterator = self.aiterators[self._index]
             try:
                 item = await anext(aiterator)
 
             except StopAsyncIteration:
-                self._stack.pop()
+                self._index += 1
                 continue
-
-            except BaseException:
-                self._stack.clear()
-                raise
 
             return item
 
