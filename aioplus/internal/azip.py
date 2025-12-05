@@ -1,9 +1,9 @@
-import asyncio
-
-from asyncio import create_task
+from asyncio import TaskGroup
 from collections.abc import AsyncIterable, AsyncIterator
 from dataclasses import dataclass
-from typing import Any, Self, TypeVar, overload
+from typing import Any, TypeVar, overload
+
+from aioplus.internal.utils.abc import AioplusIterator
 
 
 T = TypeVar("T")
@@ -85,20 +85,24 @@ def azip(*aiterables: AsyncIterable[T], strict: bool = False) -> AsyncIterator[t
 
 
 def azip(*aiterables: AsyncIterable[Any], strict: bool = False) -> AsyncIterator[tuple[Any, ...]]:
-    """Iterate ``*aiterables`` in parallel.
+    """Iterate over several iterables in parallel, producing tuples with an item from each one.
 
     Parameters
     ----------
     *aiterables : AsyncIterable[T]
-        The asynchronous iterables.
+        Iterables.
 
     strict : bool, default False
-        If :obj:`True`, raise :obj:`ValueError` when lengths of ``*aiterables`` differ.
+        Strictness.
 
     Returns
     -------
     AsyncIterator[tuple[T, ...]]
-        The asynchronous iterator.
+        Iterator.
+
+    Notes
+    -----
+    * If ``strict`` is :obj:`True` and iterator lengths differ, then raises :exc:`ValueError`.
 
     Examples
     --------
@@ -125,74 +129,29 @@ def azip(*aiterables: AsyncIterable[Any], strict: bool = False) -> AsyncIterator
 
 
 @dataclass(repr=False)
-class AzipIterator(AsyncIterator[tuple[T, ...]]):
+class AzipIterator(AioplusIterator[tuple[T, ...]]):
     """An asynchronous iterator."""
 
     aiterators: list[AsyncIterator[T]]
     strict: bool
 
-    def __post_init__(self) -> None:
-        """Initialize the object."""
-        self._finished_flg: bool = False
-
-    def __aiter__(self) -> Self:
-        """Return an asynchronous iterator."""
-        return self
-
-    async def __anext__(self) -> tuple[T, ...]:
+    async def __aioplus__(self) -> tuple[T, ...]:
         """Return the next value."""
-        if self._finished_flg:
-            raise StopAsyncIteration
+        async with TaskGroup() as task_group:
+            coroutines = [anext(aiterator, ...) for aiterator in self.aiterators]
+            tasks = [task_group.create_task(coroutine) for coroutine in coroutines]
 
-        coroutines = [anext(aiterator, ...) for aiterator in self.aiterators]
-        tasks = [create_task(coroutine) for coroutine in coroutines]
-
-        await asyncio.gather(*tasks, return_exceptions=True)
-
-        results: list[T] = []
-
-        exceptions: list[Exception] = []
-        base_exceptions: list[BaseException] = []
-
-        for task in tasks:
-            try:
-                maybe_result = task.result()
-
-            except ExceptionGroup as group:
-                exceptions.extend(group.exceptions)
-            except BaseExceptionGroup as group:
-                base_exceptions.extend(group.exceptions)
-
-            except Exception as exception:
-                exceptions.append(exception)
-            except BaseException as exception:
-                base_exceptions.append(exception)
-
-            else:
-                if maybe_result is not ...:
-                    results.append(maybe_result)
-
-        if base_exceptions:
-            self._finished_flg = True
-            detail = "azip(): base exception(-s) occurred"
-            raise BaseExceptionGroup(detail, [*base_exceptions, *exceptions])
-
-        if exceptions:
-            self._finished_flg = True
-            detail = "azip(): exception(-s) occurred"
-            raise ExceptionGroup(detail, exceptions)
+        maybe_results = [task.result() for task in tasks]
+        results = [result for result in maybe_results if result is not ...]
 
         if not results:
-            self._finished_flg = True
             raise StopAsyncIteration
 
         if self.strict and len(results) < len(self.aiterators):
-            self._finished_flg = True
-            detail = "azip(): len(*aiterables) differ"
+            detail = "azip(): len(aiterable) are different"
             raise ValueError(detail)
 
-        if len(results) < len(self.aiterators):
-            self._finished_flg = True
+        if len(results) < len(maybe_results):
             raise StopAsyncIteration
 
         return tuple(results)

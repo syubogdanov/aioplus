@@ -33,7 +33,7 @@ class TestParameters:
 
     def test__arange__step_without_stop(self) -> None:
         """Case: `step` without `stop`."""
-        with pytest.raises(ValueError, match="'step' is not specified but 'stop' is"):
+        with pytest.raises(TypeError, match="'stop' must be 'int'"):
             arange(4, None, 23)
 
 

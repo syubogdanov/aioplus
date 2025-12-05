@@ -48,8 +48,8 @@ class TestParameters:
 
     def test__aislice__step_without_stop(self) -> None:
         """Case: `step` without `stop`."""
-        with pytest.raises(ValueError, match="'step' is not specified but 'stop' is"):
-            aislice(arange(23), 4, None, 23)
+        with pytest.raises(TypeError, match="'step' must be 'int'"):
+            aislice(arange(23), 4, ..., 23)
 
 
 class TestFunction:

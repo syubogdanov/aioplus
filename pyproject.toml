@@ -24,6 +24,7 @@ keywords = [
     "iteration",
     "iterator",
     "itertools",
+    "more-itertools",
     "python",
     "python3",
     "stdlib",
@@ -87,11 +88,11 @@ target-version = "py311"
 
 [tool.ruff.lint]
 ignore = [
-    "A005",     # Module {name} shadows a Python standard-library module.
-    "ANN401",   # Dynamically typed expressions (typing.Any) are disallowed in {name}.
-    "BLE001",   # Checks for `except` clauses that catch all exceptions.
-    "D100",     # Missing docstring in public module.
-    "D104",     # Missing docstring in public package.
+    "A005",    # Module {name} shadows a Python standard-library module.
+    "ANN401",  # Dynamically typed expressions (typing.Any) are disallowed in {name}.
+    "BLE001",  # Checks for `except` clauses that catch all exceptions.
+    "D100",    # Missing docstring in public module.
+    "D104",    # Missing docstring in public package.
 ]
 select = ["ALL"]
 
