@@ -16,7 +16,7 @@ class TestParameters:
         with pytest.raises(TypeError):
             achain(None)
 
-    async def test__arace__empty(self) -> None:
+    async def test__achain__empty(self) -> None:
         """Case: empty call."""
         with pytest.raises(ValueError, match=re.escape("'*aiterables' must be non-empty")):
             achain()

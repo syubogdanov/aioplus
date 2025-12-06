@@ -19,7 +19,6 @@ from aioplus.internal.anth import anth
 from aioplus.internal.apairwise import apairwise
 from aioplus.internal.apostpend import apostpend
 from aioplus.internal.aprepend import aprepend
-from aioplus.internal.arace import arace
 from aioplus.internal.arange import arange
 from aioplus.internal.arepeat import arepeat
 from aioplus.internal.areversed import areversed
@@ -59,7 +58,6 @@ __all__: list[str] = [
     "apairwise",
     "apostpend",
     "aprepend",
-    "arace",
     "arange",
     "arepeat",
     "areversed",
@@ -95,7 +93,6 @@ anth.__module__ = "aioplus"
 apairwise.__module__ = "aioplus"
 apostpend.__module__ = "aioplus"
 aprepend.__module__ = "aioplus"
-arace.__module__ = "aioplus"
 arange.__module__ = "aioplus"
 arepeat.__module__ = "aioplus"
 areversed.__module__ = "aioplus"

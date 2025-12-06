@@ -10,7 +10,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Added `aioplus.achain`;
 * Added `aioplus.apostpend`;
 * Added `aioplus.aprepend`;
-* Added `aioplus.arace`;
 * Added `aioplus.atabulate`;
 * Added `aioplus.azip`.
 

@@ -267,19 +267,6 @@ For more, see the :doc:`documentation <aprepend>`.
     >>> [num async for num in aprepend(0, arange(1, 5))]
     [0, 1, 2, 3, 4]
 
-arace
------
-
-For more, see the :doc:`documentation <arace>`.
-
-.. code-block:: python
-
-    >>> nums1 = arange(0, 3)
-    >>> nums2 = arange(3, 6)
-    >>> nums3 = arange(6, 9)
-    >>> [num async for num in arace(nums1, nums2, nums3)]
-    [0, 6, 3, 1, 4, 7, 5, 2, 8]
-
 arange
 ------
 
@@ -416,7 +403,6 @@ For more, see the :doc:`documentation <azip>`.
     apairwise
     apostpend
     aprepend
-    arace
     arange
     arepeat
     areversed
