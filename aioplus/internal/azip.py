@@ -148,7 +148,7 @@ class AzipIterator(AioplusIterator[tuple[T, ...]]):
             raise StopAsyncIteration
 
         if self.strict and len(results) < len(self.aiterators):
-            detail = "azip(): len(aiterable) are different"
+            detail = "azip(): length mismatch"
             raise ValueError(detail)
 
         if len(results) < len(maybe_results):
