@@ -112,6 +112,4 @@ max-complexity = 15
 convention = "numpy"
 
 [tool.ruff.lint.pylint]
-allow-magic-value-types = ["bytes", "int", "str"]
-max-args = 8
-max-branches = 14
+allow-magic-value-types = ["int", "str"]
