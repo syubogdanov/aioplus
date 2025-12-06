@@ -8,7 +8,7 @@ async def alen(aiterable: AsyncIterable[Any], /) -> int:
     Parameters
     ----------
     aiterable : AsyncIterable[Any]
-        Шterable.
+        Iterable.
 
     Returns
     -------
