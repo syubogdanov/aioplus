@@ -1,7 +1,6 @@
 import re
 
 from collections.abc import AsyncGenerator
-from contextlib import aclosing
 
 import pytest
 
@@ -44,6 +43,5 @@ class TestFunction:
                 raise RuntimeError
             yield 1
 
-        async with aclosing(gen1()) as nums1, aclosing(gen2()) as nums2:
-            with pytest.raises(RuntimeError):
-                [num async for num in achain(nums1, nums2)]
+        with pytest.raises(RuntimeError):
+            [num async for num in achain(gen1(), gen2())]

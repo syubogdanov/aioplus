@@ -2,7 +2,6 @@ import re
 
 from asyncio import CancelledError
 from collections.abc import AsyncGenerator
-from contextlib import aclosing
 
 import pytest
 
@@ -57,9 +56,8 @@ class TestFunction:
         async def gen2() -> AsyncGenerator[int]:
             yield 2
 
-        async with aclosing(gen1()) as nums1, aclosing(gen2()) as nums2:
-            with pytest.raises(ExceptionGroup) as group:
-                [(num1, num2) async for num1, num2 in azip(nums1, nums2)]
+        with pytest.raises(ExceptionGroup) as group:
+            [(num1, num2) async for num1, num2 in azip(gen1(), gen2())]
 
         assert len(group.value.exceptions) == 1
 
@@ -76,9 +74,8 @@ class TestFunction:
                 raise RuntimeError(2)
             yield 2
 
-        async with aclosing(gen1()) as nums1, aclosing(gen2()) as nums2:
-            with pytest.raises(ExceptionGroup) as group:
-                [(num1, num2) async for num1, num2 in azip(nums1, nums2)]
+        with pytest.raises(ExceptionGroup) as group:
+            [(num1, num2) async for num1, num2 in azip(gen1(), gen2())]
 
         assert len(group.value.exceptions) == 2
 
@@ -93,9 +90,8 @@ class TestFunction:
         async def gen2() -> AsyncGenerator[int]:
             yield 2
 
-        async with aclosing(gen1()) as nums1, aclosing(gen2()) as nums2:
-            with pytest.raises(CancelledError):
-                [(num1, num2) async for num1, num2 in azip(nums1, nums2)]
+        with pytest.raises(CancelledError):
+            [(num1, num2) async for num1, num2 in azip(gen1(), gen2())]
 
     async def test__azip__cancelled_and_exception(self) -> None:
         """Case: ``CancelledError``."""
@@ -110,8 +106,7 @@ class TestFunction:
                 raise RuntimeError
             yield 2
 
-        async with aclosing(gen1()) as nums1, aclosing(gen2()) as nums2:
-            with pytest.raises(ExceptionGroup) as group:
-                [(num1, num2) async for num1, num2 in azip(nums1, nums2)]
+        with pytest.raises(ExceptionGroup) as group:
+            [(num1, num2) async for num1, num2 in azip(gen1(), gen2())]
 
         assert len(group.value.exceptions) == 1

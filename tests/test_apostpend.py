@@ -1,5 +1,4 @@
 from collections.abc import AsyncGenerator
-from contextlib import aclosing
 
 import pytest
 
@@ -37,11 +36,10 @@ class TestFunction:
     async def test__apostpend__exception(self) -> None:
         """Case: exception."""
 
-        async def generator() -> AsyncGenerator[int]:
+        async def gen() -> AsyncGenerator[int]:
             if True:
                 raise RuntimeError
             yield 1
 
-        async with aclosing(generator()) as aiterator:
-            with pytest.raises(RuntimeError):
-                [num async for num in apostpend(aiterator, 42)]
+        with pytest.raises(RuntimeError):
+            [num async for num in apostpend(gen(), 42)]
